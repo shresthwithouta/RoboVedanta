@@ -10,13 +10,13 @@ export function Card({
   onClick,
   ...props
 }) {
-  const baseStyles = 'rounded-[2.5rem] transition-all duration-500 ease-out overflow-hidden';
+  const baseStyles = 'rounded-[2.5rem] transition-all duration-700 ease-out overflow-hidden';
   
   const variants = {
-    default: 'bg-white border border-neutral-100 shadow-sm hover:border-primary-100',
-    elevated: 'bg-white shadow-[0_20px_50px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] border border-transparent hover:border-primary-100/20',
-    outlined: 'bg-white border-2 border-primary-100 hover:border-primary-300 hover:shadow-lg hover:shadow-primary-500/5',
-    glass: 'bg-white/40 backdrop-blur-xl border border-white/40 shadow-2xl shadow-primary-900/10 hover:bg-white/50 hover:border-white/60'
+    default: 'bg-primary-600 border border-accent-500/30 shadow-sm hover:border-accent-500/60',
+    elevated: 'bg-primary-600 shadow-lg hover:shadow-xl border border-accent-500/20 hover:border-accent-500/40',
+    outlined: 'bg-primary-600 border-2 border-accent-500/50 hover:border-accent-500',
+    glass: 'bg-primary-700/60 backdrop-blur-xl border border-accent-500/30 shadow-lg hover:border-accent-500/50'
   };
   
   const hoverStyles = hover ? 'cursor-pointer hover:-translate-y-1.5' : '';

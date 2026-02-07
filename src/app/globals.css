@@ -2,23 +2,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #93c5fd;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
+  /* Deep Blue Primary Colors - Professional Navy/Teal inspired by brand logo */
+  --color-primary-50: #e8f3f8;
+  --color-primary-100: #d1e7f1;
+  --color-primary-200: #a3cfe3;
+  --color-primary-300: #75b7d5;
+  --color-primary-400: #479fc7;
+  --color-primary-500: #1B4965;
+  --color-primary-600: #16537e;
+  --color-primary-700: #124a6f;
+  --color-primary-800: #0e3e5c;
+  --color-primary-900: #0a2e45;
 
-  --color-accent-50: #fffbeb;
-  --color-accent-100: #fef3c7;
-  --color-accent-200: #fde68a;
-  --color-accent-500: #f59e0b;
-  --color-accent-600: #d97706;
-  --color-accent-700: #b45309;
+  /* Golden/Yellow Accent Colors - Warm gold from brand */
+  --color-accent-50: #fefce8;
+  --color-accent-100: #fef9c3;
+  --color-accent-200: #fef08a;
+  --color-accent-300: #fde047;
+  --color-accent-400: #facc15;
+  --color-accent-500: #F4C542;
+  --color-accent-600: #D4AF37;
+  --color-accent-700: #b8941f;
+  --color-accent-800: #9a7a1a;
+  --color-accent-900: #7c6016;
 
+  /* Neutral Colors - Clean whites and grays */
   --color-neutral-50: #fafafa;
   --color-neutral-100: #f5f5f5;
   --color-neutral-200: #e5e5e5;
@@ -49,11 +57,13 @@
     font-family: var(--font-sans);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    background-color: var(--color-primary-500);
+    color: #ffffff;
   }
 
   ::selection {
-    background-color: var(--color-primary-100);
-    color: var(--color-primary-900);
+    background-color: var(--color-accent-600);
+    color: #ffffff;
   }
 
   h1 {
@@ -99,9 +109,9 @@
   }
 
   .gradient-animate {
-    background: linear-gradient(-45deg, #eff6ff, #dbeafe, #fef3c7, #fffbeb, #bfdbfe, #fde68a);
+    background: linear-gradient(-45deg, #1B4965, #16537e, #124a6f, #0e3e5c, #1B4965, #16537e);
     background-size: 400% 400%;
-    animation: gradientShift 8s ease infinite;
+    animation: gradientShift 15s ease infinite;
   }
 
   @keyframes gradientShift {
@@ -119,6 +129,21 @@
     50% { transform: translateY(-20px); }
   }
 
+  @keyframes glow {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.05);
+    }
+  }
+
+  .animate-glow {
+    animation: glow 3s ease-in-out infinite;
+  }
+
   .shadow-glow {
     box-shadow: 0 0 30px -5px var(--color-primary-500);
   }
@@ -132,6 +157,19 @@
   }
 
   .text-glow {
-    text-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+    text-shadow: 0 0 20px rgba(27, 73, 101, 0.4);
+  }
+
+  /* Cinematic slow-out transitions */
+  * {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-all,
+  .transition-transform,
+  .transition-colors,
+  .transition-opacity,
+  .transition {
+    transition-duration: 600ms !important;
   }
 }

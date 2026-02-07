@@ -3,7 +3,7 @@
 import { cn } from '@/lib/cn';
 
 export function Section({
-  background = 'white',
+  background = 'blue',
   spacing = 'md',
   children,
   className,
@@ -11,9 +11,9 @@ export function Section({
   ...props
 }) {
   const backgrounds = {
-    white: 'bg-white',
-    gray: 'bg-neutral-50',
-    gradient: 'bg-linear-to-br from-primary-50 via-white to-accent-50'
+    blue: 'bg-primary-500',
+    darkBlue: 'bg-primary-500',
+    gradient: 'bg-primary-500'
   };
   
   const spacings = {

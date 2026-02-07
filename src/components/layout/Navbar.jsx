@@ -30,14 +30,11 @@ export function Navbar() {
           scrolled ? 'h-16' : 'h-20'
         }`}>
           <Link href="/" className="flex items-center group shrink-0">
-            <div className="relative">
-              <span className={`font-heading font-black bg-gradient-to-r from-accent-400 to-accent-600 bg-clip-text text-transparent tracking-tight transition-all duration-300 group-hover:scale-105 inline-block ${
-                scrolled ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'
-              }`}>
-                RoboVedanta
-              </span>
-              <div className="absolute -inset-2 bg-gradient-to-r from-accent-500/20 to-accent-600/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg -z-10" />
-            </div>
+            <span className={`font-heading font-black authentic-gold-text tracking-tight transition-all duration-300 group-hover:scale-105 inline-block ${
+              scrolled ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'
+            }`}>
+              RoboVedanta
+            </span>
           </Link>
           
           <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
@@ -54,7 +51,7 @@ export function Navbar() {
               ))}
             </div>
             
-            <Button variant="primary" size="sm" className="px-6 py-2.5 rounded-full shadow-lg text-sm font-black capitalize tracking-wide whitespace-nowrap">
+            <Button variant="primary" size="sm" className="px-6 py-2.5 rounded-full text-sm font-black capitalize tracking-wide whitespace-nowrap">
               Get Started
             </Button>
           </div>

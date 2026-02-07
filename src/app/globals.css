@@ -2,29 +2,29 @@
 @import "tailwindcss";
 
 @theme {
-  /* Deep Blue Primary Colors - Professional Navy/Teal inspired by brand logo */
-  --color-primary-50: #e8f3f8;
-  --color-primary-100: #d1e7f1;
-  --color-primary-200: #a3cfe3;
-  --color-primary-300: #75b7d5;
-  --color-primary-400: #479fc7;
-  --color-primary-500: #1B4965;
-  --color-primary-600: #16537e;
-  --color-primary-700: #124a6f;
-  --color-primary-800: #0e3e5c;
-  --color-primary-900: #0a2e45;
+  /* Deep Navy Blue Primary Colors - 1 shade darker */
+  --color-primary-50: #b3c2d0;
+  --color-primary-100: #8099b1;
+  --color-primary-200: #4d7092;
+  --color-primary-300: #26527a;
+  --color-primary-400: #003462;
+  --color-primary-500: #002f5a;
+  --color-primary-600: #002850;
+  --color-primary-700: #002246;
+  --color-primary-800: #001b39;
+  --color-primary-900: #001633;
 
-  /* Golden/Yellow Accent Colors - Warm gold from brand */
-  --color-accent-50: #fefce8;
-  --color-accent-100: #fef9c3;
-  --color-accent-200: #fef08a;
-  --color-accent-300: #fde047;
-  --color-accent-400: #facc15;
-  --color-accent-500: #F4C542;
-  --color-accent-600: #D4AF37;
-  --color-accent-700: #b8941f;
-  --color-accent-800: #9a7a1a;
-  --color-accent-900: #7c6016;
+  /* Authentically Metallic Gold Accent Colors - More depth, less "yellow" */
+  --color-accent-50: #fef8e7;
+  --color-accent-100: #fae8b8;
+  --color-accent-200: #f7d989;
+  --color-accent-300: #f4ca5a;
+  --color-accent-400: #d4af37;
+  --color-accent-500: #b8860b;
+  --color-accent-600: #9a6d09;
+  --color-accent-700: #7d5707;
+  --color-accent-800: #5f4105;
+  --color-accent-900: #422d03;
 
   /* Neutral Colors - Clean whites and grays */
   --color-neutral-50: #fafafa;
@@ -40,6 +40,64 @@
 
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-heading: 'Outfit', system-ui, sans-serif;
+}
+
+@utility tech-grid {
+  background-image: 
+    linear-gradient(to right, rgba(184, 134, 11, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(184, 134, 11, 0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+@utility floating {
+  animation: floating 8s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-30px) rotate(2deg); }
+  66% { transform: translateY(10px) rotate(-1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+@utility authentic-gold-text {
+  background: linear-gradient(
+    to bottom,
+    #d4af37 0%,
+    #f2d06b 25%,
+    #b8860b 50%,
+    #f2d06b 75%,
+    #d4af37 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility gold-glow {
+  filter: drop-shadow(0 0 20px rgba(184, 134, 11, 0.6));
+}
+
+@utility text-shimmer {
+  background: linear-gradient(
+    90deg,
+    #b8860b 0%,
+    #f2d06b 20%,
+    #b8860b 40%,
+    #b8860b 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: text-shimmer 3s linear infinite;
+  padding: 0.1em 0;
+  margin: -0.1em 0;
+  overflow: visible;
+}
+
+@keyframes text-shimmer {
+  to { background-position: 200% center; }
 }
 
 @layer base {

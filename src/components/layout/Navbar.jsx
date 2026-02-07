@@ -8,8 +8,11 @@ import { NAV_LINKS } from '@/lib/constants';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
 
+import { usePathname } from 'next/navigation';
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,22 +40,31 @@ export function Navbar() {
               )}>
                 RoboVedanta
               </span>
-              <div className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent-500/50 group-hover:w-full transition-all duration-700" />
+              <div className="absolute -bottom-1 left-0 w-0 h-px bg-accent-500/50 group-hover:w-full transition-all duration-700" />
             </div>
           </Link>
           
           <div className="hidden md:flex items-center gap-4 lg:gap-10">
             <div className="flex items-center gap-4 lg:gap-10">
-              {NAV_LINKS.default.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="relative text-[10px] lg:text-sm font-bold text-white/70 hover:text-white transition-all duration-300 capitalize tracking-widest lg:tracking-[0.15em] group py-2"
-                >
-                  {link.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-px bg-accent-500 transition-all duration-500 group-hover:w-full shadow-[0_0_8px_rgba(184,134,11,0.5)]" />
-                </Link>
-              ))}
+              {NAV_LINKS.default.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      "relative text-[10px] lg:text-sm font-bold transition-all duration-300 capitalize tracking-widest lg:tracking-[0.15em] group py-2",
+                      isActive ? "text-accent-500" : "text-white/70 hover:text-accent-400"
+                    )}
+                  >
+                    {link.label}
+                    <span className={cn(
+                      "absolute bottom-0 left-0 h-px bg-accent-500 transition-all duration-500 shadow-[0_0_8px_rgba(184,134,11,0.5)]",
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    )} />
+                  </Link>
+                );
+              })}
             </div>
             
             <Button variant="primary" size="sm" className="px-4 lg:px-5 py-2 rounded-xl text-[9px] lg:text-xs font-black capitalize tracking-widest lg:tracking-[0.2em] whitespace-nowrap shadow-xl shadow-accent-500/10">

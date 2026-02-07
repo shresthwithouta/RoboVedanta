@@ -7,30 +7,37 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-primary-800 text-white/80 py-16 lg:py-24 selection:bg-accent-600">
+    <footer className="bg-primary-900 border-t border-white/5 py-20 lg:py-32 relative overflow-hidden">
+      {/* Decorative background element */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />
+      
       <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-16">
-          <div className="lg:col-span-2">
-            <Link href="/" className="inline-flex items-center space-x-3 mb-6 group">
-              <span className="text-2xl font-heading font-black text-accent-500 tracking-tight transition-transform duration-300 group-hover:scale-105">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 md:gap-12 lg:gap-20">
+          <div className="lg:col-span-2 space-y-8">
+            <Link href="/" className="inline-block group">
+              <span className="text-3xl font-heading font-black authentic-gold-text tracking-tighter transition-all duration-500 group-hover:scale-105">
                 RoboVedanta
               </span>
+              <div className="h-px w-0 bg-accent-500/50 group-hover:w-full transition-all duration-700 mt-1" />
             </Link>
-            <p className="text-lg leading-relaxed max-w-md mb-8">
-              Empowering the next generation of innovators with project-based robotics and AI education. CBSE & ICSE aligned for modern classrooms.
+            <p className="text-white/60 text-lg leading-relaxed max-w-md font-medium">
+              Transforming the future of education through high-fidelity robotics and AI simulation systems. CBSE & ICSE aligned excellence for Grades 6–12.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-5">
               {[Instagram, Twitter, Linkedin].map((Icon, i) => (
-                <div key={i} className="p-3 bg-primary-700 rounded-lg hover:bg-accent-600 hover:text-primary-900 cursor-pointer transition-all duration-300 hover:-translate-y-1">
-                  <Icon size={20} />
+                <div key={i} className="w-11 h-11 flex items-center justify-center bg-white/5 border border-white/10 rounded-xl hover:bg-accent-500 hover:text-primary-900 hover:border-accent-500 cursor-pointer transition-all duration-500 hover:-translate-y-2 group">
+                  <Icon size={18} className="group-hover:scale-110 transition-transform duration-500" />
                 </div>
               ))}
             </div>
           </div>
           
-          <div>
-            <h3 className="text-accent-500 font-heading font-bold text-lg mb-6 capitalize tracking-widest">Explore</h3>
-            <ul className="space-y-4 font-medium">
+          <div className="space-y-8">
+            <h3 className="text-white font-heading font-black text-sm uppercase tracking-[0.25em] relative inline-block">
+              Explore
+              <div className="absolute -bottom-3 left-0 w-8 h-px bg-accent-500" />
+            </h3>
+            <ul className="space-y-4">
               {[
                 { label: 'Programs', href: '/programs' },
                 { label: 'Curriculum', href: '/curriculum' },
@@ -38,8 +45,8 @@ export function Footer() {
                 { label: 'About Us', href: '/about' }
               ].map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="flex items-center group text-white/70 hover:text-accent-400 transition-all duration-300">
-                    <span className="w-0 h-0.5 bg-accent-500 transition-all duration-300 group-hover:w-3 mr-0 group-hover:mr-2" />
+                  <Link href={link.href} className="text-white/50 hover:text-white flex items-center gap-3 transition-all duration-300 group font-bold text-sm tracking-wide">
+                    <span className="w-0 h-px bg-accent-500 transition-all duration-500 group-hover:w-4" />
                     {link.label}
                   </Link>
                 </li>
@@ -47,51 +54,49 @@ export function Footer() {
             </ul>
           </div>
           
-          <div>
-            <h3 className="text-accent-500 font-heading font-bold text-lg mb-6 capitalize tracking-widest">Connect</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 group cursor-pointer">
-                <div className="p-2 bg-primary-700 rounded-lg text-accent-400 transition-colors duration-300 group-hover:bg-accent-600 group-hover:text-primary-900">
-                  <Mail size={18} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-bold text-white/60 capitalize">Email</span>
-                  <a href={`mailto:${CONTACT_INFO.email}`} className="text-white hover:text-accent-400 transition-colors break-all">
-                    {CONTACT_INFO.email}
-                  </a>
-                </div>
-              </li>
-              <li className="flex items-start gap-3 group cursor-pointer">
-                <div className="p-2 bg-primary-700 rounded-lg text-accent-400 transition-colors duration-300 group-hover:bg-accent-600 group-hover:text-primary-900">
-                  <Phone size={18} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-bold text-white/60 capitalize">Phone</span>
-                  <span className="text-white group-hover:text-accent-400 transition-colors">
-                    {CONTACT_INFO.phone}
-                  </span>
-                </div>
-              </li>
-              <li className="flex items-start gap-3 group cursor-pointer">
-                <div className="p-2 bg-primary-700 rounded-lg text-accent-400 transition-colors duration-300 group-hover:bg-accent-600 group-hover:text-primary-900">
-                  <MapPin size={18} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-bold text-white/60 capitalize">Office</span>
-                  <span className="text-white group-hover:text-accent-400 transition-colors leading-snug">
-                    {CONTACT_INFO.address}
-                  </span>
-                </div>
-              </li>
+          <div className="space-y-8">
+            <h3 className="text-white font-heading font-black text-sm uppercase tracking-[0.25em] relative inline-block">
+              Connect
+              <div className="absolute -bottom-3 left-0 w-8 h-px bg-accent-500" />
+            </h3>
+            <ul className="space-y-6">
+              {[
+                { label: 'Email', value: CONTACT_INFO.email, href: `mailto:${CONTACT_INFO.email}`, Icon: Mail },
+                { label: 'Phone', value: CONTACT_INFO.phone, href: null, Icon: Phone },
+                { label: 'Office', value: CONTACT_INFO.address, href: null, Icon: MapPin }
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-4 group">
+                  <div className="w-10 h-10 shrink-0 flex items-center justify-center bg-white/5 border border-white/10 rounded-xl text-accent-400 transition-all duration-500 group-hover:bg-accent-500 group-hover:text-primary-900 group-hover:border-accent-500">
+                    <item.Icon size={16} />
+                  </div>
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[10px] font-black text-white/30 uppercase tracking-widest">{item.label}</span>
+                    {item.href ? (
+                      <a href={item.href} className="text-white/70 hover:text-white transition-colors text-sm font-bold tracking-tight break-all">
+                        {item.value}
+                      </a>
+                    ) : (
+                      <span className="text-white/70 text-sm font-bold tracking-tight leading-snug">
+                        {item.value}
+                      </span>
+                    )}
+                  </div>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-primary-700/50 mt-16 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-medium">
-          <p>&copy; {currentYear} RoboVedanta. All rights reserved.</p>
-          <div className="flex gap-8">
-            <Link href="/privacy" className="hover:text-accent-400 transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-accent-400 transition-colors">Terms of Service</Link>
+        <div className="mt-24 pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+          <p className="text-white/30 text-xs font-bold tracking-wide">
+            &copy; {currentYear} RoboVedanta. All Rights Reserved.
+          </p>
+          <div className="flex gap-10">
+            {['Privacy Policy', 'Terms of Service'].map((label, i) => (
+              <Link key={i} href={`/${label.toLowerCase().replace(' ', '-')}`} className="text-white/30 hover:text-white transition-colors text-xs font-bold tracking-wide">
+                {label}
+              </Link>
+            ))}
           </div>
         </div>
       </Container>

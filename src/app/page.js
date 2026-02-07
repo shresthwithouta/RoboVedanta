@@ -81,12 +81,11 @@ export default function Home() {
             <motion.div
               className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 md:gap-6 w-full px-2 sm:px-4 md:px-0"
             >
-              <Button variant="primary" size="lg" className="rounded-2xl text-xs xs:text-sm sm:text-md lg:text-lg px-6 xs:px-8 sm:px-10 py-3.5 xs:py-4 sm:py-5 h-auto group overflow-hidden relative shadow-2xl shadow-accent-500/10 w-full sm:w-auto">
+              <Button variant="primary" size="lg" className="rounded-2xl text-xs xs:text-sm sm:text-md lg:text-lg px-6 xs:px-8 sm:px-10 py-3.5 xs:py-4 sm:py-5 h-auto relative w-full sm:w-auto border-none transition-all duration-500 hover:scale-[1.03]">
                 <span className="relative z-10 whitespace-nowrap">Start Learning Now</span>
-                <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
               </Button>
-              <Button variant="outline" size="lg" className="rounded-2xl text-xs xs:text-sm sm:text-md lg:text-xl px-6 xs:px-8 sm:px-10 py-3.5 xs:py-4 sm:py-5 h-auto border-white/20 text-white hover:border-accent-500 hover:text-accent-400 w-full sm:w-auto">
-                <span className="whitespace-nowrap">View Curriculum</span>
+              <Button variant="outline" size="lg" className="rounded-2xl text-xs xs:text-sm sm:text-md lg:text-xl px-6 xs:px-8 sm:px-10 py-3.5 xs:py-4 sm:py-5 h-auto border-white/20 text-white hover:text-primary-900 w-full sm:w-auto transition-all duration-500">
+                <span className="relative z-10 whitespace-nowrap">View Curriculum</span>
               </Button>
             </motion.div>
 
@@ -120,16 +119,24 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section background="darkBlue" id="programs">
-        <Container>
-          <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
+      <Section background="darkBlue" id="programs" className="relative group/section">
+        <div className="motes-container">
+          <div className="motes w-full h-full animate-slow-zoom" />
+        </div>
+        
+        <Container className="relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-20 md:mb-32">
             <ScrollReveal>
-              <Badge variant="primary" className="mb-6">Curriculum</Badge>
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black mb-6">
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/40 text-[10px] sm:text-xs font-black tracking-[0.3em] uppercase mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-500" />
+                Curriculum
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black mb-10 leading-[0.9] tracking-tighter">
                 Learning <span className="text-accent-500">Pathways</span>
               </h2>
-              <p className="text-white/80 text-lg md:text-xl font-medium">
-                Comprehensive project-based learning architecture across 5 strategic levels
+              <div className="h-px w-20 bg-accent-500 mx-auto mb-10 opacity-30" />
+              <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
+                Comprehensive project-based learning architecture across 5 strategic levels, meticulously designed for modern classrooms.
               </p>
             </ScrollReveal>
           </div>
@@ -180,34 +187,45 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section background="blue" id="schools">
-        <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <ScrollReveal>
-              <Badge variant="primary" className="mb-6">For Schools</Badge>
-              <h2 className="text-4xl md:text-5xl font-heading font-black mb-8 leading-tight">
-                Empower Your <span className="text-accent-500">Campus</span> with Innovation
+      <Section background="darker" id="schools" className="relative group/section">
+        <div className="motes-container">
+          <div className="motes w-full h-full animate-slow-zoom" style={{ animationDirection: 'reverse' }} />
+        </div>
+        
+        <Container className="relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center mb-20 md:mb-32">
+            <ScrollReveal className="text-center lg:text-left">
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/40 text-[10px] sm:text-xs font-black tracking-[0.3em] uppercase mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-500 animate-pulse" />
+                For Schools
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black mb-10 leading-[0.9] tracking-tighter">
+                Scale Your <br />
+                <span className="text-shimmer">Curriculum</span>
               </h2>
-              <div className="space-y-8">
+              <div className="h-px w-20 bg-accent-500 mb-10 opacity-30 mx-auto lg:mx-0" />
+              <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed max-w-xl mb-12 mx-auto lg:mx-0">
+                Empower your institution with a high-fidelity robotics and AI architecture. Our curriculum is built on industry-standard engineering principles, optimized for large-scale educational deployment.
+              </p>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-12 text-left">
                 {[
-                  { icon: <Award size={32} />, title: 'Project-Based', description: 'Real-world projects that develop critical thinking and problem-solving' },
-                  { icon: <Zap size={32} />, title: 'Progressive Learning', description: '5 levels from Grade 6 to 12, building expertise year by year' },
-                  { icon: <School size={32} />, title: 'Complete Support', description: 'Full implementation support for schools and educators' },
-                  { icon: <GraduationCap size={32} />, title: 'Student Centric', description: 'Designed to engage and inspire the next generation of innovators' }
-                ].map((feature, index) => (
-                  <ScrollReveal key={index} delay={index * 0.05}>
-                    <div className="flex gap-5 group">
-                      <div className="shrink-0 w-16 h-16 flex items-center justify-center rounded-2xl bg-accent-600/20 text-accent-400 transition-all duration-500 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 group-hover:rotate-6">
-                        {feature.icon}
-                      </div>
-                      <div>
-                        <h4 className="text-xl font-heading font-black text-accent-500 mb-2">{feature.title}</h4>
-                        <p className="text-white/70 font-medium leading-relaxed">{feature.description}</p>
-                      </div>
-                    </div>
-                  </ScrollReveal>
+                  { title: 'K-12 Aligned', desc: 'Seamless integration with CBSE/ICSE standards.' },
+                  { title: 'Instructor Kits', desc: 'Comprehensive guides and training modules.' }
+                ].map((item, i) => (
+                  <div key={i} className="space-y-3 group/item">
+                    <h4 className="text-white font-black text-sm uppercase tracking-widest flex items-center gap-3">
+                      <span className="w-1.5 h-1.5 rounded-full bg-accent-500/50 group-hover/item:bg-accent-500 transition-colors" />
+                      {item.title}
+                    </h4>
+                    <p className="text-white/40 text-sm font-medium leading-relaxed">{item.desc}</p>
+                  </div>
                 ))}
               </div>
+
+              <Button variant="outline" size="lg" className="rounded-2xl px-12 text-white hover:text-primary-900 transition-all duration-500">
+                School Partnerships
+              </Button>
             </ScrollReveal>
 
             <div className="relative">
@@ -300,66 +318,70 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section background="darkBlue" spacing="lg" className="overflow-hidden">
-        <Container>
-          <AnimatedSection>
-            <div className="text-center mb-16">
-              <Badge variant="primary" size="md" className="mb-4 shadow-sm border-primary-200/50">
-                5 Levels of Excellence
-              </Badge>
-              <h2 className="text-4xl md:text-5xl font-heading font-bold text-accent-500 mb-4 tracking-tight">
-                Your Learning Journey
+      <Section background="darkBlue" spacing="lg" className="overflow-hidden relative group/section">
+        <div className="motes-container">
+          <div className="motes w-full h-full animate-slow-zoom" />
+        </div>
+        
+        <Container className="relative z-10">
+          <div className="text-center mb-20 md:mb-32 max-w-3xl mx-auto">
+            <ScrollReveal>
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/40 text-[10px] sm:text-xs font-black tracking-[0.3em] uppercase mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-500 shadow-[0_0_8px_rgba(184,134,11,0.5)]" />
+                Evolution
+              </div>
+              <h2 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black mb-10 leading-[0.9] tracking-tighter">
+                Curriculum <span className="text-accent-500">Journey</span>
               </h2>
-              <p className="text-lg text-white/90 font-medium max-w-2xl mx-auto capitalize tracking-wide">
-                From curiosity to innovation, each level builds upon the last
+              <div className="h-px w-20 bg-accent-500 mx-auto mb-10 opacity-30" />
+              <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed">
+                From curiosity to innovation, our structured architecture bridges the gap between fundamental concepts and advanced engineering.
               </p>
-            </div>
-          </AnimatedSection>
+            </ScrollReveal>
+          </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-24">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-32">
             {CURRICULUM_LEVELS.map((level, index) => (
               <ScrollReveal key={level.id} delay={index * 0.05}>
-                <Card variant="default" hover className="p-8 transition-all h-full group">
-                  <div className="flex items-start justify-between mb-6">
+                <Card variant="default" hover className="p-10 transition-all h-full group bg-white/[0.02] border-white/5 hover:bg-white/[0.04] hover:border-accent-500/20">
+                  <div className="flex items-start justify-between mb-8">
                     <div>
-                      <Badge variant="primary" size="sm" className="mb-3 font-black bg-accent-600/20 text-accent-400 border-accent-500/40">
-                        Level {level.id}
-                      </Badge>
-                      <h3 className="text-2xl font-heading font-black text-accent-500 group-hover:text-accent-400 transition-colors">
+                      <div className="text-[10px] font-black text-accent-500 tracking-[0.2em] uppercase mb-2">Level 0{level.id}</div>
+                      <h3 className="text-2xl font-heading font-black text-white group-hover:text-accent-400 transition-colors tracking-tight">
                         {level.name}
                       </h3>
                     </div>
                     <div className="text-right">
-                      <div className="text-[10px] capitalize font-black text-white/50 tracking-widest mb-1">Grades</div>
-                      <div className="font-black text-accent-400 text-lg">{level.grade}</div>
+                      <div className="text-[9px] uppercase font-black text-white/30 tracking-[0.2em] mb-1">Grades</div>
+                      <div className="font-black text-accent-400 text-lg tracking-tighter">{level.grade}</div>
                     </div>
                   </div>
-                  <p className="text-white/80 mb-6 leading-relaxed font-medium">{level.description}</p>
-                  <div className="pt-6 border-t border-white/10">
-                    <div className="text-[10px] capitalize font-black text-white/50 tracking-widest mb-1">Theme</div>
-                    <div className="font-bold text-white group-hover:text-accent-400 transition-colors capitalize tracking-tight">{level.theme}</div>
+                  <p className="text-white/40 mb-8 leading-relaxed font-medium text-sm sm:text-base">{level.description}</p>
+                  <div className="pt-8 border-t border-white/5">
+                    <div className="text-[9px] uppercase font-black text-white/20 tracking-[0.2em] mb-2">Theme</div>
+                    <div className="font-bold text-white/70 group-hover:text-accent-500 transition-colors capitalize tracking-wide text-sm">{level.theme}</div>
                   </div>
                 </Card>
               </ScrollReveal>
             ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
             <div className="lg:col-span-2 text-center lg:text-left">
               <ScrollReveal>
-                <div className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 bg-accent-600/10 rounded-full border border-accent-500/30 mb-6 sm:mb-8 mx-auto lg:mx-0">
-                  <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-accent-500 animate-pulse" />
-                  <span className="text-accent-400 font-bold text-[10px] sm:text-xs md:text-sm tracking-widest uppercase whitespace-nowrap">Start Your Journey</span>
+                <div className="inline-flex items-center gap-3 px-4 py-2 bg-accent-500/5 rounded-full border border-accent-500/20 mb-10 mx-auto lg:mx-0">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent-500 animate-pulse" />
+                  <span className="text-accent-400 font-black text-[10px] tracking-[0.3em] uppercase">Start Your Journey</span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-heading font-black mb-8 sm:mb-10 leading-tight sm:leading-[0.9] tracking-tighter">
-                  Transform <span className="text-white">Education</span> <br className="hidden sm:block" />
+                <h2 className="text-4xl md:text-7xl font-heading font-black mb-10 leading-[0.9] tracking-tighter">
+                  Transform <span className="text-white">Education</span> <br className="hidden md:block" />
                   <span className="text-shimmer">With Robotics</span>
                 </h2>
-                <div className="flex flex-col sm:flex-row flex-wrap gap-4 sm:gap-6 justify-center lg:justify-start">
-                  <Button variant="primary" size="lg" className="rounded-2xl px-12 text-sm sm:text-lg w-full sm:w-auto">
+                <div className="flex flex-col sm:flex-row flex-wrap gap-5 justify-center lg:justify-start">
+                  <Button variant="primary" size="lg" className="rounded-2xl px-12 text-sm sm:text-lg w-full sm:w-auto border-none shadow-2xl shadow-accent-500/10">
                     Contact Us
                   </Button>
-                  <Button variant="outline" size="lg" className="rounded-2xl px-12 text-sm sm:text-lg text-white hover:text-accent-400 w-full sm:w-auto">
+                  <Button variant="outline" size="lg" className="rounded-2xl px-12 text-sm sm:text-lg text-white hover:text-primary-900 w-full sm:w-auto transition-all duration-500">
                     Get Brochure
                   </Button>
                 </div>
@@ -367,18 +389,18 @@ export default function Home() {
             </div>
             
             <ScrollReveal delay={0.4}>
-              <Card variant="elevated" hover className="p-10 md:p-12 flex flex-col justify-center items-center text-center h-full group cursor-pointer">
-                <div className="inline-flex p-5 bg-accent-600/10 rounded-3xl mb-6 border border-accent-500/40">
-                  <Zap size={52} className="text-accent-400" />
+              <Card variant="elevated" hover className="p-10 md:p-16 flex flex-col justify-center items-center text-center h-full group bg-accent-500/5 border-accent-500/20 backdrop-blur-xl rounded-[2.5rem]">
+                <div className="inline-flex p-6 bg-accent-500/10 rounded-3xl mb-8 border border-accent-500/20 shadow-xl shadow-accent-500/5">
+                  <Zap size={48} className="text-accent-500" />
                 </div>
-                <h3 className="text-3xl md:text-4xl font-heading font-black text-shimmer mb-4 tracking-tight">
+                <h3 className="text-3xl md:text-4xl font-heading font-black text-shimmer mb-6 tracking-tighter">
                   Ready to Start?
                 </h3>
-                <p className="text-white/80 mb-8 font-medium text-base md:text-lg max-w-sm mx-auto leading-relaxed">
+                <p className="text-white/50 mb-10 font-medium text-base md:text-lg max-w-sm mx-auto leading-relaxed">
                   Explore our complete curriculum and transform your educational journey
                 </p>
-                <Button variant="primary" size="lg" className="rounded-full text-lg px-12">
-                  View Curriculum
+                <Button variant="primary" size="lg" className="rounded-xl text-xs font-black tracking-[0.2em] px-10 py-4 uppercase shadow-2xl shadow-accent-500/20 border-none">
+                  View Syllabus
                 </Button>
               </Card>
             </ScrollReveal>
@@ -386,38 +408,43 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section spacing="lg" className="overflow-hidden">
+      <Section spacing="lg" className="overflow-hidden bg-primary-950/50">
         <Container>
-          <AnimatedSection>
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-heading font-bold text-accent-500 mb-4 tracking-tight">
-                Why RoboVedanta?
+          <div className="text-center mb-24 max-w-3xl mx-auto">
+            <ScrollReveal>
+              <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/40 text-[10px] sm:text-xs font-black tracking-[0.3em] uppercase mb-8">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-500" />
+                Differentiators
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-heading font-black mb-10 leading-snug sm:leading-[0.9] tracking-tighter">
+                Why <span className="text-accent-500">RoboVedanta</span>?
               </h2>
-              <p className="text-lg text-white/90 font-medium max-w-2xl mx-auto capitalize tracking-wide">
-                We don't just sell kits. We sell learning systems and thinking models.
+              <div className="h-px w-20 bg-accent-500 mx-auto mb-10 opacity-30" />
+              <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed">
+                We don't just sell kits. We architect comprehensive learning ecosystems designed for systemic educational impact.
               </p>
-            </div>
-          </AnimatedSection>
+            </ScrollReveal>
+          </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
             {[
-              { icon: <Target size={32} />, title: 'Board Aligned', description: 'Every chapter maps to a robotics project, fully aligned with CBSE & ICSE' },
-              { icon: <Bot size={32} />, title: 'Simulation First', description: 'Learn concepts through virtual simulations before hands-on hardware' },
-              { icon: <Award size={32} />, title: 'Project-Based', description: 'Real-world projects that develop critical thinking and problem-solving' },
-              { icon: <Zap size={32} />, title: 'Progressive Learning', description: '5 levels from Grade 6 to 12, building expertise year by year' },
-              { icon: <School size={32} />, title: 'Complete Support', description: 'Full implementation support for schools and educators' },
-              { icon: <GraduationCap size={32} />, title: 'Student Centric', description: 'Designed to engage and inspire the next generation of innovators' }
+              { icon: <Target size={28} />, title: 'Board Aligned', description: 'Every module maps to engineering-grade projects, fully synchronized with CBSE & ICSE standards.' },
+              { icon: <Bot size={28} />, title: 'Simulation Labs', description: 'Master deep concepts through high-fidelity virtual simulations before deploying to physical hardware.' },
+              { icon: <Award size={28} />, title: 'Project First', description: 'Curriculum built on real-world engineering challenges that demand critical problem-solving.' },
+              { icon: <Zap size={28} />, title: 'Agile Learning', description: 'A progressive 5-stage architecture that transforms students into future-ready innovators.' },
+              { icon: <School size={28} />, title: 'Institutional Support', description: 'White-glove implementation support for schools, including instructor training and lab design.' },
+              { icon: <GraduationCap size={28} />, title: 'Career-Ready', description: 'Developing the technical literacy and computational thinking required for the next industrial era.' }
             ].map((feature, index) => (
               <ScrollReveal key={index} delay={index * 0.05}>
-                <div className="flex gap-5 group">
-                  <div className="shrink-0 w-16 h-16 flex items-center justify-center rounded-2xl bg-accent-600/20 text-accent-400 transition-all duration-500 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 group-hover:rotate-6">
+                <div className="flex flex-col gap-8 group bg-white/[0.01] p-8 rounded-[2rem] border border-white/5 hover:border-accent-500/20 hover:bg-white/[0.03] transition-all duration-500">
+                  <div className="shrink-0 w-14 h-14 flex items-center justify-center rounded-2xl bg-accent-500/5 text-accent-500 border border-accent-500/20 transition-all duration-500 group-hover:bg-accent-500 group-hover:text-primary-900 group-hover:scale-110 group-hover:-rotate-3">
                     {feature.icon}
                   </div>
                   <div>
-                    <h3 className="text-xl font-heading font-black text-accent-500 mb-2 transition-colors group-hover:text-accent-400">
+                    <h3 className="text-xl font-heading font-black text-white mb-4 transition-colors group-hover:text-accent-500 tracking-tight">
                       {feature.title}
                     </h3>
-                    <p className="text-white/80 leading-relaxed font-medium">
+                    <p className="text-white/40 leading-relaxed font-medium text-sm sm:text-base">
                       {feature.description}
                     </p>
                   </div>
@@ -428,26 +455,28 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section background="gradient" spacing="lg">
-        <Container>
-          <AnimatedSection>
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl md:text-5xl font-heading font-bold text-accent-500 mb-6 tracking-tight">
-                Ready to Transform Education?
+      <Section background="darker" spacing="lg" className="relative overflow-hidden group/cta">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(184,134,11,0.05)_0%,transparent_70%)] animate-slow-zoom" />
+        <Container className="relative z-10">
+          <div className="max-w-4xl mx-auto text-center py-20 md:py-32">
+            <ScrollReveal>
+              <h2 className="text-5xl md:text-8xl font-heading font-black text-white mb-10 leading-[0.8] tracking-tighter">
+                Ready to <br />
+                <span className="text-shimmer">Transform?</span>
               </h2>
-              <p className="text-xl text-white/90 font-medium mb-12">
-                Join schools and students already learning the future
+              <p className="text-xl md:text-2xl text-white/40 font-medium mb-16 max-w-2xl mx-auto tracking-tight">
+                Join the vanguard of schools and students already architecting the future of robotics.
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                <Button variant="primary" size="lg" className="rounded-full shadow-2xl">
+              <div className="flex flex-col sm:flex-row gap-6 justify-center max-w-lg mx-auto">
+                <Button variant="primary" size="lg" className="rounded-2xl px-12 font-black tracking-widest uppercase text-xs border-none shadow-2xl shadow-accent-500/20 py-5 w-full sm:w-auto">
                   Explore Programs
                 </Button>
-                <Button variant="outline" size="lg" className="rounded-full shadow-xl">
-                  Request Curriculum
+                <Button variant="outline" size="lg" className="rounded-2xl px-12 font-black tracking-widest uppercase text-xs text-white hover:text-primary-900 py-5 w-full sm:w-auto transition-all duration-500">
+                  Request Access
                 </Button>
               </div>
-            </div>
-          </AnimatedSection>
+            </ScrollReveal>
+          </div>
         </Container>
       </Section>
     </main>

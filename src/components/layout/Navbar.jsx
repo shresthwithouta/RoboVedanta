@@ -6,6 +6,7 @@ import { Container } from './Container';
 import { Button } from '../ui/Button';
 import { NAV_LINKS } from '@/lib/constants';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/cn';
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -20,46 +21,51 @@ export function Navbar() {
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+    <nav className={cn(
+      'fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]',
       scrolled 
-        ? 'bg-primary-600 backdrop-blur-2xl border-b-2 border-accent-500/30 shadow-2xl shadow-primary-900/50' 
-        : 'bg-primary-600/90 backdrop-blur-2xl border-b-2 border-accent-500/20 shadow-xl shadow-primary-900/30'
-    }`}>
+        ? 'bg-primary-600/90 backdrop-blur-xl border-b border-white/10 py-3 shadow-2xl shadow-primary-900/50' 
+        : 'bg-transparent border-b border-white/5 py-5'
+    )}>
       <Container>
-        <div className={`flex items-center justify-between transition-all duration-500 ${
-          scrolled ? 'h-16' : 'h-20'
-        }`}>
+        <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center group shrink-0">
-            <span className={`font-heading font-black authentic-gold-text tracking-tight transition-all duration-300 group-hover:scale-105 inline-block ${
-              scrolled ? 'text-xl md:text-2xl' : 'text-2xl md:text-3xl'
-            }`}>
-              RoboVedanta
-            </span>
+            <div className="relative">
+              <span className={cn(
+                "font-heading font-black authentic-gold-text tracking-tighter transition-all duration-500 group-hover:scale-105 inline-block",
+                scrolled ? "text-xl md:text-2xl" : "text-2xl md:text-3xl"
+              )}>
+                RoboVedanta
+              </span>
+              <div className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent-500/50 group-hover:w-full transition-all duration-700" />
+            </div>
           </Link>
           
-          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-            <div className="flex items-center space-x-6 lg:space-x-8">
+          <div className="hidden md:flex items-center gap-4 lg:gap-10">
+            <div className="flex items-center gap-4 lg:gap-10">
               {NAV_LINKS.default.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="relative text-sm lg:text-base font-bold text-white/90 hover:text-accent-400 transition-all duration-300 capitalize tracking-wide group py-2"
+                  className="relative text-[10px] lg:text-sm font-bold text-white/70 hover:text-white transition-all duration-300 capitalize tracking-widest lg:tracking-[0.15em] group py-2"
                 >
                   {link.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-accent-400 to-accent-600 transition-all duration-300 group-hover:w-full rounded-full" />
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-accent-500 transition-all duration-500 group-hover:w-full shadow-[0_0_8px_rgba(184,134,11,0.5)]" />
                 </Link>
               ))}
             </div>
             
-            <Button variant="primary" size="sm" className="px-6 py-2.5 rounded-full text-sm font-black capitalize tracking-wide whitespace-nowrap">
+            <Button variant="primary" size="sm" className="px-4 lg:px-5 py-2 rounded-xl text-[9px] lg:text-xs font-black capitalize tracking-widest lg:tracking-[0.2em] whitespace-nowrap shadow-xl shadow-accent-500/10">
               Get Started
             </Button>
           </div>
 
           <div className="md:hidden">
-            <Button variant="primary" size="sm" className="rounded-full px-5 py-2 text-xs font-black capitalize tracking-wide">
-              Join
-            </Button>
+            <Link href="/contact">
+              <span className="text-[10px] font-black text-accent-400 border border-accent-500/30 px-4 py-1.5 rounded-full uppercase tracking-widest bg-accent-500/5">
+                Join
+              </span>
+            </Link>
           </div>
         </div>
       </Container>

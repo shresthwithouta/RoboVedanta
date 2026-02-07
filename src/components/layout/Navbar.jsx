@@ -40,8 +40,7 @@ export function Navbar() {
               )}>
                 RoboVedanta
               </span>
-              <div className="absolute -bottom-1 left-0 w-0 h-px bg-accent-500/50 group-hover:w-full transition-all duration-700" />
-            </div>
+              </div>
           </Link>
           
           <div className="hidden md:flex items-center gap-4 lg:gap-10">

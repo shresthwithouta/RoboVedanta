@@ -33,7 +33,7 @@ function AnimatedSection({ children, delay = 0 }) {
 export default function Home() {
   return (
     <main>
-      <Section spacing="md" background="none" className="pt-20 md:pt-24 lg:pt-28 gradient-animate">
+      <Section spacing="md" className="pt-20 md:pt-24 lg:pt-28 gradient-animate">
         <Container>
           <motion.div
             initial="hidden"
@@ -52,9 +52,10 @@ export default function Home() {
               className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-neutral-900 mb-6 leading-tight tracking-tight"
             >
               Learn Robotics & AI{' '}
-              <span className="md:whitespace-nowrap">
+              <br className="hidden lg:block" />
+              <span className="lg:inline-block">
                 Through{' '}
-                <span className="bg-linear-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+                <span className="bg-linear-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent whitespace-nowrap">
                   Real Projects
                 </span>
               </span>
@@ -101,7 +102,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section spacing="lg" className="overflow-hidden bg-gradient-to-b from-accent-50/40 to-white">
+      <Section spacing="lg" className="overflow-hidden">
         <Container>
           <AnimatedSection>
             <div className="text-center mb-12">
@@ -156,7 +157,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section background="none" spacing="lg" className="overflow-hidden bg-gradient-to-b from-white via-primary-50/50 to-primary-100/40">
+      <Section background="gray" spacing="lg" className="overflow-hidden">
         <Container>
           <AnimatedSection>
             <div className="text-center mb-16">
@@ -217,7 +218,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section spacing="lg" className="overflow-hidden bg-gradient-to-b from-primary-100/40 via-white to-accent-50/40">
+      <Section spacing="lg" className="overflow-hidden">
         <Container>
           <AnimatedSection>
             <div className="text-center mb-12">
@@ -259,7 +260,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section background="none" spacing="lg" className="bg-gradient-to-b from-accent-50/40 via-primary-50/30 to-primary-100/50">
+      <Section background="gradient" spacing="lg">
         <Container>
           <AnimatedSection>
             <div className="max-w-4xl mx-auto text-center">

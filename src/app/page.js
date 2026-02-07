@@ -65,11 +65,11 @@ export default function Home() {
             </motion.div>
 
             <motion.h1
-              className="text-[1.75rem] min-[360px]:text-3xl min-[480px]:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black mb-5 sm:mb-6 md:mb-8 leading-tight sm:leading-[0.9] tracking-tight sm:tracking-tighter text-center w-full px-1 sm:px-2 md:px-0"
+              className="text-[1.75rem] min-[360px]:text-3xl min-[480px]:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-black mb-5 sm:mb-6 md:mb-8 leading-[1.1] sm:leading-[1] tracking-tight sm:tracking-tighter text-center w-full px-1 sm:px-2 md:px-0"
             >
               <span className="text-white block sm:mb-2 drop-shadow-2xl">Learn Robotics & AI</span>
               <span className="text-white inline-block mb-1 sm:mb-2 mr-2 sm:mr-3 drop-shadow-2xl">Through</span>
-              <span className="text-shimmer inline-block px-0.5 sm:px-1 py-2 sm:py-3 -my-2 sm:-my-3">Real Projects</span>
+              <span className="text-shimmer inline-block px-2 py-4 -my-4 sm:px-4 sm:py-6 sm:-my-6">Real Projects</span>
             </motion.h1>
 
             <motion.p
@@ -98,7 +98,7 @@ export default function Home() {
                 { val: '6–12', label: 'Grade Coverage' }
               ].map((stat, i) => (
                 <div key={i} className="flex flex-col items-center gap-2 group cursor-default">
-                  <span className="text-4xl md:text-5xl font-heading font-black authentic-gold-text group-hover:scale-110 transition-transform duration-500">{stat.val}</span>
+                  <span className="text-4xl md:text-5xl font-heading font-black authentic-gold-text group-hover:scale-110 transition-transform duration-500 inline-block px-1 py-1 -my-1">{stat.val}</span>
                   <span className="text-white/40 text-xs md:text-sm font-bold uppercase tracking-[0.2em]">{stat.label}</span>
                 </div>
               ))}

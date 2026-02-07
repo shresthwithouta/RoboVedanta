@@ -1,19 +1,5 @@
 import { cn } from '@/lib/cn';
 
-/**
- * @typedef {Object} InputProps
- * @property {string} [label] - Input label text
- * @property {string} [error] - Error message to display
- * @property {string} [placeholder] - Input placeholder
- * @property {string} [type='text'] - Input type
- * @property {boolean} [required=false] - Required field
- * @property {string} [className] - Additional CSS classes
- */
-
-/**
- * Reusable Input component with label and error handling
- * @param {InputProps} props
- */
 export const Input = ({
   label,
   error,

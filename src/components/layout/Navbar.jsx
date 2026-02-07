@@ -4,38 +4,41 @@ import Link from 'next/link';
 import { Container } from './Container';
 import { Button } from '../ui/Button';
 import { NAV_LINKS } from '@/lib/constants';
+import { motion } from 'framer-motion';
 
-/**
- * Main navigation bar component with responsive mobile menu
- */
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-neutral-200 shadow-sm">
+    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-neutral-100 transition-all duration-300">
       <Container>
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-linear-to-br from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">R</span>
-            </div>
-            <span className="text-xl md:text-2xl font-heading font-bold text-neutral-900">
+        <div className="flex items-center justify-between h-20">
+          <Link href="/" className="flex items-center group shrink-0">
+            <span className="text-2xl font-heading font-black text-neutral-900 tracking-tighter transition-transform duration-300 group-hover:scale-105">
               RoboVedanta
             </span>
           </Link>
           
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
-            {NAV_LINKS.default.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-neutral-700 hover:text-primary-600 font-medium transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Button variant="primary" size="sm">
+          <div className="hidden md:flex items-center space-x-8">
+            <div className="flex items-center space-x-6 lg:space-x-10">
+              {NAV_LINKS.default.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="relative text-xs lg:text-sm font-bold text-neutral-500 hover:text-primary-600 transition-colors capitalize tracking-widest group"
+                >
+                  {link.label}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-600 transition-all duration-300 group-hover:w-full" />
+                </Link>
+              ))}
+            </div>
+            
+            <Button variant="primary" size="sm" className="px-6 rounded-full shadow-lg shadow-primary-500/10 text-xs font-black capitalize tracking-widest whitespace-nowrap hover:scale-105 hover:shadow-primary-500/20 active:scale-95 transition-all">
               Get Started
+            </Button>
+          </div>
+
+          <div className="md:hidden">
+            <Button variant="primary" size="sm" className="rounded-full px-5 text-[10px] font-black capitalize tracking-widest hover:scale-105 transition-transform">
+              Join
             </Button>
           </div>
         </div>

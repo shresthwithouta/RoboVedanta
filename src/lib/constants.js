@@ -1,6 +1,3 @@
-/**
- * Navigation Links Configuration
- */
 export const NAV_LINKS = {
   student: [
     { label: 'Programs', href: '/students' },
@@ -21,9 +18,6 @@ export const NAV_LINKS = {
   ]
 };
 
-/**
- * Curriculum Levels
- */
 export const CURRICULUM_LEVELS = [
   {
     id: 1,
@@ -62,9 +56,6 @@ export const CURRICULUM_LEVELS = [
   }
 ];
 
-/**
- * Program Categories
- */
 export const PROGRAMS = {
   student: [
     {
@@ -107,19 +98,13 @@ export const PROGRAMS = {
   ]
 };
 
-/**
- * Contact Information
- */
 export const CONTACT_INFO = {
-  email: 'info@robovedanta.com',
-  phone: '+91 XXXXX XXXXX',
-  whatsapp: '+91 XXXXX XXXXX',
-  address: 'Address will be added'
+  email: 'not yet',
+  phone: 'not yet',
+  whatsapp: 'not yet',
+  address: 'not yet'
 };
 
-/**
- * Animation Variants (for Framer Motion)
- */
 export const FADE_IN_UP = {
   hidden: { opacity: 0, y: 20 },
   visible: { 

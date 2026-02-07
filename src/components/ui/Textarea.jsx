@@ -1,19 +1,5 @@
 import { cn } from '@/lib/cn';
 
-/**
- * @typedef {Object} TextareaProps
- * @property {string} [label] - Textarea label text
- * @property {string} [error] - Error message to display
- * @property {string} [placeholder] - Textarea placeholder
- * @property {number} [rows=4] - Number of rows
- * @property {boolean} [required=false] - Required field
- * @property {string} [className] - Additional CSS classes
- */
-
-/**
- * Reusable Textarea component with label and error handling
- * @param {TextareaProps} props
- */
 export const Textarea = ({
   label,
   error,

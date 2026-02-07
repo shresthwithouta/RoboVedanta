@@ -1,87 +1,97 @@
 import Link from 'next/link';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram, Twitter, Linkedin } from 'lucide-react';
 import { Container } from './Container';
 import { CONTACT_INFO } from '@/lib/constants';
 
-/**
- * Footer component with multi-column layout
- */
 export function Footer() {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="bg-neutral-900 text-neutral-300">
+    <footer className="bg-neutral-900 text-neutral-400 py-16 lg:py-24 selection:bg-neutral-800">
       <Container>
-        <div className="py-12 lg:py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-12">
-            {/* Brand */}
-            <div className="col-span-1 lg:col-span-2">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-10 h-10 bg-linear-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">R</span>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-16">
+          <div className="lg:col-span-2">
+            <Link href="/" className="inline-flex items-center space-x-3 mb-6 group">
+              <span className="text-2xl font-heading font-black text-white tracking-tight transition-transform duration-300 group-hover:scale-105">
+                RoboVedanta
+              </span>
+            </Link>
+            <p className="text-lg leading-relaxed max-w-md mb-8">
+              Empowering the next generation of innovators with project-based robotics and AI education. CBSE & ICSE aligned for modern classrooms.
+            </p>
+            <div className="flex gap-4">
+              {[Instagram, Twitter, Linkedin].map((Icon, i) => (
+                <div key={i} className="p-3 bg-neutral-800 rounded-lg hover:bg-primary-600 hover:text-white cursor-pointer transition-all duration-300 hover:-translate-y-1">
+                  <Icon size={20} />
                 </div>
-                <span className="text-2xl font-heading font-bold text-white">
-                  RoboVedanta
-                </span>
-              </div>
-              <p className="text-sm leading-relaxed max-w-md">
-                Empowering students with project-based robotics and AI education. 
-                Building the next generation of innovators through hands-on learning.
-              </p>
-            </div>
-            
-            {/* Quick Links */}
-            <div>
-              <h3 className="text-white font-heading font-semibold mb-4">Quick Links</h3>
-              <ul className="space-y-2">
-                <li>
-                  <Link href="/programs" className="hover:text-primary-400 transition-colors">
-                    Programs
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/curriculum" className="hover:text-primary-400 transition-colors">
-                    Curriculum
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/schools" className="hover:text-primary-400 transition-colors">
-                    For Schools
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/about" className="hover:text-primary-400 transition-colors">
-                    About Us
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            
-            {/* Contact */}
-            <div>
-              <h3 className="text-white font-heading font-semibold mb-4">Contact</h3>
-              <ul className="space-y-3 text-sm">
-                <li className="flex items-start gap-2">
-                  <Mail size={18} className="mt-0.5 shrink-0" />
-                  <a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-primary-400 transition-colors">
-                    {CONTACT_INFO.email}
-                  </a>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Phone size={18} className="mt-0.5 shrink-0" />
-                  <span>{CONTACT_INFO.phone}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <MapPin size={18} className="mt-0.5 shrink-0" />
-                  <span>{CONTACT_INFO.address}</span>
-                </li>
-              </ul>
+              ))}
             </div>
           </div>
           
-          {/* Bottom Bar */}
-          <div className="border-t border-neutral-800 mt-12 pt-8 text-sm text-center md:text-left">
-            <p>&copy; {currentYear} RoboVedanta. All rights reserved.</p>
+          <div>
+            <h3 className="text-white font-heading font-bold text-lg mb-6 capitalize tracking-widest">Explore</h3>
+            <ul className="space-y-4 font-medium">
+              {[
+                { label: 'Programs', href: '/programs' },
+                { label: 'Curriculum', href: '/curriculum' },
+                { label: 'For Schools', href: '/schools' },
+                { label: 'About Us', href: '/about' }
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="flex items-center group text-neutral-400 hover:text-primary-400 transition-all duration-300">
+                    <span className="w-0 h-0.5 bg-primary-400 transition-all duration-300 group-hover:w-3 mr-0 group-hover:mr-2" />
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          <div>
+            <h3 className="text-white font-heading font-bold text-lg mb-6 capitalize tracking-widest">Connect</h3>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3 group cursor-pointer">
+                <div className="p-2 bg-neutral-800 rounded-lg text-primary-400 transition-colors duration-300 group-hover:bg-primary-600 group-hover:text-white">
+                  <Mail size={18} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-neutral-500 capitalize">Email</span>
+                  <a href={`mailto:${CONTACT_INFO.email}`} className="text-white hover:text-primary-400 transition-colors break-all">
+                    {CONTACT_INFO.email}
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-start gap-3 group cursor-pointer">
+                <div className="p-2 bg-neutral-800 rounded-lg text-primary-400 transition-colors duration-300 group-hover:bg-primary-600 group-hover:text-white">
+                  <Phone size={18} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-neutral-500 capitalize">Phone</span>
+                  <span className="text-white group-hover:text-primary-400 transition-colors">
+                    {CONTACT_INFO.phone}
+                  </span>
+                </div>
+              </li>
+              <li className="flex items-start gap-3 group cursor-pointer">
+                <div className="p-2 bg-neutral-800 rounded-lg text-primary-400 transition-colors duration-300 group-hover:bg-primary-600 group-hover:text-white">
+                  <MapPin size={18} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-neutral-500 capitalize">Office</span>
+                  <span className="text-white group-hover:text-primary-400 transition-colors leading-snug">
+                    {CONTACT_INFO.address}
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div className="border-t border-neutral-800 mt-16 pt-10 flex flex-col md:flex-row justify-between items-center gap-6 text-sm font-medium">
+          <p>&copy; {currentYear} RoboVedanta. All rights reserved.</p>
+          <div className="flex gap-8">
+            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
           </div>
         </div>
       </Container>

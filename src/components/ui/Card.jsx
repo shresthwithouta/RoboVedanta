@@ -2,19 +2,6 @@
 
 import { cn } from '@/lib/cn';
 
-/**
- * @typedef {Object} CardProps
- * @property {'default' | 'elevated' | 'outlined' | 'glass'} [variant='default'] - Card style variant
- * @property {boolean} [hover=false] - Enable hover effects
- * @property {React.ReactNode} children - Card content
- * @property {string} [className] - Additional CSS classes
- * @property {() => void} [onClick] - Click handler (makes card interactive)
- */
-
-/**
- * Reusable Card component with multiple visual styles
- * @param {CardProps} props
- */
 export function Card({
   variant = 'default',
   hover = false,
@@ -23,17 +10,17 @@ export function Card({
   onClick,
   ...props
 }) {
-  const baseStyles = 'rounded-xl transition-all duration-300';
+  const baseStyles = 'rounded-[2.5rem] transition-all duration-500 ease-out overflow-hidden';
   
   const variants = {
-    default: 'bg-white border border-neutral-200 shadow-sm',
-    elevated: 'bg-white shadow-lg hover:shadow-xl',
-    outlined: 'bg-white border-2 border-primary-200',
-    glass: 'bg-white/80 backdrop-blur-lg border border-white/20 shadow-lg'
+    default: 'bg-white border border-neutral-100 shadow-sm hover:border-primary-100',
+    elevated: 'bg-white shadow-[0_20px_50px_-15px_rgba(0,0,0,0.08)] hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] border border-transparent hover:border-primary-100/20',
+    outlined: 'bg-white border-2 border-primary-100 hover:border-primary-300 hover:shadow-lg hover:shadow-primary-500/5',
+    glass: 'bg-white/40 backdrop-blur-xl border border-white/40 shadow-2xl shadow-primary-900/10 hover:bg-white/50 hover:border-white/60'
   };
   
-  const hoverStyles = hover ? 'cursor-pointer hover:scale-[1.02] hover:shadow-xl' : '';
-  const interactiveStyles = onClick ? 'cursor-pointer' : '';
+  const hoverStyles = hover ? 'cursor-pointer hover:-translate-y-1.5' : '';
+  const interactiveStyles = onClick ? 'active:scale-[0.98]' : '';
   
   return (
     <div
@@ -41,7 +28,9 @@ export function Card({
       onClick={onClick}
       {...props}
     >
-      {children}
+      <div className="relative h-full">
+        {children}
+      </div>
     </div>
   );
 }

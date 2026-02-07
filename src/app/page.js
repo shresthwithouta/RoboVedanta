@@ -33,7 +33,7 @@ function AnimatedSection({ children, delay = 0 }) {
 export default function Home() {
   return (
     <main>
-      <Section spacing="md" className="pt-20 md:pt-24 lg:pt-28 gradient-animate">
+      <Section spacing="md" background="none" className="pt-20 md:pt-24 lg:pt-28 gradient-animate">
         <Container>
           <motion.div
             initial="hidden"
@@ -52,10 +52,9 @@ export default function Home() {
               className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-neutral-900 mb-6 leading-tight tracking-tight"
             >
               Learn Robotics & AI{' '}
-              <br className="hidden lg:block" />
-              <span className="lg:inline-block">
+              <span className="md:whitespace-nowrap">
                 Through{' '}
-                <span className="bg-linear-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent whitespace-nowrap">
+                <span className="bg-linear-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                   Real Projects
                 </span>
               </span>
@@ -94,7 +93,7 @@ export default function Home() {
                   <div className="text-3xl md:text-4xl lg:text-6xl font-heading font-black text-primary-600 mb-2 whitespace-nowrap drop-shadow-sm">
                     {stat.val}
                   </div>
-                  <div className="text-sm md:text-base text-neutral-500 font-bold uppercase tracking-widest">{stat.label}</div>
+                  <div className="text-sm md:text-base text-neutral-500 font-bold tracking-widest">{stat.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -102,7 +101,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section spacing="lg" className="overflow-hidden">
+      <Section spacing="lg" className="overflow-hidden bg-gradient-to-b from-accent-50/40 to-white">
         <Container>
           <AnimatedSection>
             <div className="text-center mb-12">
@@ -157,7 +156,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section background="gray" spacing="lg" className="overflow-hidden">
+      <Section background="none" spacing="lg" className="overflow-hidden bg-gradient-to-b from-white via-primary-50/50 to-primary-100/40">
         <Container>
           <AnimatedSection>
             <div className="text-center mb-16">
@@ -218,7 +217,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section spacing="lg" className="overflow-hidden">
+      <Section spacing="lg" className="overflow-hidden bg-gradient-to-b from-primary-100/40 via-white to-accent-50/40">
         <Container>
           <AnimatedSection>
             <div className="text-center mb-12">
@@ -260,7 +259,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      <Section background="gradient" spacing="lg">
+      <Section background="none" spacing="lg" className="bg-gradient-to-b from-accent-50/40 via-primary-50/30 to-primary-100/50">
         <Container>
           <AnimatedSection>
             <div className="max-w-4xl mx-auto text-center">

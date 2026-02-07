@@ -13,7 +13,8 @@ export function Section({
   const backgrounds = {
     white: 'bg-white',
     gray: 'bg-neutral-50',
-    gradient: 'bg-linear-to-br from-primary-50 via-white to-accent-50'
+    gradient: 'bg-linear-to-br from-primary-50 via-white to-accent-50',
+    none: 'bg-transparent'
   };
   
   const spacings = {

@@ -12,6 +12,50 @@ import { Card } from '@/components/ui/Card';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { getActiveTeachers, getTeacherById } from '@/data/teachers';
 
+const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel, confirmText = "Confirm", cancelText = "Cancel", type = "danger" }) => (
+  <AnimatePresence>
+    {isOpen && (
+      <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="absolute inset-0 bg-black/80 backdrop-blur-md"
+          onClick={onCancel}
+        />
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.9, opacity: 0, y: 20 }}
+          className="relative bg-gradient-to-br from-primary-500 to-primary-600 border border-white/10 rounded-[2rem] p-8 max-w-sm w-full shadow-2xl overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-32 h-32 bg-accent-500/10 blur-[50px]" />
+          <h3 className="text-2xl font-heading font-black text-white mb-4 relative z-10">{title}</h3>
+          <p className="text-white/60 font-medium mb-8 relative z-10">{message}</p>
+          <div className="flex gap-4 relative z-10">
+            <button
+              onClick={onCancel}
+              className="flex-1 py-3 px-6 rounded-xl font-bold text-sm bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10 transition-all"
+            >
+              {cancelText}
+            </button>
+            <button
+              onClick={onConfirm}
+              className={`flex-1 py-3 px-6 rounded-xl font-black text-sm uppercase tracking-wider transition-all shadow-lg ${
+                type === 'danger' 
+                ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/20' 
+                : 'bg-accent-500 hover:bg-accent-400 text-primary-900 shadow-accent-500/20'
+              }`}
+            >
+              {confirmText}
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    )}
+  </AnimatePresence>
+);
+
 function AnimatedSection({ children, delay = 0 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-10%" });
@@ -34,6 +78,43 @@ export default function ProgramsPage() {
   const [currentStep, setCurrentStep] = useState(1); // 1: Details, 2: Teacher (Blank), 3: Summary
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmAction, setConfirmAction] = useState(null);
+
+  const handleCloseModal = () => {
+    if (submitSuccess) {
+      setShowRegistration(false);
+      setSubmitSuccess(false);
+      return;
+    }
+    
+    const hasData = Object.values(formData).some(val => val !== '' && val !== 0);
+    if (hasData) {
+      setConfirmAction(() => () => {
+        setShowRegistration(false);
+        setCurrentStep(1);
+        setFormData({
+          studentName: '',
+          parentName: '',
+          email: '',
+          phone: '',
+          address: '',
+          city: '',
+          state: '',
+          pincode: '',
+          grade: '',
+          programType: 'simulation',
+          selectedTeacher: null,
+          estimatedQuote: 3500,
+          message: ''
+        });
+        setShowConfirmModal(false);
+      });
+      setShowConfirmModal(true);
+    } else {
+      setShowRegistration(false);
+    }
+  };
 
   const [formData, setFormData] = useState({
     // Student/Parent Details
@@ -64,11 +145,15 @@ export default function ProgramsPage() {
         return;
       }
     }
+    
+    if (currentStep === 2) {
+      if (!formData.selectedTeacher) {
+        alert('Please select a teacher to continue');
+        return;
+      }
+    }
+    
     setCurrentStep(prev => prev + 1);
-  };
-
-  const handlePrevStep = () => {
-    setCurrentStep(prev => prev - 1);
   };
 
   const openRegistration = (type) => {
@@ -80,6 +165,10 @@ export default function ProgramsPage() {
     setShowRegistration(true);
   };
 
+  const handlePrevStep = () => {
+    setCurrentStep(prev => prev - 1);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -87,32 +176,39 @@ export default function ProgramsPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    
+    setConfirmAction(() => async () => {
+      setShowConfirmModal(false);
+      setIsSubmitting(true);
 
-    // Mocking submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSubmitSuccess(true);
+      // Mocking submission
       setTimeout(() => {
-        setShowRegistration(false);
-        setSubmitSuccess(false);
-        setCurrentStep(1);
-        setFormData({
-          studentName: '',
-          parentName: '',
-          email: '',
-          phone: '',
-          address: '',
-          city: '',
-          state: '',
-          pincode: '',
-          grade: '',
-          programType: '',
-          estimatedQuote: 0,
-          message: ''
-        });
-      }, 3000);
-    }, 1500);
+        setIsSubmitting(false);
+        setSubmitSuccess(true);
+        setTimeout(() => {
+          setShowRegistration(false);
+          setSubmitSuccess(false);
+          setCurrentStep(1);
+          setFormData({
+            studentName: '',
+            parentName: '',
+            email: '',
+            phone: '',
+            address: '',
+            city: '',
+            state: '',
+            pincode: '',
+            grade: '',
+            programType: 'simulation',
+            selectedTeacher: null,
+            estimatedQuote: 3500,
+            message: ''
+          });
+        }, 3000);
+      }, 2000);
+    });
+    
+    setShowConfirmModal(true);
   };
 
   return (
@@ -151,11 +247,21 @@ export default function ProgramsPage() {
               From simulation-based learning to hands-on robotics with hardware kits. Find the perfect program for your journey.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
-              <Button variant="primary" size="lg" className="rounded-2xl px-10 py-5 h-auto border-none shadow-2xl shadow-accent-500/10">
-                <span className="relative z-10">Explore Student Courses</span>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 px-4">
+              <Button 
+                variant="primary" 
+                size="lg" 
+                className="w-full sm:w-auto min-w-[200px] rounded-2xl px-10 py-5 h-auto border-none shadow-2xl shadow-accent-500/10"
+                onClick={() => document.getElementById('student-courses')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                <span className="relative z-10">Student Courses</span>
               </Button>
-              <Button variant="outline" size="lg" className="rounded-2xl px-10 py-5 h-auto border-white/20 text-white hover:text-primary-900">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="w-full sm:w-auto min-w-[200px] rounded-2xl px-10 py-5 h-auto border-white/20 text-white hover:text-primary-900"
+                onClick={() => document.getElementById('school-programs')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 <span className="relative z-10">School Programs</span>
               </Button>
             </div>
@@ -164,7 +270,7 @@ export default function ProgramsPage() {
       </Section>
 
       {/* Student Courses Section */}
-      <Section background="darkBlue" className="relative group/section">
+      <Section id="student-courses" background="darkBlue" className="relative group/section">
         <div className="motes-container">
           <div className="motes w-full h-full animate-slow-zoom" />
         </div>
@@ -176,7 +282,7 @@ export default function ProgramsPage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-accent-500" />
                 Individual Students
               </div>
-              <h2 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black mb-10 leading-[0.9] tracking-tighter">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-heading font-black mb-8 md:mb-10 leading-[1.1] md:leading-[0.9] tracking-tighter">
                 <span className="text-accent-500">Student</span> Courses
               </h2>
               <div className="h-px w-20 bg-accent-500 mx-auto mb-10 opacity-30" />
@@ -190,26 +296,26 @@ export default function ProgramsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
             {/* Simulation-Based Course */}
             <ScrollReveal>
-              <Card variant="elevated" className="p-10 md:p-12 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/[0.02] relative overflow-hidden">
+              <Card variant="elevated" className="p-8 md:p-12 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/[0.02] relative overflow-hidden">
                 {/* Popular Badge */}
-                <div className="absolute top-6 right-6 px-4 py-1.5 bg-accent-500 rounded-full">
-                  <span className="text-primary-900 font-black text-xs tracking-widest uppercase">Most Popular</span>
+                <div className="absolute top-4 right-4 md:top-6 md:right-6 px-3 py-1 md:px-4 md:py-1.5 bg-accent-500 rounded-full z-10">
+                  <span className="text-primary-900 font-black text-[10px] md:text-xs tracking-widest uppercase">Most Popular</span>
                 </div>
 
-                <div className="inline-flex p-5 rounded-2xl bg-accent-600/20 text-accent-400 mb-6 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 transition-all duration-500">
-                  <Monitor size={48} />
+                <div className="inline-flex p-4 md:p-5 rounded-2xl bg-accent-600/20 text-accent-400 mb-6 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 transition-all duration-500">
+                  <Monitor className="w-10 h-10 md:w-12 md:h-12" />
                 </div>
 
-                <h3 className="text-3xl md:text-4xl font-heading font-black text-accent-500 mb-4">
+                <h3 className="text-2xl md:text-4xl font-heading font-black text-accent-500 mb-4 pr-16 md:pr-0">
                   Simulation-Based Robotics & AI
                 </h3>
 
                 <div className="mb-8">
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl md:text-6xl font-heading font-black text-shimmer">₹3,500</span>
-                    <span className="text-white/40 font-bold text-lg">/course</span>
+                    <span className="text-4xl md:text-6xl font-heading font-black text-shimmer">₹3,500</span>
+                    <span className="text-white/40 font-bold text-base md:text-lg">/course</span>
                   </div>
-                  <p className="text-white/60 font-medium">Complete online simulation-based learning</p>
+                  <p className="text-white/60 font-medium text-sm md:text-base">Complete online simulation-based learning</p>
                 </div>
 
                 <div className="space-y-4 mb-8">
@@ -238,11 +344,11 @@ export default function ProgramsPage() {
                   <div className="text-xs font-black text-white/40 tracking-widest uppercase mb-4">What's Included</div>
                   <ul className="space-y-3">
                     {[
+                      'One Chapter, One Project approach',
                       'Access to virtual robotics lab',
                       'Project-based curriculum (Grades 1-12)',
                       'Weekly live sessions with instructors',
                       'Unlimited simulation practice',
-                      'Progress tracking dashboard',
                       'Certificate upon completion'
                     ].map((item, i) => (
                       <li key={i} className="flex items-start gap-3">
@@ -266,26 +372,26 @@ export default function ProgramsPage() {
 
             {/* Hardware Kit Course */}
             <ScrollReveal delay={0.2}>
-              <Card variant="elevated" className="p-10 md:p-12 group h-full border-accent-500/30 hover:border-accent-500/50 transition-all duration-500 bg-gradient-to-br from-accent-500/5 to-primary-600/30 relative overflow-hidden">
+              <Card variant="elevated" className="p-8 md:p-12 group h-full border-accent-500/30 hover:border-accent-500/50 transition-all duration-500 bg-gradient-to-br from-accent-500/5 to-primary-600/30 relative overflow-hidden">
                 {/* Premium Badge */}
-                <div className="absolute top-6 right-6 px-4 py-1.5 bg-gradient-to-r from-accent-600 to-accent-500 rounded-full">
-                  <span className="text-primary-900 font-black text-xs tracking-widest uppercase">Premium</span>
+                <div className="absolute top-4 right-4 md:top-6 md:right-6 px-3 py-1 md:px-4 md:py-1.5 bg-gradient-to-r from-accent-600 to-accent-500 rounded-full z-10">
+                  <span className="text-primary-900 font-black text-[10px] md:text-xs tracking-widest uppercase">Premium</span>
                 </div>
 
-                <div className="inline-flex p-5 rounded-2xl bg-accent-600/20 text-accent-400 mb-6 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 transition-all duration-500">
-                  <Package size={48} />
+                <div className="inline-flex p-4 md:p-5 rounded-2xl bg-accent-600/20 text-accent-400 mb-6 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 transition-all duration-500">
+                  <Package className="w-10 h-10 md:w-12 md:h-12" />
                 </div>
 
-                <h3 className="text-3xl md:text-4xl font-heading font-black text-accent-500 mb-4">
+                <h3 className="text-2xl md:text-4xl font-heading font-black text-accent-500 mb-4 pr-16 md:pr-0">
                   Robotics & AI with Hardware Kits
                 </h3>
 
                 <div className="mb-8">
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-5xl md:text-6xl font-heading font-black text-shimmer">₹8,000</span>
-                    <span className="text-white/40 font-bold text-lg">/course</span>
+                    <span className="text-4xl md:text-6xl font-heading font-black text-shimmer">₹8,000</span>
+                    <span className="text-white/40 font-bold text-base md:text-lg">/course</span>
                   </div>
-                  <p className="text-white/60 font-medium">Simulation + Physical robotics kits delivered home</p>
+                  <p className="text-white/60 font-medium text-sm md:text-base">Simulation + Physical robotics kits delivered home</p>
                 </div>
 
                 <div className="space-y-4 mb-8">
@@ -314,10 +420,10 @@ export default function ProgramsPage() {
                   <div className="text-xs font-black text-white/40 tracking-widest uppercase mb-4">What's Included</div>
                   <ul className="space-y-3">
                     {[
+                      'One Chapter, One Project approach',
                       'Everything in Simulation course',
                       'Physical robotics kit (shipped)',
                       'Sensors, motors, and components',
-                      'Hands-on project assignments',
                       'Hardware troubleshooting support',
                       'Build portfolio of real robots'
                     ].map((item, i) => (
@@ -346,39 +452,52 @@ export default function ProgramsPage() {
             <Card variant="elevated" className="p-10 md:p-12 bg-white/[0.02] border-white/10">
               <h3 className="text-3xl font-heading font-black text-center text-accent-500 mb-12">Course Comparison</h3>
               
-              <div className="overflow-x-auto">
-                <table className="w-full">
+              <div className="overflow-x-auto pb-6 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+                <table className="w-full min-w-[600px]">
                   <thead>
                     <tr className="border-b border-white/10">
-                      <th className="text-left py-4 px-4 text-white/60 font-bold text-sm uppercase tracking-wider">Feature</th>
-                      <th className="text-center py-4 px-4 text-accent-500 font-black text-sm uppercase tracking-wider">Simulation-Based<br/>₹3,500</th>
-                      <th className="text-center py-4 px-4 text-accent-500 font-black text-sm uppercase tracking-wider">With Hardware<br/>₹8,000</th>
+                      <th className="text-left py-6 px-4 text-white/60 font-black text-xs uppercase tracking-widest">Learning Dimension</th>
+                      <th className="text-center py-6 px-4 bg-accent-500/5">
+                        <div className="text-accent-500 font-black text-sm uppercase tracking-wider mb-1">Simulation-Based</div>
+                        <div className="text-white/40 text-xs font-bold">₹3,500 / course</div>
+                      </th>
+                      <th className="text-center py-6 px-4 bg-accent-500/10">
+                        <div className="text-accent-500 font-black text-sm uppercase tracking-wider mb-1">With Hardware</div>
+                        <div className="text-white/40 text-xs font-bold">₹8,000 / course</div>
+                      </th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-white/5">
                     {[
-                      { feature: 'Virtual Robotics Lab', sim: true, hw: true },
-                      { feature: 'Live Instructor Sessions', sim: true, hw: true },
-                      { feature: 'Project-Based Learning', sim: true, hw: true },
-                      { feature: 'Physical Robotics Kit', sim: false, hw: true },
-                      { feature: 'Hardware Components', sim: false, hw: true },
-                      { feature: 'Hands-On Building', sim: false, hw: true },
-                      { feature: 'Certificate', sim: true, hw: true }
+                      { feature: 'Virtual Robotics Lab', sim: true, hw: true, desc: 'Access to high-fidelity simulation platform' },
+                      { feature: 'Live Instructor sessions', sim: true, hw: true, desc: 'Interactive weekly sessions with experts' },
+                      { feature: 'Physical Robotics Kit', sim: false, hw: true, desc: 'Hardware components shipped to your door' },
+                      { feature: 'Hardware Building', sim: false, hw: true, desc: 'Guided hands-on assembly of real robots' },
+                      { feature: 'Project Portfolio', sim: true, hw: true, desc: 'Build a repository of your accomplishments' },
+                      { feature: 'Expert Support', sim: true, hw: true, desc: 'Direct access to tutors for troubleshooting' },
+                      { feature: 'Certification', sim: true, hw: true, desc: 'Earn verified certificates for each level' }
                     ].map((row, i) => (
-                      <tr key={i} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                        <td className="py-4 px-4 text-white/70 font-medium">{row.feature}</td>
-                        <td className="py-4 px-4 text-center">
+                      <tr key={i} className="group hover:bg-white/[0.03] transition-colors">
+                        <td className="py-6 px-4">
+                          <div className="text-white font-bold mb-1">{row.feature}</div>
+                          <div className="text-white/30 text-[10px] font-medium uppercase tracking-wider">{row.desc}</div>
+                        </td>
+                        <td className="py-6 px-4 text-center bg-white/0 group-hover:bg-accent-500/5 transition-colors">
                           {row.sim ? (
-                            <CheckCircle2 className="inline-block text-accent-500" size={20} />
+                            <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent-500/10">
+                              <CheckCircle2 className="text-accent-500" size={18} />
+                            </div>
                           ) : (
-                            <span className="text-white/20">—</span>
+                            <X className="inline-block text-white/10" size={18} />
                           )}
                         </td>
-                        <td className="py-4 px-4 text-center">
+                        <td className="py-6 px-4 text-center bg-white/0 group-hover:bg-accent-500/5 transition-colors">
                           {row.hw ? (
-                            <CheckCircle2 className="inline-block text-accent-500" size={20} />
+                            <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent-500/20">
+                              <CheckCircle2 className="text-accent-500" size={18} />
+                            </div>
                           ) : (
-                            <span className="text-white/20">—</span>
+                            <X className="inline-block text-white/10" size={18} />
                           )}
                         </td>
                       </tr>
@@ -483,7 +602,7 @@ export default function ProgramsPage() {
       </Section>
 
       {/* School Programs Section */}
-      <Section background="darkBlue" className="relative group/section">
+      <Section id="school-programs" background="darkBlue" className="relative group/section">
         <div className="motes-container">
           <div className="motes w-full h-full animate-slow-zoom" />
         </div>
@@ -496,14 +615,14 @@ export default function ProgramsPage() {
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-500" />
                   For Institutions
                 </div>
-                <h2 className="text-4xl md:text-6xl font-heading font-black mb-8 leading-tight tracking-tighter">
+                <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-black mb-6 md:mb-8 leading-tight tracking-tighter">
                   <span className="text-accent-500">School</span> Programs
                 </h2>
-                <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed mb-8">
+                <p className="text-white/60 text-base md:text-xl font-medium leading-relaxed mb-8">
                   Comprehensive robotics & AI curriculum designed for institutional deployment. Fully aligned with CBSE & ICSE standards.
                 </p>
                 
-                <ul className="space-y-4 mb-10">
+                <ul className="space-y-3 md:space-y-4 mb-10">
                   {[
                     'Complete Grades 1–12 curriculum',
                     'Teacher training & support',
@@ -512,24 +631,26 @@ export default function ProgramsPage() {
                     'Implementation support'
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
-                      <CheckCircle2 size={20} className="text-accent-500 shrink-0 mt-0.5" />
-                      <span className="text-white/70 font-medium">{item}</span>
+                      <CheckCircle2 size={18} className="text-accent-500 shrink-0 mt-0.5 md:w-5 md:h-5" />
+                      <span className="text-white/70 font-medium text-sm md:text-base">{item}</span>
                     </li>
                   ))}
                 </ul>
 
-                <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex flex-col sm:flex-row gap-4 px-2 sm:px-0">
                   <Button 
                     variant="primary" 
                     size="lg" 
-                    className="rounded-2xl px-10 font-black tracking-widest uppercase text-xs border-none shadow-2xl shadow-accent-500/20"
+                    className="w-full sm:w-auto rounded-2xl px-10 font-black tracking-widest uppercase text-xs border-none shadow-2xl shadow-accent-500/20"
+                    onClick={() => window.location.href = '/schools'}
                   >
-                    Request Information
+                    Quick Inquiry
                   </Button>
                   <Button 
                     variant="outline" 
                     size="lg" 
-                    className="rounded-2xl px-10 text-white hover:text-primary-900 font-black tracking-widest uppercase text-xs"
+                    className="w-full sm:w-auto rounded-2xl px-10 text-white hover:text-primary-900 font-black tracking-widest uppercase text-xs"
+                    onClick={() => window.location.href = '/schools'}
                   >
                     View School Page
                   </Button>
@@ -553,13 +674,13 @@ export default function ProgramsPage() {
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {[
                       { label: 'Custom Pricing', value: 'Based on needs' },
                       { label: 'Flexible Plans', value: 'Simulation/Hardware' }
                     ].map((item, i) => (
                       <div key={i} className="bg-primary-600/30 p-4 rounded-xl border border-white/5 text-center">
-                        <div className="text-xs text-white/40 font-bold uppercase tracking-wider mb-1">{item.label}</div>
+                        <div className="text-[10px] md:text-xs text-white/40 font-bold uppercase tracking-wider mb-1">{item.label}</div>
                         <div className="text-white font-bold text-sm">{item.value}</div>
                       </div>
                     ))}
@@ -574,62 +695,109 @@ export default function ProgramsPage() {
       {/* Registration Modal */}
       <AnimatePresence>
         {showRegistration && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-xl z-[100] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 lg:p-8"
+          >
+            {/* Animated Background Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-black via-primary-900/95 to-black">
+              <motion.div 
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.5, 0.3]
+                }}
+                transition={{ 
+                  duration: 8, 
+                  repeat: Infinity, 
+                  ease: "linear" 
+                }}
+                className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(184,134,11,0.15),transparent_70%)]" 
+              />
+              <div className="absolute inset-0 backdrop-blur-2xl" />
+            </div>
+
+            {/* Modal Card */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="bg-primary-500 border border-accent-500/30 rounded-[2.5rem] w-full max-w-4xl max-h-[90vh] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] relative flex flex-col"
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className="relative w-full max-w-2xl bg-gradient-to-br from-primary-500/95 to-primary-600/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-accent-500/20 overflow-hidden"
+              style={{ maxHeight: 'calc(100vh - 2rem)' }}
             >
+              {/* Decorative Elements */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-accent-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-accent-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+
               {/* Close Button */}
               <button
-                onClick={() => setShowRegistration(false)}
-                className="absolute top-8 right-8 text-white/40 hover:text-white transition-colors z-20 bg-white/5 p-2 rounded-full hover:bg-white/10"
+                onClick={handleCloseModal}
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white transition-all duration-200 group"
+                aria-label="Close modal"
               >
-                <X size={24} />
+                <X size={20} strokeWidth={2.5} className="group-hover:rotate-90 transition-transform duration-200" />
               </button>
 
-              {/* Progress Sidebar/Header */}
-              <div className="bg-primary-600/50 border-b border-white/5 p-8 md:px-12">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                  <div>
-                    <h2 className="text-2xl font-heading font-black text-white">Program Registration</h2>
-                    <p className="text-accent-400 text-sm font-bold tracking-widest uppercase mt-1">
-                      {formData.programType === 'simulation' ? 'Simulation Course' : 'Hardware Kit Course'}
-                    </p>
-                  </div>
-                  
-                  {/* Steps indicator */}
-                  <div className="flex items-center gap-4">
-                    {[
-                      { num: 1, label: 'Details' },
-                      { num: 2, label: 'Teacher' },
-                      { num: 3, label: 'Review' }
-                    ].map((step, idx) => (
-                      <div key={step.num} className="flex flex-col items-center">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-black transition-all duration-500 ${
-                          currentStep === step.num 
-                            ? 'bg-accent-500 text-primary-900 shadow-[0_0_20px_rgba(184,134,11,0.4)] scale-110' 
-                            : currentStep > step.num 
-                              ? 'bg-green-500 text-white' 
-                              : 'bg-white/10 text-white/40'
-                        }`}>
-                          {currentStep > step.num ? <Check size={20} /> : step.num}
-                        </div>
-                        <span className={`text-[10px] mt-2 font-bold uppercase tracking-tighter ${
-                          currentStep === step.num ? 'text-accent-500' : 'text-white/40'
+              {/* Header */}
+              <div className="relative px-6 sm:px-8 pt-8 sm:pt-10 pb-6">
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <h2 className="text-2xl sm:text-3xl font-heading font-black text-white mb-2">
+                    Register Your Interest
+                  </h2>
+                  <p className="text-accent-400 text-xs sm:text-sm font-bold tracking-widest uppercase">
+                    {formData.programType === 'simulation' ? '🖥️ Simulation Course' : '🔧 Hardware Kit Course'}
+                  </p>
+                </motion.div>
+
+                {/* Progress Steps */}
+                <div className="mt-8 flex items-center justify-between max-w-md mx-auto">
+                  {[
+                    { num: 1, label: 'Details', icon: '📝' },
+                    { num: 2, label: 'Teacher', icon: '👨‍🏫' },
+                    { num: 3, label: 'Review', icon: '✓' }
+                  ].map((step, idx) => (
+                    <div key={step.num} className="flex items-center flex-1">
+                      <div className="flex flex-col items-center flex-1">
+                        <motion.div
+                          initial={false}
+                          animate={{
+                            scale: currentStep === step.num ? 1.1 : 1,
+                            opacity: currentStep >= step.num ? 1 : 0.5
+                          }}
+                          className={`relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-base sm:text-lg font-black transition-all duration-300 ${
+                            currentStep === step.num
+                              ? 'bg-accent-500 text-primary-900 shadow-lg shadow-accent-500/50'
+                              : currentStep > step.num
+                              ? 'bg-accent-500/20 text-accent-400 border-2 border-accent-500/40'
+                              : 'bg-white/5 text-white/40 border-2 border-white/10'
+                          }`}
+                        >
+                          {currentStep > step.num ? <Check size={24} strokeWidth={3} /> : step.num}
+                        </motion.div>
+                        <span className={`mt-2 text-[10px] sm:text-xs font-bold uppercase tracking-wide ${
+                          currentStep === step.num ? 'text-accent-400' : 'text-white/40'
                         }`}>
                           {step.label}
                         </span>
-                        {idx < 2 && <div className={`w-12 h-px mb-6 mx-2 ${currentStep > step.num ? 'bg-green-500' : 'bg-white/10'}`} />}
                       </div>
-                    ))}
-                  </div>
+                      {idx < 2 && (
+                        <div className={`h-0.5 flex-1 mx-2 transition-all duration-500 ${
+                          currentStep > step.num ? 'bg-accent-500/60' : 'bg-white/10'
+                        }`} />
+                      )}
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Modal Content */}
-              <div className="flex-1 overflow-y-auto p-8 md:p-12">
+              {/* Content Area */}
+              <div className="relative px-6 sm:px-8 pb-6 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 24rem)' }}>
                 {submitSuccess ? (
                   <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12">
                     <div className="w-24 h-24 bg-green-500/20 border-2 border-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -641,7 +809,7 @@ export default function ProgramsPage() {
                     </p>
                   </motion.div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="space-y-8">
                     {/* Step 1: Student & Parent Details */}
                     {currentStep === 1 && (
                       <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
@@ -679,44 +847,75 @@ export default function ProgramsPage() {
                       </motion.div>
                     )}
 
-                    {/* Step 2: Teacher Selection (Blank/Placeholder) */}
+                    {/* Step 2: Teacher Selection */}
                     {currentStep === 2 && (
-                      <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="text-center py-10 space-y-6">
-                        <div className="w-20 h-20 bg-accent-500/10 rounded-3xl flex items-center justify-center mx-auto mb-4 border border-accent-500/20">
-                          <GraduationCap size={40} className="text-accent-500" />
+                      <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
+                        <div className="mb-6">
+                          <h3 className="text-xl font-heading font-black text-white mb-2">Select Your Teacher</h3>
+                          <p className="text-white/40 text-sm">Choose an expert educator for your robotics journey</p>
                         </div>
-                        <h3 className="text-2xl font-heading font-black text-white">Teacher Selection Coming Soon</h3>
-                        <p className="text-white/60 max-w-sm mx-auto">
-                          We are hand-picking the best educators for our individual programs. You will be able to select your preferred teacher during the onboarding phase.
-                        </p>
-                        <div className="bg-white/5 p-6 rounded-3xl border border-white/10 inline-block">
-                          <p className="text-accent-400 font-bold text-sm tracking-widest uppercase">Currently In Development</p>
+                        
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          {teachers.map((teacher) => (
+                            <button
+                              key={teacher.id}
+                              type="button"
+                              onClick={() => setFormData(prev => ({ ...prev, selectedTeacher: teacher.id }))}
+                              className={`group text-left p-4 rounded-3xl border-2 transition-all duration-300 relative overflow-hidden ${
+                                formData.selectedTeacher === teacher.id
+                                  ? 'bg-accent-500/10 border-accent-500 shadow-lg shadow-accent-500/10'
+                                  : 'bg-white/5 border-white/10 hover:border-white/20'
+                              }`}
+                            >
+                              <div className="flex items-center gap-4 relative z-10">
+                                <div className={`w-14 h-14 rounded-2xl bg-primary-600 flex items-center justify-center text-xl font-black shrink-0 transition-transform group-hover:scale-110 ${
+                                  formData.selectedTeacher === teacher.id ? 'text-accent-500' : 'text-white/40'
+                                }`}>
+                                  {teacher.name.charAt(0)}
+                                </div>
+                                <div>
+                                  <h4 className={`font-black tracking-tight ${
+                                    formData.selectedTeacher === teacher.id ? 'text-accent-500' : 'text-white'
+                                  }`}>
+                                    {teacher.name}
+                                  </h4>
+                                  <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">{teacher.title}</p>
+                                </div>
+                                {formData.selectedTeacher === teacher.id && (
+                                  <div className="ml-auto w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center text-primary-900">
+                                    <Check size={14} strokeWidth={4} />
+                                  </div>
+                                )}
+                              </div>
+                            </button>
+                          ))}
                         </div>
                       </motion.div>
                     )}
 
                     {/* Step 3: Summary/Quote */}
                     {currentStep === 3 && (
-                      <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
-                        <div className="bg-white/5 border border-white/10 rounded-[2rem] p-8 md:p-10 relative overflow-hidden group">
-                          <div className="absolute top-0 right-0 w-32 h-32 bg-accent-500/10 blur-[50px] group-hover:bg-accent-500/20 transition-all duration-1000" />
-                          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-                            <div>
-                              <div className="flex items-center gap-3 mb-4">
-                                <div className="w-12 h-12 bg-accent-500 rounded-2xl flex items-center justify-center">
-                                  {formData.programType === 'simulation' ? <Monitor className="text-primary-900" size={24} /> : <Package className="text-primary-900" size={24} />}
+                      <form onSubmit={handleSubmit}>
+                        <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
+                          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-10 relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-accent-500/10 blur-[50px] group-hover:bg-accent-500/20 transition-all duration-1000" />
+                            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-8">
+                              <div>
+                                <div className="flex items-center gap-3 mb-2 md:mb-4">
+                                  <div className="w-10 h-10 md:w-12 md:h-12 bg-accent-500 rounded-xl md:rounded-2xl flex items-center justify-center">
+                                    {formData.programType === 'simulation' ? <Monitor className="text-primary-900" size={20} /> : <Package className="text-primary-900" size={20} />}
                                 </div>
-                                <h3 className="text-2xl md:text-3xl font-heading font-black text-white leading-tight">
+                                <h3 className="text-xl md:text-3xl font-heading font-black text-white leading-tight">
                                   {formData.programType === 'simulation' ? 'Simulation Course' : 'Hardware Kit Course'}
                                 </h3>
                               </div>
-                              <p className="text-white/40 font-medium">For Grade {formData.grade} student</p>
+                              <p className="text-white/40 font-medium text-sm md:text-base">For Grade {formData.grade} student</p>
                             </div>
                             <div className="text-left md:text-right">
-                              <div className="text-[3.5rem] md:text-[4.5rem] font-heading font-black text-shimmer leading-none">
+                              <div className="text-[2.5rem] md:text-[4.5rem] font-heading font-black text-shimmer leading-none">
                                 ₹{formData.estimatedQuote.toLocaleString('en-IN')}
                               </div>
-                              <p className="text-accent-500 font-black tracking-[0.2em] uppercase text-xs mt-2">One-Time Payment</p>
+                              <p className="text-accent-500 font-black tracking-[0.2em] uppercase text-[10px] md:text-xs mt-1 md:text-xs mt-2">One-Time Payment</p>
                             </div>
                           </div>
                         </div>
@@ -737,44 +936,89 @@ export default function ProgramsPage() {
                           <label className="text-white/60 text-xs font-black uppercase tracking-widest ml-1">Additional Notes (Optional)</label>
                           <textarea name="message" value={formData.message} onChange={handleChange} rows={3} className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white focus:border-accent-500 focus:outline-none transition-all resize-none" placeholder="Special requirements or questions..." />
                         </div>
+
+                        {/* Submit Button */}
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="w-full group flex items-center justify-center gap-3 px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-wider bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-400 hover:to-accent-500 text-primary-900 transition-all shadow-lg shadow-accent-500/30 hover:shadow-xl hover:shadow-accent-500/50 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                        >
+                          {isSubmitting ? (
+                            <>
+                              <Zap size={20} className="animate-spin" />
+                              <span>Submitting Registration...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Zap size={20} className="fill-current" />
+                              <span>Submit Registration</span>
+                              <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+                            </>
+                          )}
+                        </button>
                       </motion.div>
+                      </form>
                     )}
 
-                    {/* Navigation Buttons */}
-                    <div className="flex items-center justify-between pt-6 border-t border-white/10">
-                      <Button type="button" onClick={handlePrevStep} disabled={currentStep === 1 || isSubmitting} variant="outline" className={`rounded-xl px-8 h-14 font-black ${currentStep === 1 ? 'opacity-0' : 'opacity-100'}`}>
-                        <ChevronLeft className="mr-2" size={20} />
-                        Back
-                      </Button>
-                      
-                      {currentStep < 3 ? (
-                        <Button type="button" onClick={handleNextStep} variant="primary" className="rounded-2xl px-12 h-14 font-black tracking-widest uppercase text-xs shadow-xl shadow-accent-500/20">
-                          Continue
-                          <ChevronRight className="ml-2" size={20} />
-                        </Button>
-                      ) : (
-                        <Button type="submit" disabled={isSubmitting} variant="primary" className="rounded-2xl px-12 h-14 font-black tracking-widest uppercase text-xs shadow-xl shadow-accent-500/20 group relative overflow-hidden">
-                          {isSubmitting ? (
-                            <span className="flex items-center gap-2">
-                              <Zap size={16} className="animate-spin text-primary-900" />
-                              Processing...
-                            </span>
-                          ) : (
-                            <span className="flex items-center gap-2 relative z-10 text-primary-900 font-bold">
-                              Confirm Registration
-                              <Zap size={16} fill="currentColor" />
-                            </span>
-                          )}
-                        </Button>
-                      )}
-                    </div>
-                  </form>
+                    {/* Navigation - Only show for steps 1 and 2 */}
+                    {currentStep < 3 && (
+                      <div className="flex items-center justify-between pt-6 mt-6 border-t border-white/10">
+                        <button
+                          type="button"
+                          onClick={handlePrevStep}
+                          disabled={currentStep === 1 || isSubmitting}
+                          className={`group flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+                            currentStep === 1 
+                              ? 'opacity-0 pointer-events-none' 
+                              : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20'
+                          }`}
+                        >
+                          <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
+                          <span>Back</span>
+                        </button>
+                        
+                        <button
+                          type="button"
+                          onClick={handleNextStep}
+                          className="group flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider bg-accent-500 text-primary-900 hover:bg-accent-400 transition-all shadow-lg shadow-accent-500/30 hover:shadow-xl hover:shadow-accent-500/40"
+                        >
+                          <span>Continue</span>
+                          <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Back button for step 3 */}
+                    {currentStep === 3 && (
+                      <div className="pt-6 mt-6 border-t border-white/10">
+                        <button
+                          type="button"
+                          onClick={handlePrevStep}
+                          disabled={isSubmitting}
+                          className="group flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
+                        >
+                          <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
+                          <span>Back</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             </motion.div>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
+
+      <ConfirmModal
+        isOpen={showConfirmModal}
+        title={currentStep === 3 ? "Complete Registration?" : "Discard Changes?"}
+        message={currentStep === 3 ? "Ready to submit your interest? Our team will contact you soon." : "Are you sure you want to close? All progress will be lost."}
+        confirmText={currentStep === 3 ? "Submit Now" : "Yes, Close"}
+        type={currentStep === 3 ? "primary" : "danger"}
+        onConfirm={confirmAction}
+        onCancel={() => setShowConfirmModal(false)}
+      />
     </main>
   );
 }

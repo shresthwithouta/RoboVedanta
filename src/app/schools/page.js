@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { ArrowRight, School, BookOpen, Users, Award, CheckCircle2, Target, Lightbulb, Cpu, GraduationCap, FileText, Headphones, TrendingUp, Shield, Zap, Clock, Globe, Settings, ChevronRight, ChevronLeft, MapPin, Building, Mail, Phone, User, X, Check } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Image from 'next/image';
 
 import { Container } from '@/components/layout/Container';
@@ -12,6 +12,50 @@ import { Card } from '@/components/ui/Card';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { CURRICULUM_LEVELS } from '@/lib/constants';
 import { getAllTutors } from '@/data/tutors';
+
+const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel, confirmText = "Confirm", cancelText = "Cancel", type = "danger" }) => (
+  <AnimatePresence>
+    {isOpen && (
+      <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="absolute inset-0 bg-black/80 backdrop-blur-md"
+          onClick={onCancel}
+        />
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.9, opacity: 0, y: 20 }}
+          className="relative bg-gradient-to-br from-primary-500 to-primary-600 border border-white/10 rounded-[2rem] p-8 max-w-sm w-full shadow-2xl overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-32 h-32 bg-accent-500/10 blur-[50px]" />
+          <h3 className="text-2xl font-heading font-black text-white mb-4 relative z-10">{title}</h3>
+          <p className="text-white/60 font-medium mb-8 relative z-10">{message}</p>
+          <div className="flex gap-4 relative z-10">
+            <button
+              onClick={onCancel}
+              className="flex-1 py-3 px-6 rounded-xl font-bold text-sm bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10 transition-all"
+            >
+              {cancelText}
+            </button>
+            <button
+              onClick={onConfirm}
+              className={`flex-1 py-3 px-6 rounded-xl font-black text-sm uppercase tracking-wider transition-all shadow-lg ${
+                type === 'danger' 
+                ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-500/20' 
+                : 'bg-accent-500 hover:bg-accent-400 text-primary-900 shadow-accent-500/20'
+              }`}
+            >
+              {confirmText}
+            </button>
+          </div>
+        </motion.div>
+      </div>
+    )}
+  </AnimatePresence>
+);
 
 function AnimatedSection({ children, delay = 0 }) {
   const ref = useRef(null);
@@ -45,6 +89,52 @@ export default function SchoolsPage() {
   const [showTutorDetail, setShowTutorDetail] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmAction, setConfirmAction] = useState(null);
+
+  const handleCloseModal = () => {
+    if (submitSuccess) {
+      setShowRegistration(false);
+      setSubmitSuccess(false);
+      return;
+    }
+    
+    // Check if any field has data
+    const hasData = Object.entries(formData).some(([key, val]) => {
+      if (Array.isArray(val)) return val.length > 0;
+      return val !== '' && val !== 0;
+    });
+
+    if (hasData) {
+      setConfirmAction(() => () => {
+        setShowRegistration(false);
+        setCurrentStep(1);
+        setFormData({
+          schoolName: '',
+          contactPerson: '',
+          email: '',
+          phone: '',
+          address: '',
+          city: '',
+          state: '',
+          pincode: '',
+          board: '',
+          pincode: '',
+          board: '',
+          selectedTutorIds: [],
+          selectedGrade: '',
+          numberOfStudents: '',
+          estimatedQuote: 0,
+          message: ''
+        });
+        setSelectedTutors([]);
+        setShowConfirmModal(false);
+      });
+      setShowConfirmModal(true);
+    } else {
+      setShowRegistration(false);
+    }
+  };
 
   const [formData, setFormData] = useState({
     // School Details
@@ -57,7 +147,6 @@ export default function SchoolsPage() {
     state: '',
     pincode: '',
     board: '',
-    studentCount: '',
     // Tutor & Quote
     selectedTutorIds: [], // Array of tutor IDs
     selectedGrade: '',
@@ -144,6 +233,11 @@ export default function SchoolsPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!window.confirm('Are you sure you want to submit this request?')) {
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -173,7 +267,6 @@ export default function SchoolsPage() {
             state: '',
             pincode: '',
             board: '',
-            studentCount: '',
             selectedTutorIds: [],
             selectedGrade: '',
             numberOfStudents: '',
@@ -230,20 +323,24 @@ export default function SchoolsPage() {
               Premium robotics & AI curriculum for forward-thinking institutions. Fully aligned with CBSE & ICSE standards, designed for Grades 1–12.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 px-4">
               <Button 
                 variant="primary" 
                 size="lg" 
-                className="rounded-2xl px-10 py-5 h-auto border-none shadow-2xl shadow-accent-500/10"
+                className="w-full sm:w-auto rounded-2xl px-10 py-5 h-auto border-none shadow-2xl shadow-accent-500/10"
                 onClick={() => setShowRegistration(true)}
               >
                 <span className="relative z-10">Request Curriculum</span>
               </Button>
-              <Button variant="outline" size="lg" className="rounded-2xl px-10 py-5 h-auto border-white/20 text-white hover:text-primary-900">
-                <span className="relative z-10">Schedule Consultation</span>
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="w-full sm:w-auto rounded-2xl px-10 py-5 h-auto border-white/20 text-white hover:text-primary-900"
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                <span className="relative z-10">Get In Touch</span>
               </Button>
             </div>
-
             {/* Trust Indicators */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -267,7 +364,7 @@ export default function SchoolsPage() {
       </Section>
 
       {/* What Schools Get Section */}
-      <Section background="darkBlue" className="relative group/section">
+      <Section id="benefits" background="darkBlue" className="relative group/section">
         <div className="motes-container">
           <div className="motes w-full h-full animate-slow-zoom" />
         </div>
@@ -400,7 +497,7 @@ export default function SchoolsPage() {
       </Section>
 
       {/* Academic Alignment Section */}
-      <Section background="darker" className="relative group/section">
+      <Section id="curriculum" background="darker" className="relative group/section">
         <div className="motes-container">
           <div className="motes w-full h-full animate-slow-zoom" style={{ animationDirection: 'reverse' }} />
         </div>
@@ -574,7 +671,7 @@ export default function SchoolsPage() {
       </Section>
 
       {/* Implementation Support Section */}
-      <Section background="darkBlue" className="relative group/section">
+      <Section id="support" background="darkBlue" className="relative group/section">
         <div className="motes-container">
           <div className="motes w-full h-full animate-slow-zoom" />
         </div>
@@ -696,216 +793,137 @@ export default function SchoolsPage() {
         </Container>
       </Section>
 
-      {/* Inquiry Form Section */}
-      <Section background="darker" spacing="lg" className="relative overflow-hidden">
+      {/* CTA Section */}
+      <Section id="contact" background="darker" spacing="lg" className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(184,134,11,0.05)_0%,transparent_70%)] animate-slow-zoom" />
         
-        <Container className="relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <ScrollReveal>
-              <div className="text-center mb-12">
+        <Container className="relative z-10 text-center">
+          <ScrollReveal>
+            <div className="max-w-4xl mx-auto py-20 px-6 bg-white/[0.02] border border-white/10 rounded-[3rem] backdrop-blur-xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-accent-500/10 blur-[100px] -translate-y-1/2 translate-x-1/2 group-hover:bg-accent-500/20 transition-all duration-1000" />
+              
+              <div className="relative z-10">
                 <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/40 text-xs font-black tracking-[0.3em] uppercase mb-8">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent-500 animate-pulse" />
-                  Get Started
+                  Direct Partnership
                 </div>
-                <h2 className="text-4xl md:text-6xl font-heading font-black text-white mb-6 leading-tight tracking-tighter">
-                  Partner With <span className="text-shimmer">RoboVedanta</span>
+                <h2 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-white mb-8 leading-tight tracking-tighter">
+                  Ready to <span className="text-shimmer">Transform</span> Your School?
                 </h2>
-                <p className="text-white/60 text-lg md:text-xl font-medium max-w-2xl mx-auto">
-                  Fill out the form below and our institutional partnerships team will contact you within 24 hours.
+                <p className="text-white/60 text-lg md:text-xl font-medium max-w-2xl mx-auto mb-12">
+                  Join our elite network of partner institutions. Our team will guide you through every step of implementation.
                 </p>
-              </div>
-            </ScrollReveal>
-
-            <ScrollReveal delay={0.2}>
-              <Card variant="elevated" className="p-8 md:p-12 bg-white/[0.02] border-white/10">
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-white font-bold text-sm mb-2">School Name *</label>
-                      <input
-                        type="text"
-                        name="schoolName"
-                        value={formData.schoolName}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-primary-600/50 border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-accent-500 focus:outline-none transition-colors"
-                        placeholder="Enter school name"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-white font-bold text-sm mb-2">Contact Person *</label>
-                      <input
-                        type="text"
-                        name="contactPerson"
-                        value={formData.contactPerson}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-primary-600/50 border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-accent-500 focus:outline-none transition-colors"
-                        placeholder="Principal / Coordinator name"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-white font-bold text-sm mb-2">Email Address *</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-primary-600/50 border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-accent-500 focus:outline-none transition-colors"
-                        placeholder="school@example.com"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-white font-bold text-sm mb-2">Phone Number *</label>
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-primary-600/50 border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-accent-500 focus:outline-none transition-colors"
-                        placeholder="+91 XXXXX XXXXX"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-white font-bold text-sm mb-2">Board Affiliation *</label>
-                      <select
-                        name="board"
-                        value={formData.board}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-primary-600/50 border border-white/10 rounded-xl text-white focus:border-accent-500 focus:outline-none transition-colors"
-                      >
-                        <option value="">Select board</option>
-                        <option value="CBSE">CBSE</option>
-                        <option value="ICSE">ICSE</option>
-                        <option value="State Board">State Board</option>
-                        <option value="IB">IB</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-white font-bold text-sm mb-2">Approximate Student Count</label>
-                      <input
-                        type="text"
-                        name="studentCount"
-                        value={formData.studentCount}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-primary-600/50 border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-accent-500 focus:outline-none transition-colors"
-                        placeholder="e.g., 500-1000"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-white font-bold text-sm mb-2">Message / Requirements</label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      rows={4}
-                      className="w-full px-4 py-3 bg-primary-600/50 border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-accent-500 focus:outline-none transition-colors resize-none"
-                      placeholder="Tell us about your requirements, timeline, or any specific questions..."
-                    />
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                    <Button 
-                      type="submit"
-                      variant="primary" 
-                      size="lg" 
-                      className="rounded-2xl px-12 font-black tracking-widest uppercase text-xs border-none shadow-2xl shadow-accent-500/20 py-5 w-full sm:w-auto"
-                    >
-                      Submit Inquiry
-                    </Button>
-                    <Button 
-                      type="button"
-                      variant="outline" 
-                      size="lg" 
-                      className="rounded-2xl px-12 font-black tracking-widest uppercase text-xs text-white hover:text-primary-900 py-5 w-full sm:w-auto transition-all duration-500"
-                    >
-                      Download Brochure
-                    </Button>
-                  </div>
-
-                  <p className="text-white/40 text-xs text-center mt-6">
-                    * Required fields. We respect your privacy and will never share your information.
-                  </p>
-                </form>
-              </Card>
-            </ScrollReveal>
-
-            {/* Contact Info */}
-            <ScrollReveal delay={0.4}>
-              <div className="mt-12 text-center">
-                <p className="text-white/60 font-medium mb-4">Prefer to talk directly?</p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                  <a href="mailto:schools@robovedanta.com" className="text-accent-400 hover:text-accent-300 font-bold transition-colors">
-                    email
-                  </a>
-                  <span className="hidden sm:block text-white/20">|</span>
-                  <a href="tel:+911234567890" className="text-accent-400 hover:text-accent-300 font-bold transition-colors">
-                    number
-                  </a>
+                  <Button 
+                    variant="primary" 
+                    size="lg" 
+                    className="rounded-2xl px-12 py-5 h-auto font-black tracking-widest uppercase text-xs border-none shadow-2xl shadow-accent-500/20 w-full sm:w-auto"
+                    onClick={() => setShowRegistration(true)}
+                  >
+                    Partner With Us
+                  </Button>
+                  <div className="flex items-center gap-6">
+                    <a href="mailto:schools@robovedanta.com" className="flex items-center gap-2 text-white/60 hover:text-accent-400 font-bold transition-all group">
+                      <Mail size={18} className="group-hover:scale-110 transition-transform" />
+                      <span>Email Us</span>
+                    </a>
+                    <div className="w-px h-4 bg-white/10" />
+                    <a href="tel:+911234567890" className="flex items-center gap-2 text-white/60 hover:text-accent-400 font-bold transition-all group">
+                      <Phone size={18} className="group-hover:scale-110 transition-transform" />
+                      <span>Call Now</span>
+                    </a>
+                  </div>
                 </div>
               </div>
-            </ScrollReveal>
-          </div>
+            </div>
+          </ScrollReveal>
         </Container>
       </Section>
 
       {/* Registration Modal */}
       {showRegistration && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 lg:p-8"
+        >
+          {/* Animated Background Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-black via-primary-900/95 to-black">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(184,134,11,0.1),transparent_50%)]" />
+            <div className="absolute inset-0 backdrop-blur-2xl" />
+          </div>
+
+          {/* Modal Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-primary-500 border border-accent-500/30 rounded-3xl w-full max-w-6xl max-h-[90vh] overflow-y-auto relative"
+            initial={{ scale: 0.9, y: 20 }}
+            animate={{ scale: 1, y: 0 }}
+            exit={{ scale: 0.9, y: 20 }}
+            transition={{ type: "spring", duration: 0.5 }}
+            className="relative w-full max-w-3xl bg-gradient-to-br from-primary-500/95 to-primary-600/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-accent-500/20 overflow-hidden"
+            style={{ maxHeight: 'calc(100vh - 2rem)' }}
           >
+            {/* Decorative Elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-accent-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-accent-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
             {/* Close Button */}
             <button
-              onClick={() => setShowRegistration(false)}
-              className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors z-10"
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white/60 hover:text-white transition-all duration-200 group"
+              aria-label="Close modal"
             >
-              <X size={32} />
+              <X size={20} strokeWidth={2.5} className="group-hover:rotate-90 transition-transform duration-200" />
             </button>
 
-            {/* Progress Steps */}
-            <div className="sticky top-0 bg-primary-500/95 backdrop-blur-sm border-b border-white/10 px-8 py-6 z-10">
-              <div className="flex items-center justify-between max-w-2xl mx-auto">
+            {/* Header */}
+            <div className="relative px-6 sm:px-8 pt-8 sm:pt-10 pb-6">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <h2 className="text-2xl sm:text-3xl font-heading font-black text-white mb-2">
+                  School Partnership
+                </h2>
+                <p className="text-accent-400 text-xs sm:text-sm font-bold tracking-widest uppercase">
+                  🏫 Institutional Registration
+                </p>
+              </motion.div>
+              
+              {/* Progress Steps */}
+              <div className="mt-8 flex items-center justify-between max-w-md mx-auto">
                 {[
-                  { num: 1, label: 'School Details' },
-                  { num: 2, label: 'Select Tutor' },
-                  { num: 3, label: 'Get Quote' }
+                  { num: 1, label: 'Details', icon: '📝' },
+                  { num: 2, label: 'Tutors', icon: '👨‍🏫' },
+                  { num: 3, label: 'Quote', icon: '💰' }
                 ].map((step, idx) => (
-                  <div key={step.num} className="flex items-center">
-                    <div className="flex flex-col items-center">
-                      <div className={`w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all ${
-                        currentStep === step.num
-                          ? 'bg-accent-500 border-accent-500 text-primary-900'
-                          : currentStep > step.num
-                          ? 'bg-accent-500/20 border-accent-500 text-accent-500'
-                          : 'bg-transparent border-white/20 text-white/40'
-                      }`}>
-                        {currentStep > step.num ? <Check size={20} /> : step.num}
-                      </div>
-                      <span className={`text-xs mt-2 font-bold ${
-                        currentStep === step.num ? 'text-accent-500' : 'text-white/60'
+                  <div key={step.num} className="flex items-center flex-1">
+                    <div className="flex flex-col items-center flex-1">
+                      <motion.div
+                        initial={false}
+                        animate={{
+                          scale: currentStep === step.num ? 1.1 : 1,
+                          opacity: currentStep >= step.num ? 1 : 0.5
+                        }}
+                        className={`relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-base sm:text-lg font-black transition-all duration-300 ${
+                          currentStep === step.num
+                            ? 'bg-accent-500 text-primary-900 shadow-lg shadow-accent-500/50'
+                            : currentStep > step.num
+                            ? 'bg-accent-500/20 text-accent-400 border-2 border-accent-500/40'
+                            : 'bg-white/5 text-white/40 border-2 border-white/10'
+                        }`}
+                      >
+                        {currentStep > step.num ? <Check size={24} strokeWidth={3} /> : step.num}
+                      </motion.div>
+                      <span className={`mt-2 text-[10px] sm:text-xs font-bold uppercase tracking-wide ${
+                        currentStep === step.num ? 'text-accent-400' : 'text-white/40'
                       }`}>
                         {step.label}
                       </span>
                     </div>
                     {idx < 2 && (
-                      <div className={`w-24 h-0.5 mx-4 mb-6 ${
-                        currentStep > step.num ? 'bg-accent-500' : 'bg-white/20'
+                      <div className={`h-0.5 flex-1 mx-2 transition-all duration-500 ${
+                        currentStep > step.num ? 'bg-accent-500/60' : 'bg-white/10'
                       }`} />
                     )}
                   </div>
@@ -913,8 +931,8 @@ export default function SchoolsPage() {
               </div>
             </div>
 
-            {/* Form Content */}
-            <div className="p-8 md:p-12">
+            {/* Content Area */}
+            <div className="relative px-4 sm:px-8 pb-8 overflow-y-auto max-h-[60vh] md:max-h-[70vh] scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
               {submitSuccess ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -1081,18 +1099,6 @@ export default function SchoolsPage() {
                             <option value="Other">Other</option>
                           </select>
                         </div>
-
-                        <div className="md:col-span-2">
-                          <label className="block text-white font-bold text-sm mb-2">Approximate Student Count</label>
-                          <input
-                            type="text"
-                            name="studentCount"
-                            value={formData.studentCount}
-                            onChange={handleChange}
-                            className="w-full px-4 py-3 bg-primary-600/50 border border-white/10 rounded-xl text-white placeholder-white/40 focus:border-accent-500 focus:outline-none transition-colors"
-                            placeholder="e.g., 500-1000"
-                          />
-                        </div>
                       </div>
                     </motion.div>
                   )}
@@ -1105,8 +1111,8 @@ export default function SchoolsPage() {
                       exit={{ opacity: 0, x: -20 }}
                       className="space-y-6"
                     >
-                      <div className="text-center mb-8">
-                        <h2 className="text-3xl md:text-4xl font-heading font-black text-white mb-3">Select Your Tutors</h2>
+                      <div className="text-center mb-6 md:mb-8">
+                        <h2 className="text-xl md:text-4xl font-heading font-black text-white mb-2 md:mb-3">Select Your Tutors</h2>
                         <p className="text-white/60">Choose up to 5 expert educators</p>
                         
                         {/* Selection Counter */}
@@ -1274,7 +1280,7 @@ export default function SchoolsPage() {
                           className="bg-gradient-to-br from-accent-500/20 to-accent-600/10 border-2 border-accent-500 rounded-2xl p-8 text-center"
                         >
                           <div className="text-white/60 text-sm font-bold tracking-widest uppercase mb-2">Estimated Quote</div>
-                          <div className="text-5xl md:text-6xl font-heading font-black text-shimmer mb-2">
+                          <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-black text-shimmer mb-2 break-all px-2">
                             ₹{formData.estimatedQuote.toLocaleString('en-IN')}
                           </div>
                           <div className="text-white/60 text-sm">
@@ -1297,46 +1303,67 @@ export default function SchoolsPage() {
                     </motion.div>
                   )}
 
-                  {/* Navigation Buttons */}
-                  <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10">
-                    <Button
+                  {/* Premium Navigation */}
+                  <div className="flex items-center justify-between pt-6 mt-6 border-t border-white/10">
+                    <button
                       type="button"
                       onClick={handlePrevStep}
-                      disabled={currentStep === 1}
-                      variant="outline"
-                      className={`rounded-xl px-6 py-3 ${currentStep === 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      disabled={currentStep === 1 || isSubmitting}
+                      className={`group flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+                        currentStep === 1 
+                          ? 'opacity-0 pointer-events-none' 
+                          : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20'
+                      }`}
                     >
-                      <ChevronLeft className="mr-2" size={20} />
-                      Previous
-                    </Button>
+                      <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
+                      <span>Back</span>
+                    </button>
 
                     {currentStep < 3 ? (
-                      <Button
+                      <button
                         type="button"
                         onClick={handleNextStep}
-                        variant="primary"
-                        className="rounded-xl px-8 py-3"
+                        className="group flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider bg-accent-500 text-primary-900 hover:bg-accent-400 transition-all shadow-lg shadow-accent-500/30 hover:shadow-xl hover:shadow-accent-500/40"
                       >
-                        Next
-                        <ChevronRight className="ml-2" size={20} />
-                      </Button>
+                        <span>Continue</span>
+                        <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                      </button>
                     ) : (
-                      <Button
+                      <button
                         type="submit"
                         disabled={isSubmitting}
-                        variant="primary"
-                        className="rounded-xl px-8 py-3"
+                        className="group flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider bg-accent-500 text-primary-900 hover:bg-accent-400 transition-all shadow-lg shadow-accent-500/30 hover:shadow-xl hover:shadow-accent-500/40 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
-                        {isSubmitting ? 'Submitting...' : 'Submit Registration'}
-                      </Button>
+                        {isSubmitting ? (
+                          <>
+                            <Zap size={14} className="animate-spin" />
+                            <span>Sending...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Submit</span>
+                            <Zap size={14} className="fill-current" />
+                          </>
+                        )}
+                      </button>
                     )}
                   </div>
                 </form>
               )}
             </div>
           </motion.div>
-        </div>
+        </motion.div>
       )}
+
+      <ConfirmModal
+        isOpen={showConfirmModal}
+        title={currentStep === 3 ? "Complete Registration?" : "Discard Changes?"}
+        message={currentStep === 3 ? "Ready to submit your interest? Our team will contact you soon." : "Are you sure you want to close? All progress will be lost."}
+        confirmText={currentStep === 3 ? "Submit Now" : "Yes, Close"}
+        type={currentStep === 3 ? "primary" : "danger"}
+        onConfirm={confirmAction}
+        onCancel={() => setShowConfirmModal(false)}
+      />
 
       {/* Tutor Detail Modal */}
       {showTutorDetail && (
@@ -1419,7 +1446,7 @@ export default function SchoolsPage() {
                   setShowTutorDetail(null);
                 }}
                 variant={formData.selectedTutorIds.includes(showTutorDetail.id) ? "secondary" : "primary"}
-                className="w-full rounded-xl py-4"
+                className="w-full rounded-xl py-3 md:py-4 text-sm md:text-base"
               >
                 {formData.selectedTutorIds.includes(showTutorDetail.id) 
                   ? `✓ ${showTutorDetail.name.split(' ')[0]} Selected` 

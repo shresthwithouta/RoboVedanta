@@ -103,10 +103,10 @@ export default function ContactPage() {
                 <h3 className="text-xl font-heading font-black text-white mb-3">Email Us</h3>
                 <p className="text-white/60 text-sm font-medium mb-6">Send us an email anytime</p>
                 <a 
-                  href="mailto:contact@robovedanta.com" 
+                  href="mailto:hello@robovedanta.com" 
                   className="text-accent-400 hover:text-accent-300 font-bold transition-colors break-all"
                 >
-                  to be added
+                  hello@robovedanta.com
                 </a>
               </Card>
             </ScrollReveal>
@@ -148,10 +148,10 @@ export default function ContactPage() {
                 <h3 className="text-xl font-heading font-black text-white mb-3">Call Us</h3>
                 <p className="text-white/60 text-sm font-medium mb-6">Mon-Sat, 9 AM - 6 PM</p>
                 <a 
-                  href="tel:+919876543210" 
+                  href="tel:+918808409295" 
                   className="text-accent-400 hover:text-accent-300 font-bold transition-colors"
                 >
-                  to be added
+                   +91 88084 09295
                 </a>
               </Card>
             </ScrollReveal>
@@ -287,18 +287,32 @@ export default function ContactPage() {
 
             {/* Right: Info */}
             <ScrollReveal delay={0.2}>
-              <div className="space-y-8">
-                {/* Office Hours */}
-                <Card variant="elevated" className="p-8 bg-white/2 border-white/10">
-                  <div className="flex items-start gap-4 mb-6">
-                    <div className="inline-flex p-3 rounded-xl bg-accent-600/20 text-accent-400 shrink-0">
-                      <Clock size={32} />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-heading font-black text-white mb-2">Office Hours</h3>
-                      <p className="text-white/60 text-sm font-medium">When you can reach us</p>
-                    </div>
+              <div className="h-full flex flex-col">
+                <div className="mb-8 hidden md:block opacity-0 select-none pointer-events-none">
+                  <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/40 text-xs font-black tracking-[0.3em] uppercase mb-6">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent-500 animate-pulse" />
+                    Placeholder
                   </div>
+                  <h2 className="text-4xl md:text-5xl font-heading font-black text-white mb-4 leading-tight tracking-tighter">
+                    Information
+                  </h2>
+                  <p className="text-white/60 text-lg font-medium">
+                    Symmetry placeholder
+                  </p>
+                </div>
+
+                <div className="space-y-8 flex-1">
+                  {/* Office Hours */}
+                  <Card variant="elevated" className="p-8 md:p-10 bg-white/2 border-white/10 h-min">
+                    <div className="flex items-start gap-4 mb-6">
+                      <div className="inline-flex p-3 rounded-xl bg-accent-600/20 text-accent-400 shrink-0">
+                        <Clock size={32} />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-heading font-black text-white mb-2">Office Hours</h3>
+                        <p className="text-white/60 text-sm font-medium">When you can reach us</p>
+                      </div>
+                    </div>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center py-2 border-b border-white/5">
                       <span className="text-white/70 font-medium text-sm">Monday - Friday</span>
@@ -316,7 +330,7 @@ export default function ContactPage() {
                 </Card>
 
                 {/* Location */}
-                <Card variant="elevated" className="p-8 bg-white/2 border-white/10">
+                <Card variant="elevated" className="p-8 md:p-10 bg-white/2 border-white/10">
                   <div className="flex items-start gap-4 mb-6">
                     <div className="inline-flex p-3 rounded-xl bg-accent-600/20 text-accent-400 shrink-0">
                       <MapPin size={32} />
@@ -327,12 +341,13 @@ export default function ContactPage() {
                     </div>
                   </div>
                   <address className="not-italic text-white/70 leading-relaxed font-medium text-sm">
-                    to be added
+                    Sector 62, Noida, <br />
+                    Uttar Pradesh, India - 201309
                   </address>
                 </Card>
 
                 {/* Quick Links */}
-                <Card variant="elevated" className="p-8 bg-linear-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20">
+                <Card variant="elevated" className="p-8 md:p-10 bg-linear-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20">
                   <h3 className="text-xl font-heading font-black text-white mb-6">Quick Links</h3>
                   <div className="space-y-3">
                     {[
@@ -353,10 +368,11 @@ export default function ContactPage() {
                   </div>
                 </Card>
               </div>
-            </ScrollReveal>
-          </div>
-        </Container>
-      </Section>
+            </div>
+          </ScrollReveal>
+        </div>
+      </Container>
+    </Section>
 
       {/* FAQ Section */}
       <Section background="darkBlue" className="relative group/section">

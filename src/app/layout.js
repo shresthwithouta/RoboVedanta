@@ -1,7 +1,4 @@
 import "./globals.css";
-import { Navbar } from "@/components/layout/Navbar";
-import { Footer } from "@/components/layout/Footer";
-import { MobileNav } from "@/components/layout/MobileNav";
 
 export const metadata = {
   title: "RoboVedanta - Premium STEM & Robotics Education",
@@ -9,14 +6,15 @@ export const metadata = {
   keywords: ["robotics education", "AI learning", "STEM education", "CBSE robotics", "ICSE robotics", "project-based learning"],
 };
 
+import { ConditionalWrapper } from "@/components/layout/ConditionalWrapper";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="antialiased bg-primary-500 text-white overflow-x-hidden">
-        <Navbar />
-        {children}
-        <Footer />
-        <MobileNav />
+        <ConditionalWrapper>
+          {children}
+        </ConditionalWrapper>
       </body>
     </html>
   );

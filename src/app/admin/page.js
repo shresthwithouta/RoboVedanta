@@ -180,7 +180,7 @@ export default function AdminPage() {
               <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
               Refresh Data
             </button>
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-accent-500 to-accent-600 border-2 border-white/10 flex items-center justify-center font-black text-primary-900 shadow-lg">
+            <div className="w-10 h-10 rounded-full bg-linear-to-tr from-accent-500 to-accent-600 border-2 border-white/10 flex items-center justify-center font-black text-primary-900 shadow-lg">
               SV
             </div>
           </div>
@@ -260,7 +260,7 @@ export default function AdminPage() {
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: idx * 0.03 }}
-                          className="hover:bg-white/[0.03] group transition-all duration-300"
+                          className="hover:bg-white/3 group transition-all duration-300"
                         >
                           <td className="px-8 py-6">
                             <div className="flex items-center gap-4">
@@ -331,7 +331,7 @@ export default function AdminPage() {
       {/* Detail Modal */}
       <AnimatePresence>
         {selectedItem && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-10">
+          <div className="fixed inset-0 z-100 flex items-center justify-center p-6 sm:p-10">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ArrowRight, Monitor, Package, School, CheckCircle2, Lightbulb, Code, Cpu, Award, Users, Calendar, TrendingUp, Zap, Target, BookOpen, Video, Home, GraduationCap, X, ChevronRight, ChevronLeft, MapPin, Mail, Phone, User, Check, Building } from 'lucide-react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
@@ -72,8 +72,27 @@ function AnimatedSection({ children, delay = 0 }) {
   );
 }
 
-export default function ProgramsPage() {
+function ProgramsContent() {
   const searchParams = useSearchParams();
+  const teachers = getActiveTeachers();
+  
+  // Handle teacher pre-selection from query params
+  useEffect(() => {
+    const teacherId = searchParams.get('teacher');
+    if (teacherId) {
+      const teacher = getTeacherById(teacherId);
+      if (teacher) {
+        setFormData(prev => ({
+          ...prev,
+          selectedTeacher: teacherId
+        }));
+        // If teacher is pre-selected, maybe show registration? 
+        // User probably clicked "Select this educator"
+        setShowRegistration(true);
+      }
+    }
+  }, [searchParams]);
+
   const [showRegistration, setShowRegistration] = useState(false);
   const [currentStep, setCurrentStep] = useState(1); // 1: Details, 2: Teacher (Blank), 3: Summary
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -129,11 +148,12 @@ export default function ProgramsPage() {
     grade: '',
     // Program Selection
     programType: '', // 'simulation' or 'hardware'
+    selectedTeacher: null,
     estimatedQuote: 0,
     message: ''
   });
 
-  const teachers = getActiveTeachers();
+
 
   const handleNextStep = () => {
     if (currentStep === 1) {
@@ -1020,5 +1040,19 @@ export default function ProgramsPage() {
         onCancel={() => setShowConfirmModal(false)}
       />
     </main>
+  );
+}
+
+export default function ProgramsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-primary-500 flex items-center justify-center">
+        <div className="text-accent-500 animate-pulse font-heading font-black text-2xl">
+          Loading Programs...
+        </div>
+      </div>
+    }>
+      <ProgramsContent />
+    </Suspense>
   );
 }

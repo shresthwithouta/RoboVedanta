@@ -62,14 +62,14 @@ export const PROGRAMS = {
       id: 'robotics-sim',
       name: 'Simulation-based Robotics',
       description: 'Learn robotics fundamentals through virtual simulations',
-      grades: '6-12',
+      grades: '1-12',
       icon: 'robot'
     },
     {
       id: 'robotics-hardware',
       name: 'Robotics + Hardware Kits',
       description: 'Hands-on learning with physical robotics kits',
-      grades: '6-12',
+      grades: '1-12',
       icon: 'cpu'
     },
     {
@@ -86,14 +86,14 @@ export const PROGRAMS = {
       name: 'CBSE Aligned Program',
       description: 'Complete curriculum aligned with CBSE standards',
       boards: ['CBSE'],
-      grades: '6-12'
+      grades: '1-12'
     },
     {
       id: 'icse-aligned',
       name: 'ICSE Aligned Program',
       description: 'Complete curriculum aligned with ICSE standards',
       boards: ['ICSE'],
-      grades: '6-12'
+      grades: '1-12'
     }
   ]
 };

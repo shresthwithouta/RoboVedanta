@@ -5,7 +5,7 @@ import { MobileNav } from "@/components/layout/MobileNav";
 
 export const metadata = {
   title: "RoboVedanta - Premium STEM & Robotics Education",
-  description: "Empowering students with project-based robotics and AI education. CBSE and ICSE aligned curriculum for Grades 6-12.",
+  description: "Empowering students with project-based robotics and AI education. CBSE and ICSE aligned curriculum for Grades 1-12.",
   keywords: ["robotics education", "AI learning", "STEM education", "CBSE robotics", "ICSE robotics", "project-based learning"],
 };
 

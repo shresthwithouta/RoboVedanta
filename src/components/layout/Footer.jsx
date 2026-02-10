@@ -21,7 +21,7 @@ export function Footer() {
               <div className="h-px w-0 bg-accent-500/50 group-hover:w-full transition-all duration-700 mt-1" />
             </Link>
             <p className="text-white/60 text-lg leading-relaxed max-w-md font-medium">
-              Transforming the future of education through high-fidelity robotics and AI simulation systems. CBSE & ICSE aligned excellence for Grades 6–12.
+              Transforming the future of education through high-fidelity robotics and AI simulation systems. CBSE & ICSE aligned excellence for Grades 1–12.
             </p>
             <div className="flex gap-5">
               {[Instagram, Twitter, Linkedin].map((Icon, i) => (

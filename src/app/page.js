@@ -75,7 +75,7 @@ export default function Home() {
             <motion.p
               className="text-white/70 text-xs xs:text-sm sm:text-lg md:text-xl lg:text-2xl max-w-2xl mx-auto mb-8 sm:mb-10 md:mb-12 font-medium leading-relaxed text-center px-2 sm:px-4 md:px-0"
             >
-              CBSE & ICSE aligned curriculum that transforms education through simulation-based and hands-on robotics learning for Grades 6–12
+              CBSE & ICSE aligned curriculum that transforms education through simulation-based and hands-on robotics learning for Grades 1–12
             </motion.p>
 
             <motion.div
@@ -95,7 +95,7 @@ export default function Home() {
               {[
                 { val: '5', label: 'Curriculum Levels' },
                 { val: 'Project-Based', label: 'Learning Approach' },
-                { val: '6–12', label: 'Grade Coverage' }
+                  { val: '1-12', label: 'Grades Covered' },
               ].map((stat, i) => (
                 <div key={i} className="flex flex-col items-center gap-2 group cursor-default">
                   <span className="text-4xl md:text-5xl font-heading font-black authentic-gold-text group-hover:scale-110 transition-transform duration-500 inline-block px-1 py-1 -my-1">{stat.val}</span>
@@ -132,7 +132,7 @@ export default function Home() {
                 Curriculum
               </div>
               <h2 className="text-4xl md:text-5xl lg:text-7xl font-heading font-black mb-10 leading-[0.9] tracking-tighter">
-                Learning <span className="text-accent-500">Pathways</span>
+                Learning <span className="text-accent-500 text-shimmer">Pathways</span>
               </h2>
               <div className="h-px w-20 bg-accent-500 mx-auto mb-10 opacity-30" />
               <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
@@ -252,7 +252,7 @@ export default function Home() {
                   <Card variant="elevated" className="p-6 sm:p-8 group hover:scale-105 transition-all sm:mt-8 backdrop-blur-sm border border-white/10">
                     <div className="flex flex-col items-center text-center">
                       <div className="text-3xl sm:text-4xl font-heading font-black text-accent-500 mb-2 sm:mb-3 group-hover:scale-110 transition-transform">Grade</div>
-                      <div className="text-white/70 font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[10px] sm:text-xs">6–12</div>
+                      <div className="text-white/70 font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[10px] sm:text-xs">1–12</div>
                     </div>
                   </Card>
                 </div>
@@ -353,7 +353,8 @@ export default function Home() {
                     </div>
                     <div className="text-right">
                       <div className="text-[9px] uppercase font-black text-white/30 tracking-[0.2em] mb-1">Grades</div>
-                      <div className="font-black text-accent-400 text-lg tracking-tighter">{level.grade}</div>
+                      {/* <div className="font-black text-accent-400 text-lg tracking-tighter">{level.grade}</div> */}
+                      <div className="font-bold text-white/40 text-[9px] italic">Grades with levels to be added soon</div>
                     </div>
                   </div>
                   <p className="text-white/40 mb-8 leading-relaxed font-medium text-sm sm:text-base">{level.description}</p>
@@ -432,7 +433,7 @@ export default function Home() {
               { icon: <Bot size={28} />, title: 'Simulation Labs', description: 'Master deep concepts through high-fidelity virtual simulations before deploying to physical hardware.' },
               { icon: <Award size={28} />, title: 'Project First', description: 'Curriculum built on real-world engineering challenges that demand critical problem-solving.' },
               { icon: <Zap size={28} />, title: 'Agile Learning', description: 'A progressive 5-stage architecture that transforms students into future-ready innovators.' },
-              { icon: <School size={28} />, title: 'Institutional Support', description: 'White-glove implementation support for schools, including instructor training and lab design.' },
+              { icon: <School size={32} />, title: 'Grades Covered', description: 'White-glove implementation support for schools, including instructor training and lab design.' },
               { icon: <GraduationCap size={28} />, title: 'Career-Ready', description: 'Developing the technical literacy and computational thinking required for the next industrial era.' }
             ].map((feature, index) => (
               <ScrollReveal key={index} delay={index * 0.05}>

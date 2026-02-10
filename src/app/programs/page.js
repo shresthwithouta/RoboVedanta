@@ -76,6 +76,13 @@ function ProgramsContent() {
   const searchParams = useSearchParams();
   const teachers = getActiveTeachers();
   
+  const [showRegistration, setShowRegistration] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1); // 1: Details, 2: Teacher (Blank), 3: Summary
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmAction, setConfirmAction] = useState(null);
+
   // Handle teacher pre-selection from query params
   useEffect(() => {
     const teacherId = searchParams.get('teacher');
@@ -92,13 +99,6 @@ function ProgramsContent() {
       }
     }
   }, [searchParams]);
-
-  const [showRegistration, setShowRegistration] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1); // 1: Details, 2: Teacher (Blank), 3: Summary
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [confirmAction, setConfirmAction] = useState(null);
 
   const handleCloseModal = () => {
     if (submitSuccess) {

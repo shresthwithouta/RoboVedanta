@@ -201,31 +201,49 @@ function ProgramsContent() {
       setShowConfirmModal(false);
       setIsSubmitting(true);
 
-      // Mocking submission
-      setTimeout(() => {
+      try {
+        const response = await fetch('/api/program-registrations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          setIsSubmitting(false);
+          setSubmitSuccess(true);
+          setTimeout(() => {
+            setShowRegistration(false);
+            setSubmitSuccess(false);
+            setCurrentStep(1);
+            setFormData({
+              studentName: '',
+              parentName: '',
+              email: '',
+              phone: '',
+              address: '',
+              city: '',
+              state: '',
+              pincode: '',
+              grade: '',
+              programType: 'simulation',
+              selectedTeacher: null,
+              estimatedQuote: 3500,
+              message: ''
+            });
+          }, 3000);
+        } else {
+          setIsSubmitting(false);
+          alert(data.error || 'Registration failed. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error submitting registration:', error);
         setIsSubmitting(false);
-        setSubmitSuccess(true);
-        setTimeout(() => {
-          setShowRegistration(false);
-          setSubmitSuccess(false);
-          setCurrentStep(1);
-          setFormData({
-            studentName: '',
-            parentName: '',
-            email: '',
-            phone: '',
-            address: '',
-            city: '',
-            state: '',
-            pincode: '',
-            grade: '',
-            programType: 'simulation',
-            selectedTeacher: null,
-            estimatedQuote: 3500,
-            message: ''
-          });
-        }, 3000);
-      }, 2000);
+        alert('An error occurred. Please try again later.');
+      }
     });
     
     setShowConfirmModal(true);

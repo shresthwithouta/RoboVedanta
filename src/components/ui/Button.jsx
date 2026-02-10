@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { cn } from '@/lib/cn';
 
 export function Button({
@@ -11,6 +12,7 @@ export function Button({
   disabled = false,
   onClick,
   type = 'button',
+  href,
   ...props
 }) {
   const baseStyles = 'inline-flex items-center justify-center gap-2 font-bold rounded-2xl transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-primary-500 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 hover:-translate-y-1';
@@ -27,17 +29,33 @@ export function Button({
     md: 'px-7 py-3 text-base',
     lg: 'px-10 py-4 text-lg'
   };
+
+  const content = (
+    <>
+      {icon && <span className="shrink-0 transition-transform group-hover:scale-110">{icon}</span>}
+      <span className="relative">{children}</span>
+    </>
+  );
+
+  const combinedClassName = cn(baseStyles, variants[variant], sizes[size], className);
+
+  if (href) {
+    return (
+      <Link href={href} className={combinedClassName} {...props}>
+        {content}
+      </Link>
+    );
+  }
   
   return (
     <button
       type={type}
-      className={cn(baseStyles, variants[variant], sizes[size], className)}
+      className={combinedClassName}
       disabled={disabled}
       onClick={onClick}
       {...props}
     >
-      {icon && <span className="shrink-0 transition-transform group-hover:scale-110">{icon}</span>}
-      <span className="relative">{children}</span>
+      {content}
     </button>
   );
 }

@@ -50,9 +50,9 @@ export default function ContactPage() {
   return (
     <main>
       {/* Hero Section */}
-      <Section spacing="md" className="relative pt-32 md:pt-40 lg:pt-48 pb-20 md:pb-32 min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary-400 via-primary-400 to-primary-500">
+      <Section spacing="md" className="relative pt-32 md:pt-40 lg:pt-48 pb-20 md:pb-32 min-h-[70vh] flex items-center justify-center overflow-hidden bg-linear-to-b from-primary-400 via-primary-400 to-primary-500">
         <div className="absolute inset-0 tech-grid opacity-20 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary-500/80 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-primary-500/80 pointer-events-none" />
         
         <div className="absolute top-20 -right-20 w-[500px] h-[500px] bg-accent-500/10 rounded-full blur-[120px] floating pointer-events-none" />
         <div className="absolute bottom-40 -left-20 w-[400px] h-[400px] bg-primary-300/15 rounded-full blur-[100px] floating pointer-events-none" style={{ animationDelay: '-3s' }} />
@@ -96,7 +96,7 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
             {/* Email */}
             <ScrollReveal>
-              <Card variant="elevated" className="p-8 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/[0.02] text-center">
+              <Card variant="elevated" className="p-8 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/2 text-center">
                 <div className="inline-flex p-5 rounded-2xl bg-accent-600/20 text-accent-400 mb-6 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 transition-all duration-500">
                   <Mail size={40} />
                 </div>
@@ -113,7 +113,7 @@ export default function ContactPage() {
 
             {/* WhatsApp */}
             <ScrollReveal delay={0.1}>
-              <Card variant="elevated" className="p-8 group h-full border-accent-500/30 hover:border-accent-500/50 transition-all duration-500 bg-gradient-to-br from-accent-500/10 to-primary-600/50 text-center relative overflow-hidden">
+              <Card variant="elevated" className="p-8 group h-full border-accent-500/30 hover:border-accent-500/50 transition-all duration-500 bg-linear-to-br from-accent-500/10 to-primary-600/50 text-center relative overflow-hidden">
                 <div className="absolute top-4 right-4 px-3 py-1 bg-accent-500 rounded-full">
                   <span className="text-primary-900 font-black text-xs tracking-widest uppercase">Quick</span>
                 </div>
@@ -141,7 +141,7 @@ export default function ContactPage() {
 
             {/* Phone */}
             <ScrollReveal delay={0.2}>
-              <Card variant="elevated" className="p-8 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/[0.02] text-center">
+              <Card variant="elevated" className="p-8 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/2 text-center">
                 <div className="inline-flex p-5 rounded-2xl bg-accent-600/20 text-accent-400 mb-6 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 transition-all duration-500">
                   <Phone size={40} />
                 </div>
@@ -164,7 +164,7 @@ export default function ContactPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(184,134,11,0.05)_0%,transparent_70%)] animate-slow-zoom" />
         
         <Container className="relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
             {/* Left: Form */}
             <ScrollReveal>
               <div>
@@ -181,7 +181,7 @@ export default function ContactPage() {
                   </p>
                 </div>
 
-                <Card variant="elevated" className="p-8 md:p-10 bg-white/[0.02] border-white/10">
+                <Card variant="elevated" className="p-8 md:p-10 bg-white/2 border-white/10">
                   {submitted ? (
                     <motion.div
                       initial={{ opacity: 0, scale: 0.9 }}
@@ -289,7 +289,7 @@ export default function ContactPage() {
             <ScrollReveal delay={0.2}>
               <div className="space-y-8">
                 {/* Office Hours */}
-                <Card variant="elevated" className="p-8 bg-white/[0.02] border-white/10">
+                <Card variant="elevated" className="p-8 bg-white/2 border-white/10">
                   <div className="flex items-start gap-4 mb-6">
                     <div className="inline-flex p-3 rounded-xl bg-accent-600/20 text-accent-400 shrink-0">
                       <Clock size={32} />
@@ -316,7 +316,7 @@ export default function ContactPage() {
                 </Card>
 
                 {/* Location */}
-                <Card variant="elevated" className="p-8 bg-white/[0.02] border-white/10">
+                <Card variant="elevated" className="p-8 bg-white/2 border-white/10">
                   <div className="flex items-start gap-4 mb-6">
                     <div className="inline-flex p-3 rounded-xl bg-accent-600/20 text-accent-400 shrink-0">
                       <MapPin size={32} />
@@ -332,7 +332,7 @@ export default function ContactPage() {
                 </Card>
 
                 {/* Quick Links */}
-                <Card variant="elevated" className="p-8 bg-gradient-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20">
+                <Card variant="elevated" className="p-8 bg-linear-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20">
                   <h3 className="text-xl font-heading font-black text-white mb-6">Quick Links</h3>
                   <div className="space-y-3">
                     {[
@@ -351,29 +351,6 @@ export default function ContactPage() {
                       </a>
                     ))}
                   </div>
-                </Card>
-
-                {/* WhatsApp CTA */}
-                <Card variant="elevated" className="p-8 bg-gradient-to-br from-green-500/10 to-primary-600/50 border-green-500/20 text-center">
-                  <MessageCircle size={48} className="text-green-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-heading font-black text-white mb-3">Need Quick Help?</h3>
-                  <p className="text-white/60 text-sm font-medium mb-6">
-                    Chat with us on WhatsApp for instant support
-                  </p>
-                  <a 
-                    href={whatsappLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Button 
-                      variant="primary" 
-                      size="lg" 
-                      className="w-full rounded-2xl font-black tracking-widest uppercase text-xs border-none shadow-xl shadow-green-500/20 bg-green-600 hover:bg-green-500"
-                    >
-                      <MessageCircle size={18} className="mr-2" />
-                      Open WhatsApp
-                    </Button>
-                  </a>
                 </Card>
               </div>
             </ScrollReveal>
@@ -423,7 +400,7 @@ export default function ContactPage() {
               }
             ].map((faq, i) => (
               <ScrollReveal key={i} delay={i * 0.05}>
-                <Card variant="elevated" className="p-6 bg-white/[0.02] border-white/10 hover:border-accent-500/30 transition-all duration-500">
+                <Card variant="elevated" className="p-6 bg-white/2 border-white/10 hover:border-accent-500/30 transition-all duration-500">
                   <h4 className="text-lg font-heading font-black text-accent-500 mb-3">{faq.q}</h4>
                   <p className="text-white/60 text-sm font-medium leading-relaxed">{faq.a}</p>
                 </Card>

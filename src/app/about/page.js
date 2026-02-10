@@ -30,9 +30,9 @@ export default function AboutPage() {
   return (
     <main>
       {/* Hero Section */}
-      <Section spacing="md" className="relative pt-32 md:pt-40 lg:pt-48 pb-20 md:pb-32 min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary-400 via-primary-400 to-primary-500">
+      <Section spacing="md" className="relative pt-32 md:pt-40 lg:pt-48 pb-20 md:pb-32 min-h-[70vh] flex items-center justify-center overflow-hidden bg-linear-to-b from-primary-400 via-primary-400 to-primary-500">
         <div className="absolute inset-0 tech-grid opacity-20 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary-500/80 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-primary-500/80 pointer-events-none" />
         
         <div className="absolute top-20 -right-20 w-[500px] h-[500px] bg-accent-500/10 rounded-full blur-[120px] floating pointer-events-none" />
         <div className="absolute bottom-40 -left-20 w-[400px] h-[400px] bg-primary-300/15 rounded-full blur-[100px] floating pointer-events-none" style={{ animationDelay: '-3s' }} />
@@ -87,7 +87,7 @@ export default function AboutPage() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
-              <Card variant="elevated" className="p-10 md:p-16 bg-gradient-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20 text-center">
+              <Card variant="elevated" className="p-10 md:p-16 bg-linear-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20 text-center">
                 <div className="space-y-6 text-white/80 text-lg md:text-xl leading-relaxed font-medium">
                   <p>
                     We specialize in integrating <span className="text-accent-400 font-bold">STEM education</span> into school programs and workshops, creating meaningful learning experiences that go beyond traditional classroom boundaries.
@@ -152,7 +152,7 @@ export default function AboutPage() {
               }
             ].map((item, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
-                <Card variant="elevated" className="p-8 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/[0.02]">
+                <Card variant="elevated" className="p-8 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/2">
                   <div className="inline-flex p-4 rounded-2xl bg-accent-600/20 text-accent-400 mb-6 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 transition-all duration-500">
                     {item.icon}
                   </div>
@@ -165,7 +165,7 @@ export default function AboutPage() {
 
           {/* Philosophy Card */}
           <ScrollReveal>
-            <Card variant="elevated" className="p-10 md:p-16 bg-white/[0.02] border-white/10">
+            <Card variant="elevated" className="p-10 md:p-16 bg-white/2 border-white/10">
               <div className="text-center mb-12">
                 <Heart size={56} className="text-accent-500 mx-auto mb-6" />
                 <h3 className="text-3xl md:text-4xl font-heading font-black text-white mb-4">Our Philosophy</h3>
@@ -267,8 +267,8 @@ export default function AboutPage() {
                 ]
               }
             ].map((item, index) => (
-              <ScrollReveal key={index} delay={index * 0.1}>
-                <Card variant="elevated" className="p-8 md:p-10 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/[0.02]">
+            <ScrollReveal key={index} delay={index * 0.1}>
+                <Card variant="elevated" className="p-8 md:p-10 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/2">
                   <div className="flex items-start gap-6 mb-6">
                     <div className="inline-flex p-4 rounded-2xl bg-accent-600/20 text-accent-400 group-hover:bg-accent-600 group-hover:text-primary-900 transition-all duration-500 shrink-0">
                       {item.icon}
@@ -290,7 +290,7 @@ export default function AboutPage() {
 
           {/* Impact Stats */}
           <ScrollReveal>
-            <Card variant="elevated" className="p-10 md:p-16 bg-gradient-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20">
+            <Card variant="elevated" className="p-10 md:p-16 bg-linear-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20">
               <div className="text-center mb-12">
                 <h3 className="text-3xl md:text-4xl font-heading font-black text-accent-500 mb-4">Our Commitment</h3>
                 <p className="text-white/60 text-lg">Building the foundation for tomorrow's innovators</p>
@@ -358,7 +358,7 @@ export default function AboutPage() {
               }
             ].map((value, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
-                <Card variant="elevated" className="p-8 md:p-10 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/[0.02] text-center">
+                <Card variant="elevated" className="p-8 md:p-10 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/2 text-center">
                   <div className="inline-flex p-5 rounded-2xl bg-accent-600/20 text-accent-400 mb-6 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 transition-all duration-500">
                     {value.icon}
                   </div>

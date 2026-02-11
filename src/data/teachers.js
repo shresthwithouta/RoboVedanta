@@ -4,164 +4,225 @@
 
 export const teachersData = [
   {
-    id: 'rajesh-kumar',
-    name: 'Dr. Rajesh Kumar',
-    title: 'Senior Robotics Educator',
-    imageUrl: '/teachers/rajesh-kumar.jpg',
-    bio: 'Dr. Rajesh Kumar brings over 15 years of experience in robotics education and has mentored more than 500 students in building real-world robotic systems. With a passion for making complex concepts accessible, Dr. Kumar specializes in Arduino-based projects and AI integration in robotics. His teaching approach focuses on hands-on learning and encourages students to think creatively while solving real-world challenges.',
+    id: 'anmol-nagal',
+    name: 'Anmol Nagal',
+    title: 'B.Tech Research Mentor',
+    imageUrl: 'https://i.ytimg.com/vi/QtwM_01yQk4/maxresdefault.jpg',
+    bio: 'Anmol Nagal is a dedicated B.Tech student (Session 2023-2027) who has demonstrated exceptional skills in robotics and embedded systems. As a research mentor, Anmol guides peers and junior students in bridging the gap between theoretical engineering and practical simulation-based robotics.',
     specialties: [
-      'Arduino & Microcontrollers',
-      'AI & Machine Learning Integration',
-      'Sensor Systems & IoT',
-      'Competition Preparation'
+      'Robotics Simulation',
+      'Embedded Systems',
+      'Arduino Programming',
+      'Project Documentation'
     ],
     qualifications: [
-      'Ph.D. in Robotics Engineering, IIT Delhi',
-      'M.Tech in Computer Science',
-      'CBSE Certified Robotics Trainer',
-      'International Robotics Competition Judge'
+      'Pursuing B.Tech (2023-2027)',
+      'Advanced Robotics Simulation Expert',
+      'Certified Embedded Systems Developer',
+      'Student Research Contributor'
     ],
-    experience: '15+ years',
-    grades: ['6-8', '9-10', '11-12'],
-    availability: 'Weekdays & Weekends',
-    email: 'rajesh.kumar@robovedanta.com',
+    experience: 'Academic Mentor',
+    grades: ['College', '11-12'],
+    availability: 'Flexible',
+    email: 'anmol@robovedanta.com',
     featured: true,
-    active: true
+    active: true,
+    videos: [{ id: 'QtwM_01yQk4', title: 'Name: Anmol Nagal, Course: BTech, Session: 2023-2027' }]
   },
   {
-    id: 'priya-sharma',
-    name: 'Ms. Priya Sharma',
-    title: 'Robotics & Automation Specialist',
-    imageUrl: '/teachers/priya-sharma.jpg',
-    bio: 'Ms. Priya Sharma is an accomplished robotics educator with 10 years of experience in teaching students from diverse backgrounds. She has a special talent for breaking down complex automation concepts into engaging, easy-to-understand lessons. Her students consistently excel in national-level robotics competitions, and she is known for her innovative project-based teaching methods that emphasize creativity and critical thinking.',
+    id: 'abhinav-kaushik',
+    name: 'Abhinav Kaushik',
+    title: 'B.Tech Technical Mentor',
+    imageUrl: 'https://i.ytimg.com/vi/jivuuwrk4R8/maxresdefault.jpg',
+    bio: 'Abhinav Kaushik, a B.Tech scholar (Session 2022-26), specializes in hardware integration and competitive robotics. His mentorship focus is on building robust robotic platforms and optimizing sensor networks for real-world applications.',
     specialties: [
-      'Automation & Control Systems',
-      'Python Programming for Robotics',
-      'Mechanical Design',
-      'Project-Based Learning'
+      'Hardware Prototyping',
+      'Sensor Integration',
+      'Competitive Robotics',
+      'Circuit Design'
     ],
     qualifications: [
-      'M.Tech in Mechatronics Engineering',
-      'B.E. in Mechanical Engineering',
-      'Certified Automation Professional',
-      'National Innovation Award Recipient'
+      'Pursuing B.Tech (2022-26)',
+      'Hardware Systems Architect',
+      'National Robotics Competition Participant',
+      'Technical Workshop Lead'
     ],
-    experience: '10+ years',
-    grades: ['6-8', '9-10', '11-12'],
-    availability: 'Weekdays',
-    email: 'priya.sharma@robovedanta.com',
+    experience: 'Technical Mentor',
+    grades: ['College', '11-12'],
+    availability: 'Weekends',
+    email: 'abhinav@robovedanta.com',
     featured: true,
-    active: true
+    active: true,
+    videos: [{ id: 'jivuuwrk4R8', title: 'Name: Abhinav kaushik Course: BTechSession: 2022-26' }]
   },
   {
-    id: 'anil-verma',
-    name: 'Mr. Anil Verma',
-    title: 'Competitive Robotics Coach',
-    imageUrl: '/teachers/anil-verma.jpg',
-    bio: 'Mr. Anil Verma is a passionate robotics coach who has trained multiple teams to victory in national and international robotics competitions. With 12 years of hands-on experience, he excels at teaching students to work under pressure, think strategically, and build competition-ready robots. His coaching style combines technical excellence with team-building skills, preparing students not just for competitions but for future careers in engineering.',
+    id: 'adity',
+    name: 'Adity',
+    title: 'Robotics Engineering Mentor',
+    imageUrl: 'https://i.ytimg.com/vi/H0mfYLRr3Yo/maxresdefault.jpg',
+    bio: 'Adity is a B.Tech student (Session 2022-26) with a deep interest in mechatronics and autonomous systems. She mentors students in developing logical workflows and programming structures for complex robotic tasks.',
     specialties: [
-      'Competition Strategy & Training',
-      'Advanced Robot Design',
-      'Team Leadership & Collaboration',
-      'Real-Time Problem Solving'
+      'Mechatronics Logic',
+      'Autonomous Systems',
+      'Algorithm Design',
+      'Python for Robotics'
     ],
     qualifications: [
-      'B.Tech in Electronics & Communication',
-      'International Robotics Coach Certification',
-      'Winner - National Robotics Championship 2018',
-      '10+ Competition Awards as Coach'
+      'Pursuing B.Tech (2022-26)',
+      'Mechatronics Design Specialist',
+      'Innovation Lab Contributor',
+      'STEM Outreach Volunteer'
     ],
-    experience: '12+ years',
-    grades: ['9-10', '11-12'],
-    availability: 'Weekends & Evenings',
-    email: 'anil.verma@robovedanta.com',
+    experience: 'Engineering Mentor',
+    grades: ['College', '9-12'],
+    availability: 'Evenings',
+    email: 'adity@robovedanta.com',
     featured: true,
-    active: true
+    active: true,
+    videos: [{ id: 'H0mfYLRr3Yo', title: 'Name: Adity, Course: BTech, Session: 2022-26' }]
   },
   {
-    id: 'sneha-patel',
-    name: 'Dr. Sneha Patel',
-    title: 'AI & Robotics Researcher',
-    imageUrl: '/teachers/sneha-patel.jpg',
-    bio: 'Dr. Sneha Patel is a researcher and educator specializing in artificial intelligence applications in robotics. With a background in cutting-edge AI research, she brings the latest developments in machine learning and computer vision to her classroom. Dr. Patel is passionate about inspiring young minds to explore the intersection of AI and robotics, making her classes both intellectually stimulating and practically valuable for students interested in future technologies.',
+    id: 'gyan-jyoti',
+    name: 'Gyan Jyoti',
+    title: 'BCA Software Mentor',
+    imageUrl: 'https://i.ytimg.com/vi/7pDII0BdFX4/maxresdefault.jpg',
+    bio: 'Gyan Jyoti, a BCA student (Session 2023-26), brings a software-first approach to robotics. He specializes in high-level programming and data visualization for robotic systems, helping students master the interface between code and hardware.',
     specialties: [
-      'Artificial Intelligence & ML',
-      'Computer Vision',
-      'Deep Learning Applications',
-      'Research Methodology'
+      'Software Architecture',
+      'Data Visualization',
+      'Web-based Robot Control',
+      'Application Development'
     ],
     qualifications: [
-      'Ph.D. in Artificial Intelligence, Stanford University',
-      'M.S. in Robotics, Carnegie Mellon',
-      'Published 15+ Research Papers',
-      'AI Innovation Award 2022'
+      'Pursuing BCA (2023-26)',
+      'Certified Software Developer',
+      'IoT Solutions Architect',
+      'Open Source Contributor'
     ],
-    experience: '8+ years',
-    grades: ['9-10', '11-12'],
+    experience: 'Software Mentor',
+    grades: ['College', '9-12', '6-8'],
     availability: 'Weekdays',
-    email: 'sneha.patel@robovedanta.com',
-    featured: false,
-    active: true
+    email: 'gyan@robovedanta.com',
+    featured: true,
+    active: true,
+    videos: [{ id: '7pDII0BdFX4', title: 'Name: Gyan jyoti, Course: BCA, Session: 2023-26' }]
   },
   {
-    id: 'vikram-singh',
-    name: 'Mr. Vikram Singh',
-    title: 'Beginner Robotics Instructor',
-    imageUrl: '/teachers/vikram-singh.jpg',
-    bio: 'Mr. Vikram Singh specializes in introducing young students to the exciting world of robotics. With a gentle teaching approach and exceptional patience, he makes robotics accessible to beginners of all ages. His classes focus on building fundamental skills in a fun, engaging environment where students learn by doing. Vikram believes that every child can become a young engineer with the right guidance and encouragement.',
+    id: 'khusboo-kumari',
+    name: 'Khusboo Kumari',
+    title: 'B.Tech Innovation Mentor',
+    imageUrl: 'https://i.ytimg.com/vi/SJsUWn_SsY4/maxresdefault.jpg',
+    bio: 'Khusboo Kumari, a B.Tech student (Session 2022-26), focuses on socially relevant robotics projects. She mentors students in applying engineering principles to solve community problems through innovative automation.',
     specialties: [
-      'Beginner Robotics Fundamentals',
-      'Block-Based Programming',
-      'Basic Electronics',
-      'Age-Appropriate Learning'
+      'Social Innovation',
+      'Automation Systems',
+      'Creative Design',
+      'Project Management'
     ],
     qualifications: [
-      'B.E. in Electronics',
-      'Certified Child Education Specialist',
-      'Robotics for Kids Trainer',
-      '5 Years Teaching Experience'
+      'Pursuing B.Tech (2022-26)',
+      'Innovation Challenge Winner',
+      'Women in STEM Advocate',
+      'Project Coordinator'
     ],
-    experience: '6+ years',
-    grades: ['1-3', '4-5', '6-8'],
-    availability: 'Weekdays & Weekends',
-    email: 'vikram.singh@robovedanta.com',
-    featured: false,
-    active: true
+    experience: 'Innovation Mentor',
+    grades: ['College', '9-12'],
+    availability: 'Flexible',
+    email: 'khusboo@robovedanta.com',
+    featured: true,
+    active: true,
+    videos: [{ id: 'SJsUWn_SsY4', title: 'Name: khusboo kumari, Course: BTech, Session: 2022-26' }]
   },
   {
-    id: 'meera-nair',
-    name: 'Ms. Meera Nair',
-    title: 'Electronics & Circuit Design Expert',
-    imageUrl: '/teachers/meera-nair.jpg',
-    bio: 'Ms. Meera Nair is an electronics engineer with a deep understanding of circuit design and embedded systems. She has 9 years of experience teaching students how to design, build, and troubleshoot electronic circuits for robotics applications. Her methodical approach helps students develop strong problem-solving skills and a solid foundation in electronics principles that serve them throughout their engineering journey.',
+    id: 'nayan-kr-mandal',
+    name: 'Nayan kr Mandal',
+    title: 'B.Tech Systems Mentor',
+    imageUrl: 'https://i.ytimg.com/vi/NKM9kpDVoFI/maxresdefault.jpg',
+    bio: 'Nayan kr Mandal is a B.Tech scholar (Session 2022-26) specializing in complex system architectures. His mentorship helps students understand the deep integration of mechanical components with high-speed electronic controllers.',
     specialties: [
-      'Circuit Design & Analysis',
-      'Embedded Systems Programming',
-      'PCB Design',
-      'Hardware Troubleshooting'
+      'System Architecture',
+      'Mechanical Integration',
+      'Electronic Controllers',
+      'Robotic Kinematics'
     ],
     qualifications: [
-      'M.Tech in VLSI Design',
-      'B.E. in Electronics Engineering',
-      'Embedded Systems Certification',
-      'Industry Experience - 3 Years'
+      'Pursuing B.Tech (2022-26)',
+      'Systems Engineering Specialist',
+      'Advanced Mechatronics Researcher',
+      'Technical Documentarian'
     ],
-    experience: '9+ years',
-    grades: ['9-10', '11-12'],
-    availability: 'Weekdays',
-    email: 'meera.nair@robovedanta.com',
-    featured: false,
-    active: true
+    experience: 'Systems Mentor',
+    grades: ['College', '11-12'],
+    availability: 'Weekends',
+    email: 'nayan@robovedanta.com',
+    featured: true,
+    active: true,
+    videos: [{ id: 'NKM9kpDVoFI', title: 'Name: Nayan kr Mandal, Course: BTech, Session: 2022-26' }]
+  },
+  {
+    id: 'nitin-kumar',
+    name: 'Nitin Kumar',
+    title: 'B.Tech Robotics Mentor',
+    imageUrl: 'https://i.ytimg.com/vi/Og9luvuS0po/hqdefault.jpg',
+    bio: 'Nitin Kumar, a B.Tech student (Session 2022-26), is an expert in rapid prototyping and iterative design. He guides students through the process of building, testing, and refining robots for both academic and competitive purposes.',
+    specialties: [
+      'Rapid Prototyping',
+      'Iterative Design',
+      'Test Engineering',
+      'SolidWorks/CAD'
+    ],
+    qualifications: [
+      'Pursuing B.Tech (2022-26)',
+      'CAD Design Expert',
+      'Prototyping Lab Lead',
+      'Innovation Fellow'
+    ],
+    experience: 'Robotics Mentor',
+    grades: ['College', '9-12'],
+    availability: 'Flexible',
+    email: 'nitin@robovedanta.com',
+    featured: true,
+    active: true,
+    videos: [{ id: 'Og9luvuS0po', title: 'Name: Nitin kumar, Course: BTech, Session: 2022-26' }]
   }
 ];
 
 // Helper functions to filter and retrieve teachers
-export const getAllTeachers = () => teachersData;
+export const getAllTeachers = () => {
+  return teachersData.map(teacher => {
+    // 1. Resolve videos from videoKeys (mapping to student-named env vars)
+    if (teacher.videoKeys) {
+      const resolvedVideos = teacher.videoKeys
+        .map(key => {
+          const id = process.env[`NEXT_PUBLIC_VIDEO_${key}`];
+          return id ? { id, title: key.split('_').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ') } : null;
+        })
+        .filter(Boolean);
+      
+      if (resolvedVideos.length > 0) {
+        return { ...teacher, videos: [...(teacher.videos || []), ...resolvedVideos] };
+      }
+    }
 
-export const getActiveTeachers = () => teachersData.filter(t => t.active);
+    // 2. Legacy fallback for teacher-id based env var
+    const envKey = `NEXT_PUBLIC_VIDEOS_${teacher.id.toUpperCase().replace(/-/g, '_')}`;
+    const envVideos = process.env[envKey];
+    
+    if (envVideos) {
+      const videoIds = envVideos.split(',');
+      return {
+        ...teacher,
+        videos: [...(teacher.videos || []), ...videoIds.map(id => ({ id, title: '' }))]
+      };
+    }
+    return teacher;
+  });
+};
 
-export const getFeaturedTeachers = () => teachersData.filter(t => t.featured && t.active);
+export const getActiveTeachers = () => getAllTeachers().filter(t => t.active);
 
-export const getTeacherById = (id) => teachersData.find(t => t.id === id);
+export const getFeaturedTeachers = () => getAllTeachers().filter(t => t.featured && t.active);
 
-export const getTeachersByGrade = (grade) => teachersData.filter(t => t.grades.includes(grade));
+export const getTeacherById = (id) => getAllTeachers().find(t => t.id === id);
+
+export const getTeachersByGrade = (grade) => getAllTeachers().filter(t => t.grades.includes(grade));

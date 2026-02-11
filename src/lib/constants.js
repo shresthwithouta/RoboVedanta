@@ -12,6 +12,7 @@ export const NAV_LINKS = {
   default: [
     { label: 'Programs', href: '/programs' },
     { label: 'Curriculum', href: '/curriculum' },
+    { label: 'Teachers', href: '/teachers' },
     { label: 'For Schools', href: '/schools' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' }

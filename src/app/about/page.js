@@ -9,6 +9,7 @@ import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { CheckTeachersCTA } from '@/components/ui/CheckTeachersCTA';
 
 function AnimatedSection({ children, delay = 0 }) {
   const ref = useRef(null);
@@ -370,6 +371,9 @@ export default function AboutPage() {
           </div>
         </Container>
       </Section>
+
+      {/* Teachers CTA */}
+      <CheckTeachersCTA />
 
       {/* CTA Section */}
       <Section background="darkBlue" spacing="lg" className="relative overflow-hidden group/cta">

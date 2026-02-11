@@ -2,8 +2,9 @@
 
 import { useRef, useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { ArrowRight, Monitor, Package, School, CheckCircle2, Lightbulb, Code, Cpu, Award, Users, Calendar, TrendingUp, Zap, Target, BookOpen, Video, Home, GraduationCap, X, ChevronRight, ChevronLeft, MapPin, Mail, Phone, User, Check, Building } from 'lucide-react';
+import { ArrowRight, Monitor, Package, School, CheckCircle2, Lightbulb, Code, Cpu, Award, Users, Calendar, TrendingUp, Zap, Target, BookOpen, Video, Home, GraduationCap, X, ChevronRight, ChevronLeft, MapPin, Mail, Phone, User, Check, Building, Star } from 'lucide-react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
+import Link from 'next/link';
 
 import { Container } from '@/components/layout/Container';
 import { Section } from '@/components/ui/Section';
@@ -11,6 +12,9 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { getActiveTeachers, getTeacherById } from '@/data/teachers';
+import TeacherVideos from '@/components/teachers/TeacherVideos';
+import { Clock } from 'lucide-react';
+import { CheckTeachersCTA } from '@/components/ui/CheckTeachersCTA';
 
 const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel, confirmText = "Confirm", cancelText = "Cancel", type = "danger" }) => (
   <AnimatePresence>
@@ -81,6 +85,7 @@ function ProgramsContent() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showTeacherDetail, setShowTeacherDetail] = useState(null);
   const [confirmAction, setConfirmAction] = useState(null);
 
   // Handle teacher pre-selection from query params
@@ -639,6 +644,9 @@ function ProgramsContent() {
         </Container>
       </Section>
 
+      {/* Teachers CTA */}
+      <CheckTeachersCTA />
+
       {/* School Programs Section */}
       <Section id="school-programs" background="darkBlue" className="relative group/section">
         <div className="motes-container">
@@ -739,21 +747,10 @@ function ProgramsContent() {
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 lg:p-8"
           >
-            {/* Animated Background Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-black via-primary-900/95 to-black">
-              <motion.div 
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0.5, 0.3]
-                }}
-                transition={{ 
-                  duration: 8, 
-                  repeat: Infinity, 
-                  ease: "linear" 
-                }}
-                className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(184,134,11,0.15),transparent_70%)]" 
-              />
-              <div className="absolute inset-0 backdrop-blur-2xl" />
+            {/* Static Background Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-black via-primary-900/98 to-black">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(184,134,11,0.1),transparent_70%)]" />
+              <div className="absolute inset-0 backdrop-blur-md" />
             </div>
 
             {/* Modal Card */}
@@ -762,8 +759,8 @@ function ProgramsContent() {
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
               transition={{ type: "spring", duration: 0.5 }}
-              className="relative w-full max-w-2xl bg-gradient-to-br from-primary-500/95 to-primary-600/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-accent-500/20 overflow-hidden"
-              style={{ maxHeight: 'calc(100vh - 2rem)' }}
+              className="relative w-full max-w-4xl bg-primary-900/95 backdrop-blur-md rounded-3xl shadow-2xl border border-accent-500/20 overflow-hidden flex flex-col will-change-transform"
+              style={{ maxHeight: 'calc(100vh - 4rem)', minHeight: '600px' }}
             >
               {/* Decorative Elements */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-accent-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
@@ -779,7 +776,7 @@ function ProgramsContent() {
               </button>
 
               {/* Header */}
-              <div className="relative px-6 sm:px-8 pt-8 sm:pt-10 pb-6">
+              <div className="relative px-6 sm:px-8 pt-8 sm:pt-10 pb-6 shrink-0">
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -835,7 +832,7 @@ function ProgramsContent() {
               </div>
 
               {/* Content Area */}
-              <div className="relative px-6 sm:px-8 pb-6 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 24rem)' }}>
+              <div className="flex-1 relative px-4 sm:px-8 pb-8 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
                 {submitSuccess ? (
                   <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12">
                     <div className="w-24 h-24 bg-green-500/20 border-2 border-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -893,40 +890,89 @@ function ProgramsContent() {
                           <p className="text-white/40 text-sm">Choose an expert educator for your robotics journey</p>
                         </div>
                         
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          {teachers.map((teacher) => (
-                            <button
-                              key={teacher.id}
-                              type="button"
-                              onClick={() => setFormData(prev => ({ ...prev, selectedTeacher: teacher.id }))}
-                              className={`group text-left p-4 rounded-3xl border-2 transition-all duration-300 relative overflow-hidden ${
-                                formData.selectedTeacher === teacher.id
-                                  ? 'bg-accent-500/10 border-accent-500 shadow-lg shadow-accent-500/10'
-                                  : 'bg-white/5 border-white/10 hover:border-white/20'
-                              }`}
-                            >
-                              <div className="flex items-center gap-4 relative z-10">
-                                <div className={`w-14 h-14 rounded-2xl bg-primary-600 flex items-center justify-center text-xl font-black shrink-0 transition-transform group-hover:scale-110 ${
-                                  formData.selectedTeacher === teacher.id ? 'text-accent-500' : 'text-white/40'
-                                }`}>
-                                  {teacher.name.charAt(0)}
-                                </div>
-                                <div>
-                                  <h4 className={`font-black tracking-tight ${
-                                    formData.selectedTeacher === teacher.id ? 'text-accent-500' : 'text-white'
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {teachers.map((teacher) => {
+                            const isSelected = formData.selectedTeacher === teacher.id;
+                            return (
+                              <motion.div
+                                key={teacher.id}
+                                whileHover={{ y: -4 }}
+                                className={`group bg-primary-600/30 border-2 rounded-2xl p-6 cursor-pointer transition-all h-full flex flex-col ${
+                                  isSelected
+                                    ? 'border-accent-500 bg-accent-500/10'
+                                    : 'border-white/10 hover:border-accent-500/50'
+                                }`}
+                                onClick={() => setFormData(prev => ({ ...prev, selectedTeacher: teacher.id }))}
+                              >
+                                {/* Teacher Image */}
+                                <div className="relative w-full h-40 bg-primary-600 rounded-xl mb-4 overflow-hidden border border-[#B8860B]/20 shrink-0">
+                                  <img 
+                                    src={teacher.imageUrl} 
+                                    alt={teacher.name}
+                                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                    onError={(e) => {
+                                      e.target.src = '/teachers/shresth.jpg';
+                                    }}
+                                  />
+                                  <div className="absolute inset-0 bg-linear-to-t from-primary-950/80 to-transparent opacity-60" />
+                                  
+                                  {/* Checkbox indicator */}
+                                  <div className={`absolute top-2 left-2 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
+                                    isSelected 
+                                      ? 'bg-accent-500 scale-100 shadow-lg shadow-accent-500/50' 
+                                      : 'bg-black/50 backdrop-blur-md scale-90 border border-white/20'
                                   }`}>
-                                    {teacher.name}
-                                  </h4>
-                                  <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">{teacher.title}</p>
+                                    {isSelected && <Check size={20} className="text-primary-900 font-black" />}
+                                  </div>
+                                  
+                                  {teacher.featured && (
+                                    <div className="absolute top-2 right-2 bg-linear-to-r from-accent-500 to-accent-600 text-primary-900 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
+                                      Featured
+                                    </div>
+                                  )}
                                 </div>
-                                {formData.selectedTeacher === teacher.id && (
-                                  <div className="ml-auto w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center text-primary-900">
-                                    <Check size={14} strokeWidth={4} />
+
+                                <div className="flex-1 flex flex-col min-h-0">
+                                  <h3 className="text-lg font-heading font-black text-white mb-1 group-hover:text-accent-500 transition-colors truncate">{teacher.name}</h3>
+                                  <p className="text-accent-400 text-[10px] font-bold uppercase tracking-widest mb-4 truncate">{teacher.title}</p>
+
+                                  <div className="space-y-2 mb-6 flex-1">
+                                    <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Key Qualifications</p>
+                                    {teacher.qualifications.slice(0, 2).map((qual, idx) => (
+                                      <div key={idx} className="flex items-start text-[11px] text-white/70 bg-white/5 rounded-lg p-2 border border-white/5 leading-snug">
+                                        <Award size={14} className="text-accent-500 mr-2 mt-0.5 shrink-0" />
+                                        <span className="truncate">{qual}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+
+                                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                                    <div className="flex items-center gap-2">
+                                      <Clock size={14} className="text-white/30" />
+                                      <span className="text-white/60 text-[10px] font-bold uppercase">{teacher.experience}</span>
+                                    </div>
+                                    <button
+                                      type="button"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        setShowTeacherDetail(teacher);
+                                      }}
+                                      className="px-3 py-2 bg-accent-500/10 text-accent-500 text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-accent-500 hover:text-primary-900 transition-all border border-accent-500/20"
+                                    >
+                                      Details
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {isSelected && (
+                                  <div className="mt-3 bg-accent-500/20 border border-accent-500 rounded-lg px-3 py-2 text-center">
+                                    <Check size={16} className="inline text-accent-500 mr-2" />
+                                    <span className="text-accent-500 text-sm font-black">Selected</span>
                                   </div>
                                 )}
-                              </div>
-                            </button>
-                          ))}
+                              </motion.div>
+                            );
+                          })}
                         </div>
                       </motion.div>
                     )}
@@ -998,51 +1044,43 @@ function ProgramsContent() {
                       </form>
                     )}
 
-                    {/* Navigation - Only show for steps 1 and 2 */}
-                    {currentStep < 3 && (
-                      <div className="flex items-center justify-between pt-6 mt-6 border-t border-white/10">
-                        <button
-                          type="button"
-                          onClick={handlePrevStep}
-                          disabled={currentStep === 1 || isSubmitting}
-                          className={`group flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
-                            currentStep === 1 
-                              ? 'opacity-0 pointer-events-none' 
-                              : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20'
-                          }`}
-                        >
-                          <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
-                          <span>Back</span>
-                        </button>
-                        
-                        <button
-                          type="button"
-                          onClick={handleNextStep}
-                          className="group flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider bg-accent-500 text-primary-900 hover:bg-accent-400 transition-all shadow-lg shadow-accent-500/30 hover:shadow-xl hover:shadow-accent-500/40"
-                        >
-                          <span>Continue</span>
-                          <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-                        </button>
-                      </div>
-                    )}
-
-                    {/* Back button for step 3 */}
-                    {currentStep === 3 && (
-                      <div className="pt-6 mt-6 border-t border-white/10">
-                        <button
-                          type="button"
-                          onClick={handlePrevStep}
-                          disabled={isSubmitting}
-                          className="group flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20"
-                        >
-                          <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
-                          <span>Back</span>
-                        </button>
-                      </div>
-                    )}
                   </div>
                 )}
               </div>
+
+              {/* Navigation Footer */}
+              {!submitSuccess && (
+                <div className="bg-primary-600/95 backdrop-blur-xl px-6 sm:px-8 py-6 border-t border-white/10 flex items-center justify-between z-20 shrink-0">
+                  <button
+                    type="button"
+                    onClick={handlePrevStep}
+                    disabled={currentStep === 1 || isSubmitting}
+                    className={`group flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all ${
+                      currentStep === 1 
+                        ? 'opacity-0 pointer-events-none' 
+                        : 'bg-white/5 text-white/70 hover:bg-white/10 hover:text-white border border-white/10 hover:border-white/20'
+                    }`}
+                  >
+                    <ChevronLeft size={16} className="transition-transform group-hover:-translate-x-0.5" />
+                    <span>Back</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (currentStep < 3) handleNextStep();
+                    }}
+                    className={`group flex items-center gap-2 px-6 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider transition-all shadow-lg ${
+                      currentStep === 3
+                        ? 'hidden'
+                        : 'bg-accent-500 text-primary-900 hover:bg-accent-400 shadow-accent-500/30'
+                    }`}
+                  >
+                    <span>Continue</span>
+                    <ChevronRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                  </button>
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}
@@ -1057,6 +1095,148 @@ function ProgramsContent() {
         onConfirm={confirmAction}
         onCancel={() => setShowConfirmModal(false)}
       />
+      <AnimatePresence>
+        {showTeacherDetail && (
+          <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-150 flex items-center justify-center p-4 overflow-y-auto">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-primary-900 border border-accent-500/30 rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative shadow-2xl will-change-transform"
+            >
+              <button
+                onClick={() => setShowTeacherDetail(null)}
+                className="fixed md:absolute top-6 right-6 p-2 rounded-full bg-black/50 md:bg-white/5 text-white/60 hover:text-white hover:bg-white/10 transition-all z-50 border border-white/10"
+              >
+                <X size={24} />
+              </button>
+
+              <div className="p-8 md:p-12">
+                {/* Header */}
+                <div className="flex flex-col md:flex-row gap-8 mb-12 border-b border-white/10 pb-12">
+                  <div className="w-32 h-32 md:w-48 md:h-48 bg-primary-700 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden border-2 border-accent-500/30 shadow-2xl shadow-accent-500/10">
+                    <img 
+                      src={showTeacherDetail.imageUrl} 
+                      alt={showTeacherDetail.name} 
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = '/teachers/shresth.jpg';
+                      }}
+                    />
+                  </div>
+                  <div className="flex-1 space-y-4">
+                    <div>
+                      <h2 className="text-4xl md:text-5xl font-heading font-black text-white mb-2 tracking-tight">{showTeacherDetail.name}</h2>
+                      <div className="flex items-center gap-2">
+                        <p className="text-xl text-accent-400 font-bold tracking-tight">{showTeacherDetail.title}</p>
+                        {showTeacherDetail.featured && <Star size={18} className="fill-current text-accent-500" />}
+                      </div>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-4 pt-2">
+                      <div className="flex items-center gap-2 text-white/70 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest">
+                        <Award size={16} className="text-accent-500" />
+                        {showTeacherDetail.experience}
+                      </div>
+                      <div className="flex items-center gap-2 text-white/70 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest">
+                        <Mail size={16} className="text-accent-500" />
+                        {showTeacherDetail.email}
+                      </div>
+                      <div className="flex items-center gap-2 text-white/70 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest">
+                        <Clock size={16} className="text-accent-500" />
+                        {showTeacherDetail.availability}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-12 mb-12">
+                  {/* Bio */}
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-heading font-black text-white flex items-center gap-3">
+                      <User size={20} className="text-accent-500" />
+                      About Educator
+                    </h3>
+                    <p className="text-white/70 leading-relaxed text-lg font-medium">{showTeacherDetail.bio}</p>
+                  </div>
+
+                  {/* Specialties */}
+                  <div className="space-y-4">
+                    <h3 className="text-xl font-heading font-black text-white flex items-center gap-3">
+                      <Target size={20} className="text-accent-500" />
+                      Specialties
+                    </h3>
+                    <div className="grid grid-cols-1 gap-3">
+                      {showTeacherDetail.specialties.map((spec, idx) => (
+                        <div key={idx} className="flex items-center gap-3 text-white/80 bg-white/5 border border-white/10 p-3 rounded-xl">
+                          <CheckCircle2 size={18} className="text-accent-500 shrink-0" />
+                          <span className="font-bold text-sm tracking-tight">{spec}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Qualifications */}
+                <div className="mb-12 bg-white/5 border border-white/10 rounded-2xl p-6">
+                  <h3 className="text-xl font-heading font-black text-white mb-6 flex items-center gap-3">
+                    <GraduationCap size={24} className="text-accent-500" />
+                    Qualifications & Achievements
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {showTeacherDetail.qualifications.map((qual, idx) => (
+                      <div key={idx} className="flex items-start gap-3 text-white/70">
+                        <div className="w-1.5 h-1.5 rounded-full bg-accent-500 mt-2 shrink-0" />
+                        <span className="font-medium">{qual}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Video Spotlight */}
+                {showTeacherDetail.videos?.length > 0 && (
+                  <div className="mb-12 border-t border-white/10 pt-12 mt-12">
+                    <div className="mb-8 text-center">
+                       <h3 className="text-3xl font-heading font-black text-white mb-2">Educator Spotlight</h3>
+                       <p className="text-white/40 text-xs font-black uppercase tracking-[0.3em]">Experience their teaching methodology</p>
+                    </div>
+                    <div className="max-w-3xl mx-auto">
+                      <TeacherVideos videos={showTeacherDetail.videos} />
+                    </div>
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFormData(prev => ({ ...prev, selectedTeacher: showTeacherDetail.id }));
+                      setShowTeacherDetail(null);
+                    }}
+                    className={`flex-1 py-4 rounded-2xl font-black text-sm uppercase tracking-widest transition-all duration-300 shadow-xl ${
+                      formData.selectedTeacher === showTeacherDetail.id
+                        ? 'bg-accent-500/20 text-accent-400 border-2 border-accent-500'
+                        : 'bg-accent-500 text-primary-900 hover:bg-accent-400 border-2 border-transparent'
+                    }`}
+                  >
+                    {formData.selectedTeacher === showTeacherDetail.id 
+                      ? '✓ Educator Selected' 
+                      : `Select ${showTeacherDetail.name.split(' ')[0]}`}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowTeacherDetail(null)}
+                    className="flex-1 py-4 rounded-2xl font-black text-sm uppercase tracking-widest bg-white/5 text-white/70 hover:bg-white/10 border-2 border-white/10 transition-all duration-300"
+                  >
+                    Close Profile
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

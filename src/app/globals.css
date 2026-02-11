@@ -235,11 +235,11 @@
   }
 
   .backdrop-blur-md {
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(8px);
   }
 
   .backdrop-blur-xl {
-    backdrop-filter: blur(24px);
+    backdrop-filter: blur(16px);
   }
 
   .text-glow {
@@ -256,6 +256,6 @@
   .transition-colors,
   .transition-opacity,
   .transition {
-    transition-duration: 600ms !important;
+    transition-duration: 400ms;
   }
 }

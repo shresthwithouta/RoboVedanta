@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Mail, Clock, Award, BookOpen, Star, ArrowLeft, GraduationCap, Target } from 'lucide-react';
+import TeacherVideos from '@/components/teachers/TeacherVideos';
+import MentorJumpButton from '@/components/teachers/MentorJumpButton';
 
 export async function generateStaticParams() {
   const teachers = getAllTeachers();
@@ -12,7 +14,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const teacher = getTeacherById(params.id);
+  const { id } = await params;
+  const teacher = getTeacherById(id);
   
   if (!teacher) {
     return {
@@ -26,8 +29,9 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function TeacherDetailPage({ params }) {
-  const teacher = getTeacherById(params.id);
+export default async function TeacherDetailPage({ params }) {
+  const { id } = await params;
+  const teacher = getTeacherById(id);
   
   if (!teacher) notFound();
 
@@ -35,7 +39,7 @@ export default function TeacherDetailPage({ params }) {
     <main className="min-h-screen bg-gradient-to-b from-[#002246] to-[#002F5A] pt-24">
       
       {/* Back Button */}
-      <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="max-w-7xl mx-auto px-4 py-6">
         <Link 
           href="/teachers" 
           className="inline-flex items-center gap-2 text-[#B8860B] 
@@ -48,7 +52,7 @@ export default function TeacherDetailPage({ params }) {
 
       {/* Profile Header */}
       <section className="px-4 pb-12">
-        <div className="max-w-6xl mx-auto bg-[#002850] border border-[#B8860B]/20 
+        <div className="max-w-7xl mx-auto bg-[#002850] border border-[#B8860B]/20 
                       rounded-2xl p-6 md:p-12 overflow-hidden">
           <div className="grid md:grid-cols-[300px_1fr] lg:grid-cols-[350px_1fr] gap-8">
             
@@ -105,6 +109,10 @@ export default function TeacherDetailPage({ params }) {
                   <span className="text-sm">Grades: {teacher.grades.join(', ')}</span>
                 </div>
               </div>
+
+              {teacher.videos?.length > 0 && (
+                <MentorJumpButton />
+              )}
             </div>
           </div>
         </div>
@@ -112,7 +120,7 @@ export default function TeacherDetailPage({ params }) {
 
       {/* Bio & Details */}
       <section className="px-4 pb-12">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
           
           {/* About */}
           <div className="bg-[#002850] border border-[#B8860B]/20 
@@ -162,6 +170,9 @@ export default function TeacherDetailPage({ params }) {
           </div>
         </div>
       </section>
+      
+      {/* Testimonial Videos Section */}
+      <TeacherVideos videos={teacher.videos} />
 
       {/* CTA Section */}
       <section className="px-4 pb-24">

@@ -926,7 +926,7 @@ function ProgramsContent() {
                                   </div>
                                   
                                   {trainer.featured && (
-                                    <div className="absolute top-22 right-2 bg-linear-to-r from-accent-500 to-accent-600 text-primary-900 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
+                                    <div className="absolute top-2 right-2 bg-linear-to-r from-accent-500 to-accent-600 text-primary-900 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
                                       Featured
                                     </div>
                                   )}

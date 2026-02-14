@@ -1,8 +1,8 @@
-// Hardcoded teacher data
+// Hardcoded trainer data
 // This structure matches what a database would return,
 // making it easy to upgrade later without changing components
 
-export const teachersData = [
+export const trainersData = [
   {
     id: 'anmol-nagal',
     name: 'Anmol Nagal',
@@ -187,12 +187,12 @@ export const teachersData = [
   }
 ];
 
-// Helper functions to filter and retrieve teachers
-export const getAllTeachers = () => {
-  return teachersData.map(teacher => {
+// Helper functions to filter and retrieve trainers
+export const getAllTrainers = () => {
+  return trainersData.map(trainer => {
     // 1. Resolve videos from videoKeys (mapping to student-named env vars)
-    if (teacher.videoKeys) {
-      const resolvedVideos = teacher.videoKeys
+    if (trainer.videoKeys) {
+      const resolvedVideos = trainer.videoKeys
         .map(key => {
           const id = process.env[`NEXT_PUBLIC_VIDEO_${key}`];
           return id ? { id, title: key.split('_').map(w => w.charAt(0) + w.slice(1).toLowerCase()).join(' ') } : null;
@@ -200,29 +200,29 @@ export const getAllTeachers = () => {
         .filter(Boolean);
       
       if (resolvedVideos.length > 0) {
-        return { ...teacher, videos: [...(teacher.videos || []), ...resolvedVideos] };
+        return { ...trainer, videos: [...(trainer.videos || []), ...resolvedVideos] };
       }
     }
 
-    // 2. Legacy fallback for teacher-id based env var
-    const envKey = `NEXT_PUBLIC_VIDEOS_${teacher.id.toUpperCase().replace(/-/g, '_')}`;
+    // 2. Legacy fallback for trainer-id based env var
+    const envKey = `NEXT_PUBLIC_VIDEOS_${trainer.id.toUpperCase().replace(/-/g, '_')}`;
     const envVideos = process.env[envKey];
     
     if (envVideos) {
       const videoIds = envVideos.split(',');
       return {
-        ...teacher,
-        videos: [...(teacher.videos || []), ...videoIds.map(id => ({ id, title: '' }))]
+        ...trainer,
+        videos: [...(trainer.videos || []), ...videoIds.map(id => ({ id, title: '' }))]
       };
     }
-    return teacher;
+    return trainer;
   });
 };
 
-export const getActiveTeachers = () => getAllTeachers().filter(t => t.active);
+export const getActiveTrainers = () => getAllTrainers().filter(t => t.active);
 
-export const getFeaturedTeachers = () => getAllTeachers().filter(t => t.featured && t.active);
+export const getFeaturedTrainers = () => getAllTrainers().filter(t => t.featured && t.active);
 
-export const getTeacherById = (id) => getAllTeachers().find(t => t.id === id);
+export const getTrainerById = (id) => getAllTrainers().find(t => t.id === id);
 
-export const getTeachersByGrade = (grade) => getAllTeachers().filter(t => t.grades.includes(grade));
+export const getTrainersByGrade = (grade) => getAllTrainers().filter(t => t.grades.includes(grade));

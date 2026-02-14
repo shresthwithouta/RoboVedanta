@@ -11,15 +11,15 @@ import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { getActiveTeachers, getTeacherById } from '@/data/teachers';
-import TeacherVideos from '@/components/teachers/TeacherVideos';
+import { getActiveTrainers, getTrainerById } from '@/data/trainers';
+import TrainerVideos from '@/components/trainers/TrainerVideos';
 import { Clock } from 'lucide-react';
-import { CheckTeachersCTA } from '@/components/ui/CheckTeachersCTA';
+import { CheckTrainersCTA } from '@/components/ui/CheckTrainersCTA';
 
 const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel, confirmText = "Confirm", cancelText = "Cancel", type = "danger" }) => (
   <AnimatePresence>
     {isOpen && (
-      <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-200 flex items-center justify-center p-4">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -31,7 +31,7 @@ const ConfirmModal = ({ isOpen, title, message, onConfirm, onCancel, confirmText
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
-          className="relative bg-gradient-to-br from-primary-500 to-primary-600 border border-white/10 rounded-[2rem] p-8 max-w-sm w-full shadow-2xl overflow-hidden"
+          className="relative bg-linear-to-br from-primary-500 to-primary-600 border border-white/10 rounded-4xl p-8 max-w-sm w-full shadow-2xl overflow-hidden"
         >
           <div className="absolute top-0 right-0 w-32 h-32 bg-accent-500/10 blur-[50px]" />
           <h3 className="text-2xl font-heading font-black text-white mb-4 relative z-10">{title}</h3>
@@ -78,32 +78,52 @@ function AnimatedSection({ children, delay = 0 }) {
 
 function ProgramsContent() {
   const searchParams = useSearchParams();
-  const teachers = getActiveTeachers();
+  const trainers = getActiveTrainers();
   
+  const [formData, setFormData] = useState({
+    // Student/Parent Details
+    studentName: '',
+    parentName: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    pincode: '',
+    grade: '',
+    // Program Selection
+    programType: '', // 'simulation' or 'hardware'
+    selectedTrainer: null,
+    estimatedQuote: 0,
+    message: ''
+  });
+
   const [showRegistration, setShowRegistration] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1); // 1: Details, 2: Teacher (Blank), 3: Summary
+  const [currentStep, setCurrentStep] = useState(1); // 1: Details, 2: Trainer (Blank), 3: Summary
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [showTeacherDetail, setShowTeacherDetail] = useState(null);
+  const [showTrainerDetail, setShowTrainerDetail] = useState(null);
   const [confirmAction, setConfirmAction] = useState(null);
 
-  // Handle teacher pre-selection from query params
+  // Handle trainer pre-selection from query params
   useEffect(() => {
-    const teacherId = searchParams.get('teacher');
-    if (teacherId) {
-      const teacher = getTeacherById(teacherId);
-      if (teacher) {
-        setFormData(prev => ({
-          ...prev,
-          selectedTeacher: teacherId
-        }));
-        // If teacher is pre-selected, maybe show registration? 
-        // User probably clicked "Select this educator"
-        setShowRegistration(true);
+    const trainerIdParam = searchParams.get('trainer') || searchParams.get('teacher');
+    if (trainerIdParam && formData.selectedTrainer !== trainerIdParam) {
+      const trainer = getTrainerById(trainerIdParam);
+      if (trainer) {
+        // Use a microtask/setTimeout to avoid synchronous setState warning
+        const timer = setTimeout(() => {
+          setFormData(prev => ({
+            ...prev,
+            selectedTrainer: trainerIdParam
+          }));
+          setShowRegistration(true);
+        }, 0);
+        return () => clearTimeout(timer);
       }
     }
-  }, [searchParams]);
+  }, [searchParams, formData.selectedTrainer]);
 
   const handleCloseModal = () => {
     if (submitSuccess) {
@@ -128,7 +148,7 @@ function ProgramsContent() {
           pincode: '',
           grade: '',
           programType: 'simulation',
-          selectedTeacher: null,
+          selectedTrainer: null,
           estimatedQuote: 3500,
           message: ''
         });
@@ -139,26 +159,6 @@ function ProgramsContent() {
       setShowRegistration(false);
     }
   };
-
-  const [formData, setFormData] = useState({
-    // Student/Parent Details
-    studentName: '',
-    parentName: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    pincode: '',
-    grade: '',
-    // Program Selection
-    programType: '', // 'simulation' or 'hardware'
-    selectedTeacher: null,
-    estimatedQuote: 0,
-    message: ''
-  });
-
-
 
   const handleNextStep = () => {
     if (currentStep === 1) {
@@ -172,8 +172,8 @@ function ProgramsContent() {
     }
     
     if (currentStep === 2) {
-      if (!formData.selectedTeacher) {
-        alert('Please select a teacher to continue');
+      if (!formData.selectedTrainer) {
+        alert('Please select a trainer to continue');
         return;
       }
     }
@@ -235,7 +235,7 @@ function ProgramsContent() {
               pincode: '',
               grade: '',
               programType: 'simulation',
-              selectedTeacher: null,
+              selectedTrainer: null,
               estimatedQuote: 3500,
               message: ''
             });
@@ -257,12 +257,12 @@ function ProgramsContent() {
   return (
     <main>
       {/* Hero Section */}
-      <Section spacing="md" className="relative pt-32 md:pt-40 lg:pt-48 pb-20 md:pb-32 min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary-400 via-primary-400 to-primary-500">
+      <Section spacing="md" className="relative pt-32 md:pt-40 lg:pt-48 pb-20 md:pb-32 min-h-[70vh] flex items-center justify-center overflow-hidden bg-linear-to-b from-primary-400 via-primary-400 to-primary-500">
         <div className="absolute inset-0 tech-grid opacity-20 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary-500/80 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-primary-500/80 pointer-events-none" />
         
-        <div className="absolute top-20 -right-20 w-[500px] h-[500px] bg-accent-500/10 rounded-full blur-[120px] floating pointer-events-none" />
-        <div className="absolute bottom-40 -left-20 w-[400px] h-[400px] bg-primary-300/15 rounded-full blur-[100px] floating pointer-events-none" style={{ animationDelay: '-3s' }} />
+        <div className="absolute top-20 -right-20 w-125 h-125 bg-accent-500/10 rounded-full blur-[120px] floating pointer-events-none" />
+        <div className="absolute bottom-40 -left-20 w-100 h-100 bg-primary-300/15 rounded-full blur-[100px] floating pointer-events-none" style={{ animationDelay: '-3s' }} />
 
         <Container className="relative z-10">
           <motion.div
@@ -384,7 +384,7 @@ function ProgramsContent() {
                 </div>
 
                 <div className="pt-6 border-t border-white/10 mb-8">
-                  <div className="text-xs font-black text-white/40 tracking-widest uppercase mb-4">What's Included</div>
+                  <div className="text-xs font-black text-white/40 tracking-widest uppercase mb-4">What&apos;s Included</div>
                   <ul className="space-y-3">
                     {[
                       'One Chapter, One Project approach',
@@ -460,7 +460,7 @@ function ProgramsContent() {
                 </div>
 
                 <div className="pt-6 border-t border-white/10 mb-8">
-                  <div className="text-xs font-black text-white/40 tracking-widest uppercase mb-4">What's Included</div>
+                  <div className="text-xs font-black text-white/40 tracking-widest uppercase mb-4">What&apos;s Included</div>
                   <ul className="space-y-3">
                     {[
                       'One Chapter, One Project approach',
@@ -492,11 +492,11 @@ function ProgramsContent() {
 
           {/* Comparison Table */}
           <ScrollReveal>
-            <Card variant="elevated" className="p-10 md:p-12 bg-white/[0.02] border-white/10">
+            <Card variant="elevated" className="p-10 md:p-12 bg-white/2 border-white/10">
               <h3 className="text-3xl font-heading font-black text-center text-accent-500 mb-12">Course Comparison</h3>
               
-              <div className="overflow-x-auto pb-6 scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
-                <table className="w-full min-w-[600px]">
+              <div className="overflow-x-auto pb-6 scrollbar-hide">
+                <table className="w-full min-w-150">
                   <thead>
                     <tr className="border-b border-white/10">
                       <th className="text-left py-6 px-4 text-white/60 font-black text-xs uppercase tracking-widest">Learning Dimension</th>
@@ -517,10 +517,10 @@ function ProgramsContent() {
                       { feature: 'Physical Robotics Kit', sim: false, hw: true, desc: 'Hardware components shipped to your door' },
                       { feature: 'Hardware Building', sim: false, hw: true, desc: 'Guided hands-on assembly of real robots' },
                       { feature: 'Project Portfolio', sim: true, hw: true, desc: 'Build a repository of your accomplishments' },
-                      { feature: 'Expert Support', sim: true, hw: true, desc: 'Direct access to tutors for troubleshooting' },
+                      { feature: 'Expert Support', sim: true, hw: true, desc: 'Direct access to trainers for troubleshooting' },
                       { feature: 'Certification', sim: true, hw: true, desc: 'Earn verified certificates for each level' }
                     ].map((row, i) => (
-                      <tr key={i} className="group hover:bg-white/[0.03] transition-colors">
+                      <tr key={i} className="group hover:bg-white/3 transition-colors">
                         <td className="py-6 px-4">
                           <div className="text-white font-bold mb-1">{row.feature}</div>
                           <div className="text-white/30 text-[10px] font-medium uppercase tracking-wider">{row.desc}</div>
@@ -601,7 +601,7 @@ function ProgramsContent() {
               }
             ].map((step, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
-                <Card variant="elevated" className="p-8 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/[0.02]">
+                <Card variant="elevated" className="p-8 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/2">
                   <div className="inline-flex p-4 rounded-2xl bg-accent-600/20 text-accent-400 mb-6 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 transition-all duration-500">
                     {step.icon}
                   </div>
@@ -615,7 +615,7 @@ function ProgramsContent() {
 
           {/* Final Exhibition */}
           <ScrollReveal>
-            <Card variant="elevated" className="p-10 md:p-16 bg-gradient-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20 text-center">
+            <Card variant="elevated" className="p-10 md:p-16 bg-linear-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20 text-center">
               <div className="inline-flex p-6 bg-accent-500/10 rounded-3xl mb-8 border border-accent-500/20 shadow-xl shadow-accent-500/5">
                 <Award size={56} className="text-accent-500" />
               </div>
@@ -644,8 +644,8 @@ function ProgramsContent() {
         </Container>
       </Section>
 
-      {/* Teachers CTA */}
-      <CheckTeachersCTA />
+      {/* Trainers CTA */}
+      <CheckTrainersCTA />
 
       {/* School Programs Section */}
       <Section id="school-programs" background="darkBlue" className="relative group/section">
@@ -664,14 +664,14 @@ function ProgramsContent() {
                 <h2 className="text-3xl sm:text-4xl md:text-6xl font-heading font-black mb-6 md:mb-8 leading-tight tracking-tighter">
                   <span className="text-accent-500">School</span> Programs
                 </h2>
-                <p className="text-white/60 text-base md:text-xl font-medium leading-relaxed mb-8">
-                  Comprehensive robotics & AI curriculum designed for institutional deployment. Fully aligned with CBSE & ICSE standards.
+                <p className="text-white/40 text-xs sm:text-sm font-medium leading-loose text-center py-4 border-b border-white/5 mb-6 group-hover:text-white/60 transition-colors">
+                  &quot;The curriculum at RoboVedanta isn&apos;t just about robots—it&apos;s about training young minds to think systematically and creatively.&quot;
                 </p>
                 
                 <ul className="space-y-3 md:space-y-4 mb-10">
                   {[
                     'Complete Grades 1–12 curriculum',
-                    'Teacher training & support',
+                    'Trainer training & support',
                     'Simulation + hardware options',
                     'Assessment & tracking tools',
                     'Implementation support'
@@ -705,11 +705,11 @@ function ProgramsContent() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
-              <Card variant="elevated" className="p-10 md:p-12 bg-white/[0.02] border-white/10">
+              <Card variant="elevated" className="p-10 md:p-12 bg-white/2 border-white/10">
                 <div className="text-center mb-8">
                   <School size={64} className="text-accent-500 mx-auto mb-6" />
                   <h3 className="text-2xl font-heading font-black text-white mb-4">Institutional Pricing</h3>
-                  <p className="text-white/60 font-medium">Custom packages based on your school's needs</p>
+                  <p className="text-white/60 font-medium">Custom packages based on your school&apos;s needs</p>
                 </div>
 
                 <div className="space-y-6">
@@ -741,14 +741,14 @@ function ProgramsContent() {
       {/* Registration Modal */}
       <AnimatePresence>
         {showRegistration && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 lg:p-8"
-          >
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            >
             {/* Static Background Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-black via-primary-900/98 to-black">
+            <div className="absolute inset-0 bg-linear-to-br from-black via-primary-900/98 to-black">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(184,134,11,0.1),transparent_70%)]" />
               <div className="absolute inset-0 backdrop-blur-md" />
             </div>
@@ -794,7 +794,7 @@ function ProgramsContent() {
                 <div className="mt-8 flex items-center justify-between max-w-md mx-auto">
                   {[
                     { num: 1, label: 'Details', icon: '📝' },
-                    { num: 2, label: 'Teacher', icon: '👨‍🏫' },
+                    { num: 2, label: 'Trainer', icon: '👨‍🏫' },
                     { num: 3, label: 'Review', icon: '✓' }
                   ].map((step, idx) => (
                     <div key={step.num} className="flex items-center flex-1">
@@ -832,7 +832,7 @@ function ProgramsContent() {
               </div>
 
               {/* Content Area */}
-              <div className="flex-1 relative px-4 sm:px-8 pb-8 overflow-y-auto scrollbar-thin scrollbar-thumb-white/10 scrollbar-track-transparent">
+              <div className="flex-1 relative px-4 sm:px-8 pb-8 overflow-y-auto overflow-x-hidden scrollbar-hide">
                 {submitSuccess ? (
                   <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12">
                     <div className="w-24 h-24 bg-green-500/20 border-2 border-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -882,36 +882,36 @@ function ProgramsContent() {
                       </motion.div>
                     )}
 
-                    {/* Step 2: Teacher Selection */}
+                    {/* Step 2: Trainer Selection */}
                     {currentStep === 2 && (
                       <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                         <div className="mb-6">
-                          <h3 className="text-xl font-heading font-black text-white mb-2">Select Your Teacher</h3>
+                          <h3 className="text-xl font-heading font-black text-white mb-2">Select Your Trainer</h3>
                           <p className="text-white/40 text-sm">Choose an expert educator for your robotics journey</p>
                         </div>
                         
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                          {teachers.map((teacher) => {
-                            const isSelected = formData.selectedTeacher === teacher.id;
+                          {trainers.map((trainer) => {
+                            const isSelected = formData.selectedTrainer === trainer.id;
                             return (
                               <motion.div
-                                key={teacher.id}
+                                key={trainer.id}
                                 whileHover={{ y: -4 }}
                                 className={`group bg-primary-600/30 border-2 rounded-2xl p-6 cursor-pointer transition-all h-full flex flex-col ${
                                   isSelected
                                     ? 'border-accent-500 bg-accent-500/10'
                                     : 'border-white/10 hover:border-accent-500/50'
                                 }`}
-                                onClick={() => setFormData(prev => ({ ...prev, selectedTeacher: teacher.id }))}
+                                onClick={() => setFormData(prev => ({ ...prev, selectedTrainer: trainer.id }))}
                               >
-                                {/* Teacher Image */}
+                                {/* Trainer Image */}
                                 <div className="relative w-full h-40 bg-primary-600 rounded-xl mb-4 overflow-hidden border border-[#B8860B]/20 shrink-0">
                                   <img 
-                                    src={teacher.imageUrl} 
-                                    alt={teacher.name}
+                                    src={trainer.imageUrl} 
+                                    alt={trainer.name}
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                     onError={(e) => {
-                                      e.target.src = '/teachers/shresth.jpg';
+                                      e.target.src = '/trainers/shresth.jpg';
                                     }}
                                   />
                                   <div className="absolute inset-0 bg-linear-to-t from-primary-950/80 to-transparent opacity-60" />
@@ -925,20 +925,20 @@ function ProgramsContent() {
                                     {isSelected && <Check size={20} className="text-primary-900 font-black" />}
                                   </div>
                                   
-                                  {teacher.featured && (
-                                    <div className="absolute top-2 right-2 bg-linear-to-r from-accent-500 to-accent-600 text-primary-900 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
+                                  {trainer.featured && (
+                                    <div className="absolute top-22 right-2 bg-linear-to-r from-accent-500 to-accent-600 text-primary-900 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
                                       Featured
                                     </div>
                                   )}
                                 </div>
 
                                 <div className="flex-1 flex flex-col min-h-0">
-                                  <h3 className="text-lg font-heading font-black text-white mb-1 group-hover:text-accent-500 transition-colors truncate">{teacher.name}</h3>
-                                  <p className="text-accent-400 text-[10px] font-bold uppercase tracking-widest mb-4 truncate">{teacher.title}</p>
+                                  <h3 className="text-lg font-heading font-black text-white mb-1 group-hover:text-accent-500 transition-colors truncate">{trainer.name}</h3>
+                                  <p className="text-accent-400 text-[10px] font-bold uppercase tracking-widest mb-4 truncate">{trainer.title}</p>
 
                                   <div className="space-y-2 mb-6 flex-1">
                                     <p className="text-[10px] text-white/30 font-black uppercase tracking-widest">Key Qualifications</p>
-                                    {teacher.qualifications.slice(0, 2).map((qual, idx) => (
+                                    {trainer.qualifications.slice(0, 2).map((qual, idx) => (
                                       <div key={idx} className="flex items-start text-[11px] text-white/70 bg-white/5 rounded-lg p-2 border border-white/5 leading-snug">
                                         <Award size={14} className="text-accent-500 mr-2 mt-0.5 shrink-0" />
                                         <span className="truncate">{qual}</span>
@@ -949,17 +949,17 @@ function ProgramsContent() {
                                   <div className="flex items-center justify-between pt-4 border-t border-white/10">
                                     <div className="flex items-center gap-2">
                                       <Clock size={14} className="text-white/30" />
-                                      <span className="text-white/60 text-[10px] font-bold uppercase">{teacher.experience}</span>
+                                      <span className="text-white/60 text-[10px] font-bold uppercase">{trainer.experience}</span>
                                     </div>
                                     <button
                                       type="button"
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        setShowTeacherDetail(teacher);
+                                        setShowTrainerDetail(trainer);
                                       }}
                                       className="px-3 py-2 bg-accent-500/10 text-accent-500 text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-accent-500 hover:text-primary-900 transition-all border border-accent-500/20"
                                     >
-                                      Details
+                                      Meet the Trainer
                                     </button>
                                   </div>
                                 </div>
@@ -1096,7 +1096,7 @@ function ProgramsContent() {
         onCancel={() => setShowConfirmModal(false)}
       />
       <AnimatePresence>
-        {showTeacherDetail && (
+        {showTrainerDetail && (
           <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-150 flex items-center justify-center p-4 overflow-y-auto">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -1105,7 +1105,7 @@ function ProgramsContent() {
               className="bg-primary-900 border border-accent-500/30 rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative shadow-2xl will-change-transform"
             >
               <button
-                onClick={() => setShowTeacherDetail(null)}
+                onClick={() => setShowTrainerDetail(null)}
                 className="fixed md:absolute top-6 right-6 p-2 rounded-full bg-black/50 md:bg-white/5 text-white/60 hover:text-white hover:bg-white/10 transition-all z-50 border border-white/10"
               >
                 <X size={24} />
@@ -1116,35 +1116,35 @@ function ProgramsContent() {
                 <div className="flex flex-col md:flex-row gap-8 mb-12 border-b border-white/10 pb-12">
                   <div className="w-32 h-32 md:w-48 md:h-48 bg-primary-700 rounded-2xl flex items-center justify-center shrink-0 overflow-hidden border-2 border-accent-500/30 shadow-2xl shadow-accent-500/10">
                     <img 
-                      src={showTeacherDetail.imageUrl} 
-                      alt={showTeacherDetail.name} 
+                      src={showTrainerDetail.imageUrl} 
+                      alt={showTrainerDetail.name} 
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.target.src = '/teachers/shresth.jpg';
+                        e.target.src = '/trainers/shresth.jpg';
                       }}
                     />
                   </div>
                   <div className="flex-1 space-y-4">
                     <div>
-                      <h2 className="text-4xl md:text-5xl font-heading font-black text-white mb-2 tracking-tight">{showTeacherDetail.name}</h2>
+                      <h2 className="text-4xl md:text-5xl font-heading font-black text-white mb-2 tracking-tight">{showTrainerDetail.name}</h2>
                       <div className="flex items-center gap-2">
-                        <p className="text-xl text-accent-400 font-bold tracking-tight">{showTeacherDetail.title}</p>
-                        {showTeacherDetail.featured && <Star size={18} className="fill-current text-accent-500" />}
+                        <p className="text-xl text-accent-400 font-bold tracking-tight">{showTrainerDetail.title}</p>
+                        {showTrainerDetail.featured && <Star size={18} className="fill-current text-accent-500" />}
                       </div>
                     </div>
                     
                     <div className="flex flex-wrap gap-4 pt-2">
                       <div className="flex items-center gap-2 text-white/70 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest">
                         <Award size={16} className="text-accent-500" />
-                        {showTeacherDetail.experience}
+                        {showTrainerDetail.experience}
                       </div>
                       <div className="flex items-center gap-2 text-white/70 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest">
                         <Mail size={16} className="text-accent-500" />
-                        {showTeacherDetail.email}
+                        {showTrainerDetail.email}
                       </div>
                       <div className="flex items-center gap-2 text-white/70 bg-white/5 border border-white/10 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest">
                         <Clock size={16} className="text-accent-500" />
-                        {showTeacherDetail.availability}
+                        {showTrainerDetail.availability}
                       </div>
                     </div>
                   </div>
@@ -1155,9 +1155,9 @@ function ProgramsContent() {
                   <div className="space-y-4">
                     <h3 className="text-xl font-heading font-black text-white flex items-center gap-3">
                       <User size={20} className="text-accent-500" />
-                      About Educator
+                      About Trainer
                     </h3>
-                    <p className="text-white/70 leading-relaxed text-lg font-medium">{showTeacherDetail.bio}</p>
+                    <p className="text-white/70 leading-relaxed text-lg font-medium">{showTrainerDetail.bio}</p>
                   </div>
 
                   {/* Specialties */}
@@ -1167,7 +1167,7 @@ function ProgramsContent() {
                       Specialties
                     </h3>
                     <div className="grid grid-cols-1 gap-3">
-                      {showTeacherDetail.specialties.map((spec, idx) => (
+                      {showTrainerDetail.specialties.map((spec, idx) => (
                         <div key={idx} className="flex items-center gap-3 text-white/80 bg-white/5 border border-white/10 p-3 rounded-xl">
                           <CheckCircle2 size={18} className="text-accent-500 shrink-0" />
                           <span className="font-bold text-sm tracking-tight">{spec}</span>
@@ -1184,7 +1184,7 @@ function ProgramsContent() {
                     Qualifications & Achievements
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {showTeacherDetail.qualifications.map((qual, idx) => (
+                    {showTrainerDetail.qualifications.map((qual, idx) => (
                       <div key={idx} className="flex items-start gap-3 text-white/70">
                         <div className="w-1.5 h-1.5 rounded-full bg-accent-500 mt-2 shrink-0" />
                         <span className="font-medium">{qual}</span>
@@ -1194,14 +1194,14 @@ function ProgramsContent() {
                 </div>
 
                 {/* Video Spotlight */}
-                {showTeacherDetail.videos?.length > 0 && (
+                {showTrainerDetail.videos?.length > 0 && (
                   <div className="mb-12 border-t border-white/10 pt-12 mt-12">
                     <div className="mb-8 text-center">
-                       <h3 className="text-3xl font-heading font-black text-white mb-2">Educator Spotlight</h3>
+                       <h3 className="text-3xl font-heading font-black text-white mb-2">Trainer Spotlight</h3>
                        <p className="text-white/40 text-xs font-black uppercase tracking-[0.3em]">Experience their teaching methodology</p>
                     </div>
                     <div className="max-w-3xl mx-auto">
-                      <TeacherVideos videos={showTeacherDetail.videos} />
+                      <TrainerVideos videos={showTrainerDetail?.videos} />
                     </div>
                   </div>
                 )}
@@ -1211,22 +1211,22 @@ function ProgramsContent() {
                   <button
                     type="button"
                     onClick={() => {
-                      setFormData(prev => ({ ...prev, selectedTeacher: showTeacherDetail.id }));
-                      setShowTeacherDetail(null);
+                      setFormData(prev => ({ ...prev, selectedTrainer: showTrainerDetail.id }));
+                      setShowTrainerDetail(null);
                     }}
                     className={`flex-1 py-4 rounded-2xl font-black text-sm uppercase tracking-widest transition-all duration-300 shadow-xl ${
-                      formData.selectedTeacher === showTeacherDetail.id
+                      formData.selectedTrainer === showTrainerDetail.id
                         ? 'bg-accent-500/20 text-accent-400 border-2 border-accent-500'
                         : 'bg-accent-500 text-primary-900 hover:bg-accent-400 border-2 border-transparent'
                     }`}
                   >
-                    {formData.selectedTeacher === showTeacherDetail.id 
-                      ? '✓ Educator Selected' 
-                      : `Select ${showTeacherDetail.name.split(' ')[0]}`}
+                    {formData.selectedTrainer === showTrainerDetail.id 
+                      ? '✓ Trainer Selected' 
+                      : `Select ${showTrainerDetail.name.split(' ')[0]}`}
                   </button>
                   <button
                     type="button"
-                    onClick={() => setShowTeacherDetail(null)}
+                    onClick={() => setShowTrainerDetail(null)}
                     className="flex-1 py-4 rounded-2xl font-black text-sm uppercase tracking-widest bg-white/5 text-white/70 hover:bg-white/10 border-2 border-white/10 transition-all duration-300"
                   >
                     Close Profile

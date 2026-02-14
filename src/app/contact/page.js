@@ -183,11 +183,10 @@ export default function ContactPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(184,134,11,0.05)_0%,transparent_70%)] animate-slow-zoom" />
         
         <Container className="relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-            {/* Left: Form */}
-            <ScrollReveal>
+            {/* Center: Form */}
+            <ScrollReveal className="md:col-span-2 max-w-3xl mx-auto w-full">
               <div>
-                <div className="mb-8">
+                <div className="mb-12 text-center">
                   <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/40 text-xs font-black tracking-[0.3em] uppercase mb-6">
                     <span className="w-1.5 h-1.5 rounded-full bg-accent-500 animate-pulse" />
                     Send Message
@@ -303,95 +302,8 @@ export default function ContactPage() {
                 </Card>
               </div>
             </ScrollReveal>
-
-            {/* Right: Info */}
-            <ScrollReveal delay={0.2}>
-              <div className="h-full flex flex-col">
-                <div className="mb-8 hidden md:block opacity-0 select-none pointer-events-none">
-                  <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 text-white/40 text-xs font-black tracking-[0.3em] uppercase mb-6">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent-500 animate-pulse" />
-                    Placeholder
-                  </div>
-                  <h2 className="text-4xl md:text-5xl font-heading font-black text-white mb-4 leading-tight tracking-tighter">
-                    Information
-                  </h2>
-                  <p className="text-white/60 text-lg font-medium">
-                    Symmetry placeholder
-                  </p>
-                </div>
-
-                <div className="space-y-8 flex-1">
-                  {/* Office Hours */}
-                  <Card variant="elevated" className="p-8 md:p-10 bg-white/2 border-white/10 h-min">
-                    <div className="flex items-start gap-4 mb-6">
-                      <div className="inline-flex p-3 rounded-xl bg-accent-600/20 text-accent-400 shrink-0">
-                        <Clock size={32} />
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-heading font-black text-white mb-2">Office Hours</h3>
-                        <p className="text-white/60 text-sm font-medium">When you can reach us</p>
-                      </div>
-                    </div>
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-white/5">
-                      <span className="text-white/70 font-medium text-sm">Monday - Friday</span>
-                      <span className="text-accent-400 font-bold text-sm">9:00 AM - 6:00 PM</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-white/5">
-                      <span className="text-white/70 font-medium text-sm">Saturday</span>
-                      <span className="text-accent-400 font-bold text-sm">10:00 AM - 4:00 PM</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2">
-                      <span className="text-white/70 font-medium text-sm">Sunday</span>
-                      <span className="text-white/40 font-bold text-sm">Closed</span>
-                    </div>
-                  </div>
-                </Card>
-
-                {/* Location */}
-                <Card variant="elevated" className="p-8 md:p-10 bg-white/2 border-white/10">
-                  <div className="flex items-start gap-4 mb-6">
-                    <div className="inline-flex p-3 rounded-xl bg-accent-600/20 text-accent-400 shrink-0">
-                      <MapPin size={32} />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-heading font-black text-white mb-2">Our Location</h3>
-                      <p className="text-white/60 text-sm font-medium">Visit us at our office</p>
-                    </div>
-                  </div>
-                  <address className="not-italic text-white/70 leading-relaxed font-medium text-sm">
-                    Sector 62, Noida, <br />
-                    Uttar Pradesh, India - 201309
-                  </address>
-                </Card>
-
-                {/* Quick Links */}
-                <Card variant="elevated" className="p-8 md:p-10 bg-linear-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20">
-                  <h3 className="text-xl font-heading font-black text-white mb-6">Quick Links</h3>
-                  <div className="space-y-3">
-                    {[
-                      { label: 'Student Programs', href: '/programs' },
-                      { label: 'School Programs', href: '/schools' },
-                      { label: 'Curriculum', href: '/curriculum' },
-                      { label: 'About Us', href: '/about' }
-                    ].map((link, i) => (
-                      <a
-                        key={i}
-                        href={link.href}
-                        className="flex items-center gap-3 text-white/70 hover:text-accent-400 transition-colors group"
-                      >
-                        <div className="w-1.5 h-1.5 rounded-full bg-accent-500 group-hover:scale-150 transition-transform" />
-                        <span className="font-medium text-sm">{link.label}</span>
-                      </a>
-                    ))}
-                  </div>
-                </Card>
-              </div>
-            </div>
-          </ScrollReveal>
-        </div>
-      </Container>
-    </Section>
+        </Container>
+      </Section>
 
       {/* FAQ Section */}
       <Section background="darkBlue" className="relative group/section">

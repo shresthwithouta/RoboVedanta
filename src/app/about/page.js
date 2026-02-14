@@ -9,7 +9,7 @@ import { Section } from '@/components/ui/Section';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
-import { CheckTeachersCTA } from '@/components/ui/CheckTeachersCTA';
+import { CheckTrainersCTA } from '@/components/ui/CheckTrainersCTA';
 
 function AnimatedSection({ children, delay = 0 }) {
   const ref = useRef(null);
@@ -35,8 +35,8 @@ export default function AboutPage() {
         <div className="absolute inset-0 tech-grid opacity-20 pointer-events-none" />
         <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-primary-500/80 pointer-events-none" />
         
-        <div className="absolute top-20 -right-20 w-[500px] h-[500px] bg-accent-500/10 rounded-full blur-[120px] floating pointer-events-none" />
-        <div className="absolute bottom-40 -left-20 w-[400px] h-[400px] bg-primary-300/15 rounded-full blur-[100px] floating pointer-events-none" style={{ animationDelay: '-3s' }} />
+        <div className="absolute top-20 -right-20 w-125 h-125 bg-accent-500/10 rounded-full blur-[120px] floating pointer-events-none" />
+        <div className="absolute bottom-40 -left-20 w-100 h-100 bg-primary-300/15 rounded-full blur-[100px] floating pointer-events-none" style={{ animationDelay: '-3s' }} />
 
         <Container className="relative z-10">
           <motion.div
@@ -124,7 +124,7 @@ export default function AboutPage() {
               </h2>
               <div className="h-px w-20 bg-accent-500 mx-auto mb-10 opacity-30" />
               <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed">
-                We are a group of passionate educators who understand what works in real classrooms because we've been there.
+                We are a group of passionate educators who understand what works in real classrooms because we&apos;ve been there.
               </p>
             </ScrollReveal>
           </div>
@@ -181,11 +181,11 @@ export default function AboutPage() {
                   },
                   {
                     title: 'Real Classroom Roots',
-                    description: 'Every lesson, every project, every assessment has been shaped by actual classroom feedback. We know what works because we\'ve seen it work.'
+                    description: 'Every lesson, every project, every assessment has been shaped by actual classroom feedback. We know what works because we&apos;ve seen it work.'
                   },
                   {
                     title: 'Sustainable Impact',
-                    description: 'We\'re not chasing trends or making exaggerated claims. We\'re building a long-term educational foundation that truly prepares students for the future.'
+                    description: 'We&apos;re not chasing trends or making exaggerated claims. We&apos;re building a long-term educational foundation that truly prepares students for the future.'
                   }
                 ].map((item, i) => (
                   <div key={i} className="text-center">
@@ -259,7 +259,7 @@ export default function AboutPage() {
               },
               {
                 icon: <Award size={40} />,
-                title: 'Teacher Support',
+                title: 'Trainer Support',
                 points: [
                   'Comprehensive training programs',
                   'Ongoing professional development',
@@ -294,7 +294,7 @@ export default function AboutPage() {
             <Card variant="elevated" className="p-10 md:p-16 bg-linear-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20">
               <div className="text-center mb-12">
                 <h3 className="text-3xl md:text-4xl font-heading font-black text-accent-500 mb-4">Our Commitment</h3>
-                <p className="text-white/60 text-lg">Building the foundation for tomorrow's innovators</p>
+                <p className="text-white/60 text-lg">Building the foundation for tomorrow&apos;s innovators</p>
               </div>
               
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -372,8 +372,8 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* Teachers CTA */}
-      <CheckTeachersCTA />
+      {/* Trainers CTA */}
+      <CheckTrainersCTA />
 
       {/* CTA Section */}
       <Section background="darkBlue" spacing="lg" className="relative overflow-hidden group/cta">

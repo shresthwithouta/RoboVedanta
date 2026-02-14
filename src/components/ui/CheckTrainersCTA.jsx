@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Users, ArrowRight, Star, ShieldCheck, GraduationCap } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export function CheckTeachersCTA() {
+export function CheckTrainersCTA() {
   return (
     <section className="px-4 py-12 md:py-20">
       <div className="max-w-7xl mx-auto">
@@ -37,7 +37,7 @@ export function CheckTeachersCTA() {
                 Meet the <span className="text-shimmer">Innovators</span> Guiding Your Journey
               </h2>
               <p className="text-white/60 text-base md:text-xl font-medium leading-relaxed max-w-3xl mx-auto">
-                Our educators aren't just teachers; they are B.Tech scholars and robotics experts dedicated to bridging the gap between theory and innovation.
+                Our innovators aren't just trainers; they are B.Tech scholars and robotics experts dedicated to bridging the gap between theory and innovation.
               </p>
             </motion.div>
 
@@ -56,7 +56,7 @@ export function CheckTeachersCTA() {
               <div className="flex flex-col items-center gap-2 md:gap-3 p-5 md:p-6 rounded-3xl bg-white/5 border border-white/10">
                 <GraduationCap className="text-accent-500" size={32} />
                 <h3 className="text-white font-bold text-base md:text-lg">Personalized Path</h3>
-                <p className="text-white/40 text-xs md:text-sm">Choose the educator that best matches your learning style and goals.</p>
+                <p className="text-white/40 text-xs md:text-sm">Choose the trainer that best matches your learning style and goals.</p>
               </div>
               <div className="flex flex-col items-center gap-2 md:gap-3 p-5 md:p-6 rounded-3xl bg-white/5 border border-white/10">
                 <Users className="text-accent-500" size={32} />
@@ -73,10 +73,10 @@ export function CheckTeachersCTA() {
               className="pt-8"
             >
               <Link
-                href="/teachers"
+                href="/trainers"
                 className="group inline-flex items-center gap-3 px-10 py-5 rounded-2xl bg-accent-500 text-primary-900 font-black text-sm uppercase tracking-wider hover:bg-accent-400 transition-all shadow-xl shadow-accent-500/20 hover:shadow-accent-500/40 hover:-translate-y-1"
               >
-                <span>Check Our Teachers</span>
+                <span>Check Our Trainers</span>
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>

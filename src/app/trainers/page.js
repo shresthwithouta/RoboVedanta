@@ -1,68 +1,68 @@
-import { getAllTeachers, getFeaturedTeachers } from '@/data/teachers';
-import TeacherCard from '@/components/teachers/TeacherCard';
+import { getAllTrainers, getFeaturedTrainers } from '@/data/trainers';
+import TrainerCard from '@/components/trainers/TrainerCard';
 
 export const metadata = {
-  title: 'Expert Educators - RoboVedanta',
-  description: 'Meet our team of experienced robotics educators ready to guide your learning journey.',
+  title: 'Expert Trainers - RoboVedanta',
+  description: 'Meet our team of experienced robotics trainers ready to guide your learning journey.',
 };
 
-export default function TeachersPage() {
-  const allTeachers = getAllTeachers();
-  const featuredTeachers = getFeaturedTeachers();
-  const regularTeachers = allTeachers.filter(t => !t.featured && t.active);
+export default function TrainersPage() {
+  const allTrainers = getAllTrainers();
+  const featuredTrainers = getFeaturedTrainers();
+  const regularTrainers = allTrainers.filter(t => !t.featured && t.active);
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#002246] via-[#002850] to-[#002F5A]">
+    <main className="min-h-screen bg-linear-to-b from-primary-700 via-primary-600 to-primary-900">
       
       {/* Hero Section */}
       <section className="pt-32 pb-16 px-4">
         <div className="max-w-6xl mx-auto text-center space-y-6">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white">
             Meet Our{' '}
-            <span className="bg-gradient-to-r from-[#E6B73B] to-[#B8860B] 
+            <span className="bg-linear-to-r from-[#E6B73B] to-[#B8860B] 
                            bg-clip-text text-transparent">
-              Expert Educators
+              Expert Trainers
             </span>
           </h1>
           <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto">
             Learn from experienced professionals passionate about robotics education. 
-            Each educator brings unique expertise to guide you on your learning journey.
+            Each trainer brings unique expertise to guide you on your learning journey.
           </p>
         </div>
       </section>
 
-      {/* Featured Teachers */}
-      {featuredTeachers.length > 0 && (
+      {/* Featured Trainers */}
+      {featuredTrainers.length > 0 && (
         <section className="py-12 px-4">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-3 mb-8">
-              <div className="h-1 w-12 bg-gradient-to-r from-[#E6B73B] to-[#B8860B] rounded-full" />
+              <div className="h-1 w-12 bg-linear-to-r from-[#E6B73B] to-[#B8860B] rounded-full" />
               <h2 className="text-2xl md:text-3xl font-bold text-white">
-                ⭐ Featured Educators
+                ⭐ Featured Trainers
               </h2>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {featuredTeachers.map(teacher => (
-                <TeacherCard key={teacher.id} teacher={teacher} />
+              {featuredTrainers.map(trainer => (
+                <TrainerCard key={trainer.id} trainer={trainer} />
               ))}
             </div>
           </div>
         </section>
       )}
 
-      {/* All Teachers */}
-      {regularTeachers.length > 0 && (
+      {/* All Trainers */}
+      {regularTrainers.length > 0 && (
         <section className="py-12 px-4 pb-24">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center gap-3 mb-8">
-              <div className="h-1 w-12 bg-gradient-to-r from-[#E6B73B] to-[#B8860B] rounded-full" />
+              <div className="h-1 w-12 bg-linear-to-r from-[#E6B73B] to-[#B8860B] rounded-full" />
               <h2 className="text-2xl md:text-3xl font-bold text-white">
-                All Educators
+                All Trainers
               </h2>
             </div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {regularTeachers.map(teacher => (
-                <TeacherCard key={teacher.id} teacher={teacher} />
+              {regularTrainers.map(trainer => (
+                <TrainerCard key={trainer.id} trainer={trainer} />
               ))}
             </div>
           </div>
@@ -71,19 +71,19 @@ export default function TeachersPage() {
 
       {/* CTA Section */}
       <section className="px-4 pb-24">
-        <div className="max-w-4xl mx-auto bg-gradient-to-r from-[#002850] to-[#002246]
+        <div className="max-w-4xl mx-auto bg-linear-to-r from-primary-600 to-primary-700
                       border border-[#B8860B]/20 rounded-2xl p-8 md:p-12 text-center space-y-6">
           <h2 className="text-2xl md:text-4xl font-bold text-white">
             Ready to Start Your Robotics Journey?
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Choose your preferred educator and enroll in a program that matches your goals.
+            Choose your preferred trainer and enroll in a program that matches your goals.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
             <a 
               href="/programs"
-              className="px-8 py-4 bg-gradient-to-r from-[#E6B73B] to-[#B8860B]
-                       text-[#002246] rounded-xl font-bold text-lg
+              className="px-8 py-4 bg-linear-to-r from-[#E6B73B] to-[#B8860B]
+                       text-primary-700 rounded-xl font-bold text-lg
                        hover:scale-105 transition-transform duration-300"
             >
               View Programs
@@ -92,7 +92,7 @@ export default function TeachersPage() {
               href="/contact"
               className="px-8 py-4 border-2 border-[#B8860B] text-[#B8860B]
                        rounded-xl font-bold text-lg
-                       hover:bg-[#B8860B] hover:text-[#002246]
+                       hover:bg-[#B8860B] hover:text-primary-700
                        transition-all duration-300"
             >
               Contact Us

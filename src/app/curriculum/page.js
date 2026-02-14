@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { CURRICULUM_LEVELS } from '@/lib/constants';
-import { CheckTeachersCTA } from '@/components/ui/CheckTeachersCTA';
+import { CheckTrainersCTA } from '@/components/ui/CheckTrainersCTA';
 
 function AnimatedSection({ children, delay = 0 }) {
   const ref = useRef(null);
@@ -33,12 +33,12 @@ export default function CurriculumPage() {
   return (
     <main>
       {/* Hero Section */}
-      <Section spacing="md" className="relative pt-32 md:pt-40 lg:pt-48 pb-20 md:pb-32 min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-primary-400 via-primary-400 to-primary-500">
+      <Section spacing="md" className="relative pt-32 md:pt-40 lg:pt-48 pb-20 md:pb-32 min-h-[70vh] flex items-center justify-center overflow-hidden bg-linear-to-b from-primary-400 via-primary-400 to-primary-500">
         <div className="absolute inset-0 tech-grid opacity-20 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary-500/80 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-primary-500/80 pointer-events-none" />
         
-        <div className="absolute top-20 -right-20 w-[500px] h-[500px] bg-accent-500/10 rounded-full blur-[120px] floating pointer-events-none" />
-        <div className="absolute bottom-40 -left-20 w-[400px] h-[400px] bg-primary-300/15 rounded-full blur-[100px] floating pointer-events-none" style={{ animationDelay: '-3s' }} />
+        <div className="absolute top-20 -right-20 w-125 h-125 bg-accent-500/10 rounded-full blur-[120px] floating pointer-events-none" />
+        <div className="absolute bottom-40 -left-20 w-100 h-100 bg-primary-300/15 rounded-full blur-[100px] floating pointer-events-none" style={{ animationDelay: '-3s' }} />
 
         <Container className="relative z-10">
           <motion.div
@@ -66,11 +66,8 @@ export default function CurriculumPage() {
               A comprehensive, project-based robotics curriculum designed for Grades 1–12, aligned with CBSE & ICSE standards
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6">
-              <Button variant="primary" size="lg" className="rounded-2xl px-10 py-5 h-auto border-none shadow-2xl shadow-accent-500/10">
-                <span className="relative z-10">Download Syllabus</span>
-              </Button>
-              <Button variant="outline" size="lg" className="rounded-2xl px-10 py-5 h-auto border-white/20 text-white hover:text-primary-900">
+            <div className="flex justify-center">
+              <Button variant="primary" size="lg" className="rounded-2xl px-10 py-5 h-auto border-none shadow-2xl shadow-accent-500/10 transition-all duration-500 hover:scale-105">
                 <span className="relative z-10">View Sample Projects</span>
               </Button>
             </div>
@@ -130,16 +127,22 @@ export default function CurriculumPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
-                  { level: 'Level 1', project: 'Line Following Robot', skills: 'Logic, Sensors' },
-                  { level: 'Level 3', project: 'Smart Home Automation', skills: 'IoT, Communication' },
-                  { level: 'Level 5', project: 'AI-Powered Sorting System', skills: 'Machine Learning, Vision' }
+                  { level: 'Level 1', project: 'LED Flashlights', skills: 'Electronics, Logic' },
+                  { level: 'Level 1', project: 'Automatic Night Lamp', skills: 'Sensors, Energy' },
+                  { level: 'Level 2', project: 'Obstacle Avoider', skills: 'Sensing, Motors' },
+                  { level: 'Level 2', project: 'Line Follower Bot', skills: 'IR Sensors, Control' },
+                  { level: 'Level 3', project: 'Smart Home Automation', skills: 'IoT, Web' },
+                  { level: 'Level 3', project: 'Weather Station', skills: 'Cloud, Sensors' },
+                  { level: 'Level 4', project: 'Object Sorting Arm', skills: 'AI, Vision' },
+                  { level: 'Level 4', project: 'Gesture Control Car', skills: 'Wireless, IMU' },
+                  { level: 'Level 5', project: 'Advanced Humanoid', skills: 'Robotics, Innovation' }
                 ].map((example, i) => (
                   <div key={i} className="bg-primary-600/50 p-6 rounded-2xl border border-white/10 hover:border-accent-500/30 transition-all group">
-                    <div className="text-xs font-black text-accent-400 tracking-widest uppercase mb-3">{example.level}</div>
-                    <h4 className="text-xl font-heading font-black text-white mb-3 group-hover:text-accent-400 transition-colors">{example.project}</h4>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="text-xs font-black text-accent-400 tracking-widest uppercase mb-3 text-center md:text-left">{example.level}</div>
+                    <h4 className="text-lg font-heading font-black text-white mb-3 group-hover:text-accent-400 transition-colors text-center md:text-left">{example.project}</h4>
+                    <div className="flex flex-wrap gap-2 justify-center md:justify-start">
                       {example.skills.split(', ').map((skill, idx) => (
-                        <span key={idx} className="text-xs px-3 py-1 bg-white/5 border border-white/10 rounded-full text-white/60 font-medium">
+                        <span key={idx} className="text-[10px] px-3 py-1 bg-white/5 border border-white/10 rounded-full text-white/60 font-medium">
                           {skill}
                         </span>
                       ))}
@@ -179,7 +182,7 @@ export default function CurriculumPage() {
           <div className="space-y-8 mb-20">
             {CURRICULUM_LEVELS.map((level, index) => (
               <ScrollReveal key={level.id} delay={index * 0.05}>
-                <Card variant="elevated" className="p-8 md:p-12 group hover:border-accent-500/30 transition-all duration-500 bg-white/[0.02] border-white/10">
+                <Card variant="elevated" className="p-8 md:p-12 group hover:border-accent-500/30 transition-all duration-500 bg-white/2 border-white/10">
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                     {/* Level Number */}
                     <div className="lg:col-span-2 flex items-center justify-center lg:justify-start">
@@ -203,15 +206,28 @@ export default function CurriculumPage() {
                       <p className="text-white/40 text-xs font-medium italic">Grades with levels to be added soon</p>
                     </div>
 
-                    {/* Description */}
+                    {/* Description & Projects */}
                     <div className="lg:col-span-6">
-                      <p className="text-white/70 text-lg leading-relaxed font-medium mb-6">
+                      <p className="text-white/70 text-lg leading-relaxed font-medium mb-8">
                         {level.description}
                       </p>
-                      <Link href={`/curriculum/level-${level.id}`} className="inline-flex items-center gap-2 text-accent-400 font-black text-sm tracking-widest uppercase hover:gap-4 hover:text-accent-300 transition-all group/link">
-                        Explore Level {level.id}
-                        <ArrowRight size={16} className="group-hover/link:translate-x-1 transition-transform" />
-                      </Link>
+                      
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                        <div>
+                          <div className="text-[10px] uppercase font-black text-accent-500/50 tracking-[0.2em] mb-3">Key Projects</div>
+                          <div className="space-y-2">
+                            {level.projects.map((project, i) => (
+                              <div key={i} className="flex items-center gap-2 text-xs text-white/50">
+                                <div className="w-1 h-1 rounded-full bg-accent-500/50" />
+                                {project}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex flex-col justify-end items-end">
+                          {/* Explore Level links removed */}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </Card>
@@ -294,7 +310,7 @@ export default function CurriculumPage() {
               }
             ].map((stage, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
-                <Card variant="elevated" className={`p-8 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-gradient-to-br ${stage.color}`}>
+                <Card variant="elevated" className={`p-8 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-linear-to-br ${stage.color}`}>
                   <div className="inline-flex p-4 rounded-2xl bg-accent-600/20 text-accent-400 mb-6 group-hover:bg-accent-600 group-hover:text-primary-900 group-hover:scale-110 transition-all duration-500">
                     {stage.icon}
                   </div>
@@ -315,7 +331,7 @@ export default function CurriculumPage() {
 
           {/* Skill Development Chart */}
           <ScrollReveal>
-            <Card variant="elevated" className="p-10 md:p-16 bg-white/[0.02] border-white/10">
+            <Card variant="elevated" className="p-10 md:p-16 bg-white/2 border-white/10">
               <h3 className="text-3xl md:text-4xl font-heading font-black text-center text-accent-500 mb-12">Skill Development Timeline</h3>
               <div className="space-y-6">
                 {[
@@ -339,7 +355,7 @@ export default function CurriculumPage() {
                               whileInView={{ width: `${level}%` }}
                               transition={{ duration: 1, delay: i * 0.1 }}
                               viewport={{ once: true }}
-                              className="h-full bg-gradient-to-r from-accent-600 to-accent-500 flex items-center justify-center"
+                              className="h-full bg-linear-to-r from-accent-600 to-accent-500 flex items-center justify-center"
                             >
                               <span className="text-[10px] font-black text-primary-900">{level}%</span>
                             </motion.div>
@@ -410,7 +426,7 @@ export default function CurriculumPage() {
               }
             ].map((item, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
-                <Card variant="elevated" className="p-8 md:p-10 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/[0.02]">
+                <Card variant="elevated" className="p-8 md:p-10 group h-full border-white/10 hover:border-accent-500/30 transition-all duration-500 bg-white/2">
                   <div className="flex items-start gap-6 mb-6">
                     <div className="inline-flex p-4 rounded-2xl bg-accent-600/20 text-accent-400 group-hover:bg-accent-600 group-hover:text-primary-900 transition-all duration-500 shrink-0">
                       {item.icon}
@@ -441,7 +457,7 @@ export default function CurriculumPage() {
 
           {/* Board Alignment */}
           <ScrollReveal>
-            <Card variant="elevated" className="p-10 md:p-16 bg-gradient-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20">
+            <Card variant="elevated" className="p-10 md:p-16 bg-linear-to-br from-accent-500/10 to-primary-600/50 border-accent-500/20">
               <div className="text-center mb-12">
                 <h3 className="text-3xl md:text-4xl font-heading font-black text-accent-500 mb-4">Board Alignment</h3>
                 <p className="text-white/60 text-lg">Fully mapped to CBSE & ICSE learning outcomes</p>
@@ -487,8 +503,8 @@ export default function CurriculumPage() {
         </Container>
       </Section>
 
-      {/* Teachers CTA */}
-      <CheckTeachersCTA />
+      {/* Trainers CTA */}
+      <CheckTrainersCTA />
 
       {/* CTA Section */}
       <Section background="darkBlue" spacing="lg" className="relative overflow-hidden group/cta">
@@ -503,11 +519,8 @@ export default function CurriculumPage() {
               <p className="text-xl md:text-2xl text-white/40 font-medium mb-16 max-w-2xl mx-auto tracking-tight">
                 Download our complete curriculum guide or schedule a demo to see our approach in action.
               </p>
-              <div className="flex flex-col sm:flex-row gap-6 justify-center max-w-lg mx-auto">
-                <Button variant="primary" size="lg" className="rounded-2xl px-12 font-black tracking-widest uppercase text-xs border-none shadow-2xl shadow-accent-500/20 py-5 w-full sm:w-auto">
-                  Download Curriculum
-                </Button>
-                <Button variant="outline" size="lg" className="rounded-2xl px-12 font-black tracking-widest uppercase text-xs text-white hover:text-primary-900 py-5 w-full sm:w-auto transition-all duration-500">
+              <div className="flex justify-center">
+                <Button variant="primary" size="lg" className="rounded-2xl px-12 font-black tracking-widest uppercase text-xs border-none shadow-2xl shadow-accent-500/20 py-5 w-full sm:w-auto transition-all duration-500 hover:scale-105">
                   Schedule Demo
                 </Button>
               </div>

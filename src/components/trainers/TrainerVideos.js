@@ -12,7 +12,7 @@ function VideoCard({ video, details, idx }) {
   
   // Smart extraction
   let name = '';
-  let course = 'Robotics Mentor';
+  let course = 'Robotics Trainer';
   const fullTitle = displayTitle;
   
   if (fullTitle.includes('Name:')) {
@@ -109,7 +109,7 @@ function VideoCard({ video, details, idx }) {
             </div>
             <div className="absolute inset-x-0 bottom-0 p-4 bg-linear-to-t from-black/90 to-transparent text-center">
               <p className="text-white text-[10px] font-black uppercase tracking-[0.2em] opacity-0 group-hover/facade:opacity-100 transition-opacity duration-300">
-                 Click to launch mentor session
+                 Click to launch trainer session
               </p>
             </div>
           </div>
@@ -132,7 +132,7 @@ function VideoCard({ video, details, idx }) {
                     />
                   </div>
                   <div className="flex items-center justify-between text-white">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-accent-400">Exclusive Mentor Content</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-accent-400">Exclusive Trainer Content</span>
                     <div className="flex items-center gap-2">
                        <div className="w-1.5 h-1.5 rounded-full bg-accent-500 animate-pulse" />
                        <span className="text-[10px] font-black uppercase tracking-widest opacity-60">RoboVedanta TV</span>
@@ -163,7 +163,7 @@ function VideoCard({ video, details, idx }) {
           <div className="flex items-center justify-center gap-6">
              <div className="flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-accent-500 animate-pulse" />
-                <span className="text-xs text-white/40 font-black uppercase tracking-[0.3em]">Educator Profile</span>
+                <span className="text-xs text-white/40 font-black uppercase tracking-[0.3em]">Trainer Profile</span>
              </div>
           </div>
         </div>
@@ -175,7 +175,7 @@ function VideoCard({ video, details, idx }) {
   );
 }
 
-export default function TeacherVideos({ videos }) {
+export default function TrainerVideos({ videos }) {
   const [videoDetails, setVideoDetails] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -265,13 +265,13 @@ export default function TeacherVideos({ videos }) {
           <div className="space-y-4 max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-500/10 border border-accent-500/20 text-accent-400 text-xs font-black uppercase tracking-[0.2em] mx-auto">
               <Play size={14} fill="currentColor" />
-              Mentor Spotlight
+              Trainer Spotlight
             </div>
             <h2 className="text-4xl md:text-6xl font-heading font-black text-white tracking-tighter">
-              Meet Your <span className="text-shimmer">Educator</span>
+              Meet Your <span className="text-shimmer">Trainer</span>
             </h2>
             <p className="text-white/60 text-lg md:text-xl font-medium leading-relaxed">
-              Watch an exclusive session from your mentor to explore their teaching methodology and advanced robotics expertise.
+              Watch an exclusive session from your trainer to explore their teaching methodology and advanced robotics expertise.
             </p>
           </div>
         </div>
@@ -279,7 +279,7 @@ export default function TeacherVideos({ videos }) {
         {isLoading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <Loader2 className="animate-spin text-accent-500" size={40} />
-            <p className="text-white/40 font-black uppercase tracking-widest text-xs">Loading Mentor Sessions...</p>
+            <p className="text-white/40 font-black uppercase tracking-widest text-xs">Loading Trainer Sessions...</p>
           </div>
         ) : (
           <div className={`grid grid-cols-1 ${videos.length === 1 ? 'max-w-2xl mx-auto' : 'sm:grid-cols-2 lg:grid-cols-3'} gap-8`}>

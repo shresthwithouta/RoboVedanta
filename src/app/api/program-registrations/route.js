@@ -25,6 +25,9 @@ export async function GET() {
 
 // POST - Create new program registration
 export async function POST(request) {
+  // DEBUG
+  // return NextResponse.json({ success: true, debug: 'reached' });
+  
   try {
     const body = await request.json();
     

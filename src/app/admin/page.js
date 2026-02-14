@@ -187,7 +187,7 @@ export default function AdminPage() {
         </header>
 
         {/* Dynamic Content */}
-        <main className="flex-1 overflow-y-auto p-10 scrollbar-thin scrollbar-thumb-white/10">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden p-10 scrollbar-hide">
           <div className="max-w-6xl mx-auto space-y-10">
             {/* Stats Summary */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -349,7 +349,7 @@ export default function AdminPage() {
               <div className="absolute top-0 right-0 w-96 h-96 bg-accent-500/5 blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent-500/5 blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
-              <div className="p-10 flex flex-col h-full overflow-y-auto relative z-10 scrollbar-thin scrollbar-thumb-white/10">
+              <div className="p-10 flex flex-col h-full overflow-y-auto relative z-10 scrollbar-hide">
                 <div className="flex items-center justify-between mb-12">
                   <div className="flex items-center gap-6">
                     <div className="w-20 h-20 bg-accent-500/10 text-accent-500 rounded-3xl flex items-center justify-center shadow-inner">
@@ -375,48 +375,44 @@ export default function AdminPage() {
                   </button>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-                  <div className="space-y-10">
-                    <section>
-                      <h5 className="text-[10px] font-black text-accent-500 uppercase tracking-[0.2em] mb-6">Subject Information</h5>
-                      <div className="grid grid-cols-1 gap-6">
-                        <InfoItem label="Primary Name" value={selectedItem.schoolName || selectedItem.studentName || selectedItem.name} icon={<Users />} />
-                        <InfoItem label="Classification" value={selectedItem.board || selectedItem.programType || selectedItem.subject} icon={<LayoutDashboard />} />
-                        {selectedItem.grade && <InfoItem label="Grade Level" value={`Grade ${selectedItem.grade}`} icon={<GraduationCap />} />}
-                        {selectedItem.selectedGrade && <InfoItem label="Applied Grade" value={`Level ${selectedItem.selectedGrade}`} icon={<GraduationCap />} />}
-                      </div>
-                    </section>
+                <div className="space-y-12">
+                  <section>
+                    <h5 className="text-[10px] font-black text-accent-500 uppercase tracking-[0.2em] mb-6">Subject Information</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <InfoItem label="Primary Name" value={selectedItem.schoolName || selectedItem.studentName || selectedItem.name} icon={<Users />} />
+                      <InfoItem label="Classification" value={selectedItem.board || selectedItem.programType || selectedItem.subject} icon={<LayoutDashboard />} />
+                      {selectedItem.grade && <InfoItem label="Grade Level" value={`Grade ${selectedItem.grade}`} icon={<GraduationCap />} />}
+                      {selectedItem.selectedGrade && <InfoItem label="Applied Grade" value={`Level ${selectedItem.selectedGrade}`} icon={<GraduationCap />} />}
+                    </div>
+                  </section>
 
-                    <section>
-                      <h5 className="text-[10px] font-black text-accent-500 uppercase tracking-[0.2em] mb-6">Communication Vectors</h5>
-                      <div className="grid grid-cols-1 gap-6 text-xl">
-                        <InfoItem label="Direct Contact" value={selectedItem.contactPerson || selectedItem.parentName || 'Direct'} icon={<Users />} />
-                        <InfoItem label="Email Gateway" value={selectedItem.email} icon={<Mail />} />
-                        <InfoItem label="Phone Connection" value={selectedItem.phone || 'Not Provided'} icon={<Phone />} />
-                      </div>
-                    </section>
-                  </div>
+                  <section>
+                    <h5 className="text-[10px] font-black text-accent-500 uppercase tracking-[0.2em] mb-6">Communication Vectors</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <InfoItem label="Direct Contact" value={selectedItem.contactPerson || selectedItem.parentName || 'Direct'} icon={<Users />} />
+                      <InfoItem label="Email Gateway" value={selectedItem.email} icon={<Mail />} />
+                      <InfoItem label="Phone Connection" value={selectedItem.phone || 'Not Provided'} icon={<Phone />} />
+                    </div>
+                  </section>
 
-                  <div className="space-y-10">
-                    <section>
-                      <h5 className="text-[10px] font-black text-accent-500 uppercase tracking-[0.2em] mb-6">Logistical Details</h5>
-                      <div className="grid grid-cols-1 gap-6">
-                        {selectedItem.city && <InfoItem label="Geographical Location" value={`${selectedItem.city}, ${selectedItem.state}`} icon={<MapPin />} />}
-                        {selectedItem.address && <InfoItem label="Detailed Address" value={selectedItem.address} icon={<MapPin />} />}
-                        {activeTab !== 'messages' && <InfoItem label="Financial Estimate" value={`₹${(selectedItem.estimatedQuote || 0).toLocaleString('en-IN')}`} icon={<DollarSign />} />}
-                        {selectedItem.numberOfStudents && <InfoItem label="Student Volume" value={`${selectedItem.numberOfStudents} Registered`} icon={<Users />} />}
-                      </div>
-                    </section>
+                  <section>
+                    <h5 className="text-[10px] font-black text-accent-500 uppercase tracking-[0.2em] mb-6">Logistical Details</h5>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                      {selectedItem.city && <InfoItem label="Geographical Location" value={`${selectedItem.city}, ${selectedItem.state}`} icon={<MapPin />} />}
+                      {selectedItem.address && <InfoItem label="Detailed Address" value={selectedItem.address} icon={<MapPin />} />}
+                      {activeTab !== 'messages' && <InfoItem label="Financial Estimate" value={`₹${(selectedItem.estimatedQuote || 0).toLocaleString('en-IN')}`} icon={<DollarSign />} />}
+                      {selectedItem.numberOfStudents && <InfoItem label="Student Volume" value={`${selectedItem.numberOfStudents} Registered`} icon={<Users />} />}
+                    </div>
+                  </section>
 
-                    {selectedItem.message && (
-                      <section>
-                         <h5 className="text-[10px] font-black text-accent-500 uppercase tracking-[0.2em] mb-6">Special Instructions / Message</h5>
-                         <div className="bg-white/5 border border-white/10 rounded-3xl p-6 text-white/70 text-sm leading-relaxed font-medium">
-                            "{selectedItem.message}"
-                         </div>
-                      </section>
-                    )}
-                  </div>
+                  {selectedItem.message && (
+                    <section>
+                       <h5 className="text-[10px] font-black text-accent-500 uppercase tracking-[0.2em] mb-6">Special Instructions / Message</h5>
+                       <div className="bg-white/5 border border-white/10 rounded-3xl p-8 text-white/70 text-lg leading-relaxed font-medium">
+                          "{selectedItem.message}"
+                       </div>
+                    </section>
+                  )}
                 </div>
 
                 <div className="mt-auto pt-10 border-t border-white/10 flex items-center justify-between">

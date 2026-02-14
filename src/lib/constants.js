@@ -12,7 +12,7 @@ export const NAV_LINKS = {
   default: [
     { label: 'Programs', href: '/programs' },
     { label: 'Curriculum', href: '/curriculum' },
-    { label: 'Teachers', href: '/teachers' },
+    { label: 'Trainers', href: '/trainers' },
     { label: 'For Schools', href: '/schools' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' }
@@ -23,37 +23,42 @@ export const CURRICULUM_LEVELS = [
   {
     id: 1,
     name: 'Jigyasa',
-    grade: '6-7',
-    description: 'Foundation in robotics and computational thinking',
-    theme: 'Curiosity & Exploration'
+    grade: '1-3',
+    description: 'STEM projects with LEDs, buzzers, and more. Basics of electronics, wiring, and safety. Boosting confidence and curiosity. Creativity and discovery for young innovators.',
+    theme: 'Curiosity & Exploration',
+    projects: ['LED Flashlights', 'Simple Buzzers', 'Conductive Dough', 'Optical Illusions']
   },
   {
     id: 2,
-    name: 'Samvedana',
-    grade: '7-8',
-    description: 'Understanding sensors and real-world applications',
-    theme: 'Awareness & Sensing'
+    name: 'Khoj',
+    grade: '4-5',
+    description: 'Explore robotics basics: motors, wheels, drivers, and sensors. Build simple robots hands-on. Connect and control motors with microcontrollers. Use sensors for obstacle detection and line following.',
+    theme: 'Awareness & Sensing',
+    projects: ['Line Follower', 'Obstacle Avoider', 'Remote Control Car', 'Smart Fan']
   },
   {
     id: 3,
-    name: 'Rachana',
-    grade: '8-9',
-    description: 'Building complex systems and automation',
-    theme: 'Creation & Construction'
+    name: 'Nirmaan',
+    grade: '6-8',
+    description: 'Master IoT and ESP32 with coding and sensors. Program robots for wireless and Bluetooth control. Work on projects like flood warning systems and Bluetooth robots. Enhance coding skills to drive innovation.',
+    theme: 'Creation & Construction',
+    projects: ['IoT Weather Station', 'Bluetooth Controlled Robot', 'Flood Warning System', 'Smart Irrigation']
   },
   {
     id: 4,
-    name: 'Bodh',
+    name: 'Pragati',
     grade: '9-10',
-    description: 'AI fundamentals and machine learning concepts',
-    theme: 'Knowledge & Intelligence'
+    description: 'AI-powered robots and ESP32-CAM modules. Object recognition and automation. Real-world AI applications. Machines that perceive and interact with their environment.',
+    theme: 'Knowledge & Intelligence',
+    projects: ['Facial Recognition Bot', 'Object Sorting Arm', 'AI Traffic System', 'Self-Driving Cart']
   },
   {
     id: 5,
     name: 'Udaan',
     grade: '11-12',
-    description: 'Advanced projects and innovation',
-    theme: 'Flight & Achievement'
+    description: 'Becoming creators and innovators. Integrating electronics, robotics, coding, IoT, and AI. Creativity, research, and practical application. Preparing for future technology challenges.',
+    theme: 'Flight & Achievement',
+    projects: ['Advanced Humanoid', 'Industry 4.0 Automation', 'Research-led Innovation', 'Social Impact AI']
   }
 ];
 

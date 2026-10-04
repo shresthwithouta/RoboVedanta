@@ -5,9 +5,7 @@ import { useState, useEffect } from 'react';
 import { Container } from './Container';
 import { Button } from '../ui/Button';
 import { NAV_LINKS } from '@/lib/constants';
-import { motion } from 'framer-motion';
 import { cn } from '@/lib/cn';
-
 import { usePathname } from 'next/navigation';
 
 export function Navbar() {
@@ -40,7 +38,7 @@ export function Navbar() {
               )}>
                 RoboVedanta
               </span>
-              </div>
+            </div>
           </Link>
           
           <div className="hidden md:flex items-center gap-4 lg:gap-10">
@@ -66,7 +64,7 @@ export function Navbar() {
               })}
             </div>
             
-            <Button variant="primary" size="sm" className="px-4 lg:px-5 py-2 rounded-xl text-[9px] lg:text-xs font-black capitalize tracking-widest lg:tracking-[0.2em] whitespace-nowrap shadow-xl shadow-accent-500/10">
+            <Button href="/contact" variant="primary" size="sm" className="px-4 lg:px-5 py-2 rounded-xl text-[9px] lg:text-xs font-black capitalize tracking-widest lg:tracking-[0.2em] whitespace-nowrap shadow-xl shadow-accent-500/10">
               Get Started
             </Button>
           </div>

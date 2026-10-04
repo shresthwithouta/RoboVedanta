@@ -67,7 +67,7 @@ export default function CurriculumPage() {
             </p>
 
             <div className="flex justify-center">
-              <Button variant="primary" size="lg" className="rounded-2xl px-10 py-5 h-auto border-none shadow-2xl shadow-accent-500/10 transition-all duration-500 hover:scale-105">
+              <Button href="/programs" variant="primary" size="lg" className="rounded-2xl px-10 py-5 h-auto border-none shadow-2xl shadow-accent-500/10 transition-all duration-500 hover:scale-105">
                 <span className="relative z-10">View Sample Projects</span>
               </Button>
             </div>
@@ -520,7 +520,7 @@ export default function CurriculumPage() {
                 Download our complete curriculum guide or schedule a demo to see our approach in action.
               </p>
               <div className="flex justify-center">
-                <Button variant="primary" size="lg" className="rounded-2xl px-12 font-black tracking-widest uppercase text-xs border-none shadow-2xl shadow-accent-500/20 py-5 w-full sm:w-auto transition-all duration-500 hover:scale-105">
+                <Button href="/contact" variant="primary" size="lg" className="rounded-2xl px-12 font-black tracking-widest uppercase text-xs border-none shadow-2xl shadow-accent-500/20 py-5 w-full sm:w-auto transition-all duration-500 hover:scale-105">
                   Schedule Demo
                 </Button>
               </div>

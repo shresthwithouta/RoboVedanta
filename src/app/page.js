@@ -127,9 +127,11 @@ export default function Home() {
               >
                 <span className="relative z-10 whitespace-nowrap">Start Learning Now</span>
               </Button>
-              <Button variant="outline" size="lg" className="rounded-2xl text-xs xs:text-sm sm:text-md lg:text-xl px-6 xs:px-8 sm:px-10 py-3.5 xs:py-4 sm:py-5 h-auto border-white/20 text-white hover:text-primary-900 w-full sm:w-auto transition-all duration-500">
-                <span className="relative z-10 whitespace-nowrap">View Curriculum</span>
-              </Button>
+              <Link href="/curriculum">
+                <Button variant="outline" size="lg" className="rounded-2xl text-xs xs:text-sm sm:text-md lg:text-xl px-6 xs:px-8 sm:px-10 py-3.5 xs:py-4 sm:py-5 h-auto border-white/20 text-white hover:text-primary-900 w-full sm:w-auto transition-all duration-500">
+                  <span className="relative z-10 whitespace-nowrap">View Curriculum</span>
+                </Button>
+              </Link>
             </motion.div>
 
             <motion.div
@@ -200,7 +202,7 @@ export default function Home() {
                       </div>
                       <div className="text-right">
                         <div className="text-[9px] uppercase font-black text-white/30 tracking-[0.2em] mb-1">Grades</div>
-                        <div className="font-bold text-white/40 text-[9px] italic">Available Soon</div>
+                        <div className="font-bold text-accent-400 text-sm">{level.grade}</div>
                       </div>
                     </div>
                     
@@ -245,7 +247,7 @@ export default function Home() {
                       </div>
                       <div className="text-right">
                         <div className="text-[9px] uppercase font-black text-white/30 tracking-[0.2em] mb-1">Grades</div>
-                        <div className="font-bold text-white/40 text-[9px] italic">Available Soon</div>
+                        <div className="font-bold text-accent-400 text-sm">{level.grade}</div>
                       </div>
                     </div>
                     
@@ -315,9 +317,11 @@ export default function Home() {
                 ))}
               </div>
 
-              <Button variant="outline" size="lg" className="rounded-2xl px-12 text-white hover:text-primary-900 transition-all duration-500">
-                School Partnerships
-              </Button>
+              <Link href="/schools">
+                <Button variant="outline" size="lg" className="rounded-2xl px-12 text-white hover:text-primary-900 transition-all duration-500">
+                  School Partnerships
+                </Button>
+              </Link>
             </ScrollReveal>
 
             <div className="relative">
@@ -475,9 +479,11 @@ export default function Home() {
                 Join the vanguard of schools and students already architecting the future of robotics.
               </p>
               <div className="flex justify-center">
-                <Button variant="primary" size="lg" className="rounded-2xl px-12 font-black tracking-widest uppercase text-xs border-none shadow-2xl shadow-accent-500/20 py-5 w-full sm:w-auto transition-all duration-500 hover:scale-105">
-                  Explore Programs
-                </Button>
+                <Link href="/programs">
+                  <Button variant="primary" size="lg" className="rounded-2xl px-12 font-black tracking-widest uppercase text-xs border-none shadow-2xl shadow-accent-500/20 py-5 w-full sm:w-auto transition-all duration-500 hover:scale-105">
+                    Explore Programs
+                  </Button>
+                </Link>
               </div>
             </ScrollReveal>
           </div>

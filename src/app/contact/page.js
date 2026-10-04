@@ -37,7 +37,6 @@ export default function ContactPage() {
 
       if (data.success) {
         setSubmitted(true);
-        // Reset form after 3 seconds
         setTimeout(() => {
           setSubmitted(false);
           setFormData({
@@ -61,8 +60,7 @@ export default function ContactPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // WhatsApp click-to-chat (replace with actual number)
-  const whatsappNumber = '918808409295'; // Replace with actual WhatsApp number
+  const whatsappNumber = '918808409295';
   const whatsappMessage = 'Hi! I would like to know more about RoboVedanta programs.';
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
 

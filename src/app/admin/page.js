@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   School, 
   Users, 
@@ -19,12 +20,14 @@ import {
   Clock,
   ArrowRight,
   TrendingUp,
-  Inbox
+  Inbox,
+  LogOut
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function AdminPage() {
-  const [activeTab, setActiveTab] = useState('schools'); // 'schools', 'programs', 'messages'
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState('schools');
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -33,6 +36,12 @@ export default function AdminPage() {
     pending: 0,
     totalEstimate: 0
   });
+
+  const handleLogout = async () => {
+    await fetch('/api/admin/logout', { method: 'POST' });
+    router.push('/admin/login');
+    router.refresh();
+  };
 
   const endpoints = {
     schools: '/api/school-registrations',
@@ -49,7 +58,6 @@ export default function AdminPage() {
       if (result.success) {
         setData(result.data);
         
-        // Calculate stats specific to each data type
         if (activeTab === 'schools') {
           const pending = result.data.filter(r => r.status === 'pending').length;
           const totalEstimate = result.data.reduce((sum, r) => sum + (r.estimatedQuote || 0), 0);
@@ -67,6 +75,29 @@ export default function AdminPage() {
       console.error(`Error fetching ${activeTab}:`, error);
     } finally {
       setLoading(false);
+    }
+  };
+
+
+  const handleStatusUpdate = async (id, newStatus) => {
+    try {
+      const response = await fetch(`${endpoints[activeTab]}?id=${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSelectedItem(prev => prev ? { ...prev, status: newStatus } : null);
+        fetchData();
+      } else {
+        alert('Failed to update status');
+      }
+    } catch (error) {
+      console.error('Error updating status:', error);
+      alert('Failed to update status');
     }
   };
 
@@ -180,9 +211,13 @@ export default function AdminPage() {
               <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
               Refresh Data
             </button>
-            <div className="w-10 h-10 rounded-full bg-linear-to-tr from-accent-500 to-accent-600 border-2 border-white/10 flex items-center justify-center font-black text-primary-900 shadow-lg">
-              SV
-            </div>
+            <button
+              onClick={handleLogout}
+              className="px-6 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-xl font-bold flex items-center gap-2 transition-all border border-red-500/20 hover:border-red-500/30"
+            >
+              <LogOut size={18} />
+              Logout
+            </button>
           </div>
         </header>
 
@@ -249,7 +284,7 @@ export default function AdminPage() {
                         <th className="px-8 py-5">Identifier</th>
                         <th className="px-8 py-5">Communication</th>
                         <th className="px-8 py-5">Specifics</th>
-                        <th className="px-8 py-5">Submited At</th>
+                        <th className="px-8 py-5">Submitted At</th>
                         <th className="px-8 py-5 text-right">Actions</th>
                       </tr>
                     </thead>
@@ -428,9 +463,16 @@ export default function AdminPage() {
                   </div>
                   
                   <div className="flex items-center gap-4">
-                    <button className="px-8 py-4 bg-accent-500 text-primary-900 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-accent-400 transition-all shadow-xl shadow-accent-500/20">
-                      Update Record
-                    </button>
+                    <select
+                      value={selectedItem.status || 'pending'}
+                      onChange={(e) => handleStatusUpdate(selectedItem._id, e.target.value)}
+                      className="px-6 py-3.5 bg-accent-500/10 text-accent-400 border border-accent-500/30 rounded-2xl font-black uppercase tracking-widest text-[10px] cursor-pointer focus:outline-none hover:bg-accent-500/20 transition-all"
+                    >
+                      <option value="pending" className="bg-primary-900 text-white">Status: Pending</option>
+                      <option value="reviewed" className="bg-primary-900 text-white">Status: Reviewed</option>
+                      <option value="contacted" className="bg-primary-900 text-white">Status: Contacted</option>
+                      <option value="completed" className="bg-primary-900 text-white">Status: Completed</option>
+                    </select>
                     <button 
                       onClick={() => {
                         handleDelete(selectedItem._id);

@@ -105,10 +105,10 @@ export const PROGRAMS = {
 };
 
 export const CONTACT_INFO = {
-  email: 'not yet',
-  phone: 'not yet',
-  whatsapp: 'not yet',
-  address: 'not yet'
+  email: 'info@robovedanta.com',
+  phone: '+91 98XXX XXXXX',
+  whatsapp: '+91 98XXX XXXXX',
+  address: 'Bengaluru, Karnataka, India'
 };
 
 export const FADE_IN_UP = {

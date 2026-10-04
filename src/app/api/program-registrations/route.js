@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 import clientPromise from '@/lib/mongodb';
 
-// GET - Fetch all program registrations
 export async function GET() {
   try {
     const client = await clientPromise;
@@ -23,15 +23,10 @@ export async function GET() {
   }
 }
 
-// POST - Create new program registration
 export async function POST(request) {
-  // DEBUG
-  // return NextResponse.json({ success: true, debug: 'reached' });
-  
   try {
     const body = await request.json();
     
-    // Validate required fields
     const requiredFields = ['studentName', 'parentName', 'email', 'phone', 'grade', 'programType'];
     const missingFields = requiredFields.filter(field => !body[field]);
     
@@ -48,7 +43,6 @@ export async function POST(request) {
     const client = await clientPromise;
     const db = client.db('robovedanta');
     
-    // Create registration document
     const registration = {
       ...body,
       status: 'pending',
@@ -72,7 +66,6 @@ export async function POST(request) {
   }
 }
 
-// DELETE - Delete a program registration
 export async function DELETE(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -87,8 +80,6 @@ export async function DELETE(request) {
 
     const client = await clientPromise;
     const db = client.db('robovedanta');
-    const { ObjectId } = require('mongodb');
-
     const result = await db.collection('programRegistrations').deleteOne({
       _id: new ObjectId(id)
     });
@@ -105,6 +96,47 @@ export async function DELETE(request) {
     console.error('Error deleting registration:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to delete registration' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+    const body = await request.json();
+
+    if (!id) {
+      return NextResponse.json(
+        { success: false, error: 'ID is required' },
+        { status: 400 }
+      );
+    }
+
+    const client = await clientPromise;
+    const db = client.db('robovedanta');
+
+    const updateFields = { updatedAt: new Date() };
+    if (body.status) updateFields.status = body.status;
+
+    const result = await db.collection('programRegistrations').updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updateFields }
+    );
+
+    if (result.matchedCount === 0) {
+      return NextResponse.json(
+        { success: false, error: 'Record not found' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error updating registration:', error);
+    return NextResponse.json(
+      { success: false, error: 'Failed to update record' },
       { status: 500 }
     );
   }

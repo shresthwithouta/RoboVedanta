@@ -183,10 +183,8 @@ export const tutorsData = [
   }
 ];
 
-// Helper functions
 export const getAllTutors = () => {
   return tutorsData.map(tutor => {
-    // 1. Resolve videos from videoKeys (mapping to student-named env vars)
     if (tutor.videoKeys) {
       const resolvedVideos = tutor.videoKeys
         .map(key => {
@@ -200,7 +198,6 @@ export const getAllTutors = () => {
       }
     }
 
-    // 2. Legacy fallback for tutor-id based env var
     const envKey = `NEXT_PUBLIC_VIDEOS_${tutor.id.toUpperCase().replace(/-/g, '_')}`;
     const envVideos = process.env[envKey];
     

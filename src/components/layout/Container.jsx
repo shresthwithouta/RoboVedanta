@@ -1,8 +1,5 @@
 import { cn } from '@/lib/cn';
 
-/**
- * Container component for consistent max-width and horizontal padding
- */
 export function Container({ children, className, ...props }) {
   return (
     <div

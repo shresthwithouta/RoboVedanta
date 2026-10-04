@@ -77,7 +77,6 @@ function AnimatedSection({ children, delay = 0 }) {
   );
 }
 
-// Pricing Constants
 const GRADE_RATES = {
   '1': 1200, '2': 1200, '3': 1300, '4': 1400, '5': 1500, '6': 1600,
   '7': 1800, '8': 1800, '9': 2000, '10': 2000, '11': 2400, '12': 2400
@@ -87,7 +86,7 @@ const APPROX_RATE = 1800;
 
 export default function SchoolsPage() {
   const [showRegistration, setShowRegistration] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1); // 1: Details, 2: Trainer, 3: Budget, 4: Summary
+  const [currentStep, setCurrentStep] = useState(1);
   const [showTrainerDetail, setShowTrainerDetail] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -106,9 +105,9 @@ export default function SchoolsPage() {
     state: '',
     pincode: '',
     board: '',
-    pricingMode: 'approximate', // 'approximate' or 'precise'
-    totalStudents: '', // for approximate mode
-    gradesData: [{ grade: '', students: '' }], // for precise mode
+    pricingMode: 'approximate',
+    totalStudents: '',
+    gradesData: [{ grade: '', students: '' }],
     selectedTrainerId: null,
     selectedTrainer: null,
     estimatedQuote: 0,
@@ -184,7 +183,6 @@ export default function SchoolsPage() {
 
   const handleNextStep = () => {
     if (currentStep === 1) {
-      // Validate school details
       const requiredFields = ['schoolName', 'contactPerson', 'email', 'phone', 'address', 'city', 'state', 'pincode', 'board'];
       const isValid = requiredFields.every(field => formData[field]);
       
@@ -195,7 +193,6 @@ export default function SchoolsPage() {
     }
     
     if (currentStep === 2) {
-      // Validate trainer selection - exactly 1
       if (!formData.selectedTrainerId) {
         alert('Please select a trainer');
         return;
@@ -271,7 +268,6 @@ export default function SchoolsPage() {
 
       if (data.success) {
         setSubmitSuccess(true);
-        // Reset form after 3 seconds
         setTimeout(() => {
           setShowRegistration(false);
           setCurrentStep(1);
@@ -1193,7 +1189,7 @@ export default function SchoolsPage() {
                                       alt={trainer.name}
                                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                       onError={(e) => {
-                                        e.target.src = '/trainers/shresth.jpg'; // Fallback
+                                        e.target.src = '/trainers/shresth.jpg';
                                       }}
                                     />
                                     <div className="absolute inset-0 bg-linear-to-t from-primary-950/80 to-transparent opacity-60" />
@@ -1774,7 +1770,6 @@ export default function SchoolsPage() {
         onConfirm={() => {
           setAppliedDiscount(true);
           setShowDiscountPopup(false);
-          // Auto-notification-like behavior
           const notification = document.createElement('div');
           notification.className = 'fixed bottom-10 left-1/2 -translate-x-1/2 z-[300] bg-green-500 text-white px-8 py-4 rounded-2xl shadow-2xl font-black uppercase tracking-widest animate-bounce';
           notification.innerText = 'Our team will reach out to you soon!';
@@ -1818,7 +1813,7 @@ export default function SchoolsPage() {
                     alt={showTrainerDetail.name} 
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.target.src = '/trainers/shresth.jpg'; // Fallback
+                      e.target.src = '/trainers/shresth.jpg';
                     }}
                   />
                 </div>

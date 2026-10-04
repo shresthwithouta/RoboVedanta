@@ -1,6 +1,3 @@
-// Hardcoded trainer data
-// This structure matches what a database would return,
-// making it easy to upgrade later without changing components
 
 export const trainersData = [
   {
@@ -187,10 +184,8 @@ export const trainersData = [
   }
 ];
 
-// Helper functions to filter and retrieve trainers
 export const getAllTrainers = () => {
   return trainersData.map(trainer => {
-    // 1. Resolve videos from videoKeys (mapping to student-named env vars)
     if (trainer.videoKeys) {
       const resolvedVideos = trainer.videoKeys
         .map(key => {
@@ -204,7 +199,6 @@ export const getAllTrainers = () => {
       }
     }
 
-    // 2. Legacy fallback for trainer-id based env var
     const envKey = `NEXT_PUBLIC_VIDEOS_${trainer.id.toUpperCase().replace(/-/g, '_')}`;
     const envVideos = process.env[envKey];
     

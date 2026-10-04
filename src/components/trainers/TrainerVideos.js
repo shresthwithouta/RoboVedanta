@@ -10,7 +10,6 @@ function VideoCard({ video, details, idx }) {
   const [progress, setProgress] = useState(0);
   const displayTitle = video.title || details.title;
   
-  // Smart extraction
   let name = '';
   let course = 'Robotics Trainer';
   const fullTitle = displayTitle;
@@ -31,7 +30,6 @@ function VideoCard({ video, details, idx }) {
     }
   }
 
-  // Effect to handle progress polling
   useEffect(() => {
     let interval;
     if (player && isLoaded) {
@@ -43,14 +41,12 @@ function VideoCard({ video, details, idx }) {
             setProgress((currentTime / duration) * 100);
           }
         } catch (e) {
-          // Player might not be ready yet
         }
       }, 500);
     }
     return () => clearInterval(interval);
   }, [player, isLoaded]);
 
-  // Effect to initialize player when facade is clicked
   useEffect(() => {
     if (isLoaded && !player && window.YT && window.YT.Player) {
       const newPlayer = new window.YT.Player(`player-${video.id}`, {
@@ -218,7 +214,6 @@ export default function TrainerVideos({ videos }) {
 
     fetchVideoData();
 
-    // Load YouTube API
     if (!window.YT) {
       const tag = document.createElement('script');
       tag.src = 'https://www.youtube.com/iframe_api';
@@ -227,7 +222,6 @@ export default function TrainerVideos({ videos }) {
     }
   }, [videos]);
 
-  // Handle Player Initialization when a user clicks play
   useEffect(() => {
     const activeVideos = videos.filter(v => document.getElementById(`player-${v.id}`));
     
@@ -254,7 +248,7 @@ export default function TrainerVideos({ videos }) {
         });
       });
     }
-  }, [videos, isLoading]); // Re-run when videos/loading state changes (handles the facade-to-player swap)
+  }, [videos, isLoading]);
 
   if (!videos || videos.length === 0) return null;
 

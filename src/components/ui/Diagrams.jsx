@@ -4,10 +4,6 @@ import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/cn';
 
-/**
- * ProgressFlow - Reusable component for showing step-by-step progression
- * Used for learning journeys, processes, timelines, etc.
- */
 export function ProgressFlow({ steps, variant = 'horizontal', className }) {
   const isHorizontal = variant === 'horizontal';
 
@@ -59,9 +55,6 @@ export function ProgressFlow({ steps, variant = 'horizontal', className }) {
   );
 }
 
-/**
- * SkillBar - Animated skill/progress bar component
- */
 export function SkillBar({ label, percentage, delay = 0, showPercentage = true }) {
   return (
     <div className="group">
@@ -84,9 +77,6 @@ export function SkillBar({ label, percentage, delay = 0, showPercentage = true }
   );
 }
 
-/**
- * MultiLevelSkillChart - Shows skill progression across multiple levels
- */
 export function MultiLevelSkillChart({ skills, levelCount = 5 }) {
   return (
     <div className="space-y-6">
@@ -122,9 +112,6 @@ export function MultiLevelSkillChart({ skills, levelCount = 5 }) {
   );
 }
 
-/**
- * ProcessStep - Individual step in a process flow
- */
 export function ProcessStep({ number, title, description, icon, delay = 0 }) {
   return (
     <motion.div
@@ -148,9 +135,6 @@ export function ProcessStep({ number, title, description, icon, delay = 0 }) {
   );
 }
 
-/**
- * ComparisonCard - Side-by-side comparison component
- */
 export function ComparisonCard({ left, right, className }) {
   return (
     <div className={cn('grid grid-cols-1 md:grid-cols-2 gap-8', className)}>
@@ -181,9 +165,6 @@ export function ComparisonCard({ left, right, className }) {
   );
 }
 
-/**
- * StatCard - Animated statistic card
- */
 export function StatCard({ value, label, delay = 0, variant = 'default' }) {
   const variants = {
     default: 'bg-primary-600/50 border-white/10',

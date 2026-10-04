@@ -81,7 +81,6 @@ function ProgramsContent() {
   const trainers = getActiveTrainers();
   
   const [formData, setFormData] = useState({
-    // Student/Parent Details
     studentName: '',
     parentName: '',
     email: '',
@@ -91,28 +90,25 @@ function ProgramsContent() {
     state: '',
     pincode: '',
     grade: '',
-    // Program Selection
-    programType: '', // 'simulation' or 'hardware'
+    programType: '',
     selectedTrainer: null,
     estimatedQuote: 0,
     message: ''
   });
 
   const [showRegistration, setShowRegistration] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1); // 1: Details, 2: Trainer (Blank), 3: Summary
+  const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showTrainerDetail, setShowTrainerDetail] = useState(null);
   const [confirmAction, setConfirmAction] = useState(null);
 
-  // Handle trainer pre-selection from query params
   useEffect(() => {
     const trainerIdParam = searchParams.get('trainer') || searchParams.get('teacher');
     if (trainerIdParam && formData.selectedTrainer !== trainerIdParam) {
       const trainer = getTrainerById(trainerIdParam);
       if (trainer) {
-        // Use a microtask/setTimeout to avoid synchronous setState warning
         const timer = setTimeout(() => {
           setFormData(prev => ({
             ...prev,
